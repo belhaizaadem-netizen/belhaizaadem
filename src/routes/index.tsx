@@ -6,6 +6,7 @@ import {
   CheckCircle2,
   History,
   Moon,
+  RotateCcw,
   Sun,
   Wrench,
 } from "lucide-react";
@@ -66,6 +67,7 @@ function Index() {
     toggleTheme,
     markDone,
     removeHistory,
+    resetItems,
   } = useAppState();
 
   const [categoryFilter, setCategoryFilter] = useState<Category | "all">("all");
@@ -201,14 +203,37 @@ function Index() {
             active={statusFilter === "soon"}
             onClick={() => setStatusFilter((s) => (s === "soon" ? "all" : "soon"))}
           />
-          <StatCard
-            label="OK"
-            value={counts.ok}
-            icon={CheckCircle2}
-            variant="success"
-            active={statusFilter === "ok"}
-            onClick={() => setStatusFilter((s) => (s === "ok" ? "all" : "ok"))}
-          />
+          <div className="relative">
+            <StatCard
+              label="OK"
+              value={counts.ok}
+              icon={CheckCircle2}
+              variant="success"
+              active={statusFilter === "ok"}
+              onClick={() => setStatusFilter((s) => (s === "ok" ? "all" : "ok"))}
+            />
+            {counts.ok > 0 && (
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  const okIds = statuses
+                    .filter((s) => s.status === "ok")
+                    .map((s) => s.item.id);
+                  if (
+                    okIds.length > 0 &&
+                    confirm(`Réinitialiser les ${okIds.length} entretien(s) marqués OK ?`)
+                  ) {
+                    resetItems(okIds);
+                  }
+                }}
+                className="absolute -right-1 -top-1 rounded-full border border-border bg-card p-1 text-muted-foreground shadow-md transition-colors hover:bg-destructive hover:text-destructive-foreground"
+                aria-label="Réinitialiser les entretiens OK"
+                title="Réinitialiser les entretiens OK"
+              >
+                <RotateCcw className="h-3 w-3" strokeWidth={2.5} />
+              </button>
+            )}
+          </div>
         </div>
 
         {/* Category filter */}
