@@ -78,7 +78,7 @@ export function MaintenanceCard({ status, onMarkDone }: Props) {
               />
             </div>
             <div className="flex items-center justify-between text-[11px] text-muted-foreground">
-              <span>Tous les {formatKm(status.item.intervalKm)}</span>
+              <span>Tous les {formatKm(status.effectiveIntervalKm)}</span>
               <span className={cn("font-medium", meta.iconColor)}>
                 {remaining < 0
                   ? `${formatKm(Math.abs(remaining))} de retard`
