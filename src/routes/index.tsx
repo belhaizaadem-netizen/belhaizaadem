@@ -176,6 +176,7 @@ function Index() {
             brand={state.brand}
             vehicle={state.vehicle}
             km={state.currentKm}
+            lastDone={state.lastDone}
             onKmChange={setCurrentKm}
           />
         </div>
