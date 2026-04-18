@@ -1,26 +1,267 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useMemo, useState } from "react";
+import {
+  AlertCircle,
+  AlertTriangle,
+  CheckCircle2,
+  History,
+  Moon,
+  Sun,
+  Wrench,
+} from "lucide-react";
+import { useAppState } from "@/hooks/use-app-state";
+import {
+  CATEGORIES,
+  MAINTENANCE_ITEMS,
+  computeStatus,
+  type Category,
+  type MaintenanceItem,
+  type Status,
+} from "@/lib/maintenance-data";
+import { BrandSelector } from "@/components/BrandSelector";
+import { KmInput } from "@/components/KmInput";
+import { StatCard } from "@/components/StatCard";
+import { MaintenanceCard } from "@/components/MaintenanceCard";
+import { HistorySheet } from "@/components/HistorySheet";
+import { MarkDoneDialog } from "@/components/MarkDoneDialog";
+import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "VAG Maintenance — Suivi entretien Volkswagen Group" },
+      {
+        name: "description",
+        content:
+          "Application de suivi de maintenance pour Volkswagen, Audi, SEAT, Škoda, Cupra et Porsche. Calcul automatique des entretiens selon votre kilométrage.",
+      },
+      { property: "og:title", content: "VAG Maintenance — Suivi entretien Volkswagen Group" },
+      {
+        property: "og:description",
+        content:
+          "Suivez les entretiens de votre véhicule du groupe Volkswagen avec une interface mobile moderne.",
+      },
+    ],
+  }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. For sites with multiple pages (About, Services, Contact, etc.),
-// create separate route files (about.tsx, services.tsx, contact.tsx) — don't put all pages in this file.
-function PlaceholderIndex() {
+const STATUS_FILTERS: { key: Status | "all"; label: string }[] = [
+  { key: "all", label: "Tous" },
+  { key: "overdue", label: "En retard" },
+  { key: "due", label: "À faire" },
+  { key: "soon", label: "Bientôt" },
+  { key: "ok", label: "OK" },
+];
+
+function Index() {
+  const {
+    state,
+    hydrated,
+    setBrand,
+    setCurrentKm,
+    toggleTheme,
+    markDone,
+    removeHistory,
+  } = useAppState();
+
+  const [categoryFilter, setCategoryFilter] = useState<Category | "all">("all");
+  const [statusFilter, setStatusFilter] = useState<Status | "all">("all");
+  const [historyOpen, setHistoryOpen] = useState(false);
+  const [pendingItem, setPendingItem] = useState<MaintenanceItem | null>(null);
+
+  const statuses = useMemo(() => {
+    return MAINTENANCE_ITEMS.map((item) =>
+      computeStatus(item, state.currentKm, state.lastDone[item.id] ?? 0),
+    );
+  }, [state.currentKm, state.lastDone]);
+
+  const counts = useMemo(() => {
+    const c = { overdue: 0, due: 0, soon: 0, ok: 0 };
+    statuses.forEach((s) => {
+      if (s.status === "overdue") c.overdue++;
+      else if (s.status === "due") c.due++;
+      else if (s.status === "soon") c.soon++;
+      else c.ok++;
+    });
+    return c;
+  }, [statuses]);
+
+  const filtered = useMemo(() => {
+    const order: Record<Status, number> = { overdue: 0, due: 1, soon: 2, ok: 3 };
+    return statuses
+      .filter((s) => (categoryFilter === "all" ? true : s.item.category === categoryFilter))
+      .filter((s) => {
+        if (statusFilter === "all") return true;
+        if (statusFilter === "due")
+          return s.status === "due" || s.status === "overdue";
+        return s.status === statusFilter;
+      })
+      .sort((a, b) => order[a.status] - order[b.status] || a.kmRemaining - b.kmRemaining);
+  }, [statuses, categoryFilter, statusFilter]);
+
+  if (!hydrated) {
+    return <div className="min-h-screen bg-background" />;
+  }
+
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
+    <div className="min-h-screen bg-background pb-24">
+      <div className="mx-auto max-w-md px-4 pt-6">
+        {/* Header */}
+        <header className="mb-5 flex items-center justify-between">
+          <div className="flex items-center gap-2.5">
+            <div className="gradient-primary shadow-glow rounded-xl p-2">
+              <Wrench className="h-5 w-5 text-primary-foreground" strokeWidth={2.4} />
+            </div>
+            <div>
+              <h1 className="text-base font-bold leading-tight text-foreground">
+                VAG Maintenance
+              </h1>
+              <p className="text-[11px] text-muted-foreground">Volkswagen Group</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <button
+              onClick={() => setHistoryOpen(true)}
+              className="rounded-xl border border-border bg-card p-2.5 text-muted-foreground transition-colors hover:text-foreground"
+              aria-label="Historique"
+            >
+              <History className="h-4 w-4" />
+            </button>
+            <button
+              onClick={toggleTheme}
+              className="rounded-xl border border-border bg-card p-2.5 text-muted-foreground transition-colors hover:text-foreground"
+              aria-label="Thème"
+            >
+              {state.theme === "dark" ? (
+                <Sun className="h-4 w-4" />
+              ) : (
+                <Moon className="h-4 w-4" />
+              )}
+            </button>
+          </div>
+        </header>
+
+        {/* Brand */}
+        <BrandSelector value={state.brand} onChange={setBrand} />
+
+        {/* Km input */}
+        <div className="mt-4">
+          <KmInput value={state.currentKm} onChange={setCurrentKm} />
+        </div>
+
+        {/* Stats */}
+        <div className="mt-3 grid grid-cols-4 gap-2">
+          <StatCard
+            label="Retard"
+            value={counts.overdue}
+            icon={AlertCircle}
+            variant="danger"
+            active={statusFilter === "overdue"}
+            onClick={() =>
+              setStatusFilter((s) => (s === "overdue" ? "all" : "overdue"))
+            }
+          />
+          <StatCard
+            label="À faire"
+            value={counts.due}
+            icon={AlertCircle}
+            variant="danger"
+            active={statusFilter === "due"}
+            onClick={() => setStatusFilter((s) => (s === "due" ? "all" : "due"))}
+          />
+          <StatCard
+            label="Bientôt"
+            value={counts.soon}
+            icon={AlertTriangle}
+            variant="warning"
+            active={statusFilter === "soon"}
+            onClick={() => setStatusFilter((s) => (s === "soon" ? "all" : "soon"))}
+          />
+          <StatCard
+            label="OK"
+            value={counts.ok}
+            icon={CheckCircle2}
+            variant="success"
+            active={statusFilter === "ok"}
+            onClick={() => setStatusFilter((s) => (s === "ok" ? "all" : "ok"))}
+          />
+        </div>
+
+        {/* Category filter */}
+        <div className="scrollbar-hide -mx-4 mt-5 flex gap-2 overflow-x-auto px-4 pb-1">
+          {(["all", ...CATEGORIES] as const).map((cat) => {
+            const active = cat === categoryFilter;
+            return (
+              <button
+                key={cat}
+                onClick={() => setCategoryFilter(cat)}
+                className={cn(
+                  "shrink-0 rounded-full border px-3 py-1.5 text-xs font-medium transition-all",
+                  active
+                    ? "border-primary bg-primary text-primary-foreground"
+                    : "border-border bg-card text-muted-foreground hover:text-foreground",
+                )}
+              >
+                {cat === "all" ? "Toutes catégories" : cat}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Status filter chip indicator */}
+        {statusFilter !== "all" && (
+          <div className="mt-3 flex items-center justify-between rounded-xl bg-secondary/50 px-3 py-2 text-xs">
+            <span className="text-muted-foreground">
+              Filtre :{" "}
+              <span className="font-semibold text-foreground">
+                {STATUS_FILTERS.find((s) => s.key === statusFilter)?.label}
+              </span>
+            </span>
+            <button
+              onClick={() => setStatusFilter("all")}
+              className="font-semibold text-primary"
+            >
+              Réinitialiser
+            </button>
+          </div>
+        )}
+
+        {/* List */}
+        <div className="mt-4 space-y-2.5">
+          {filtered.length === 0 ? (
+            <div className="rounded-2xl border border-dashed border-border p-8 text-center text-sm text-muted-foreground">
+              Aucun entretien dans cette sélection.
+            </div>
+          ) : (
+            filtered.map((s) => (
+              <MaintenanceCard
+                key={s.item.id}
+                status={s}
+                onMarkDone={() => setPendingItem(s.item)}
+              />
+            ))
+          )}
+        </div>
+      </div>
+
+      <HistorySheet
+        open={historyOpen}
+        onClose={() => setHistoryOpen(false)}
+        history={state.history}
+        items={MAINTENANCE_ITEMS}
+        onRemove={removeHistory}
+      />
+
+      <MarkDoneDialog
+        item={pendingItem}
+        defaultKm={state.currentKm}
+        onClose={() => setPendingItem(null)}
+        onConfirm={(km) => {
+          if (pendingItem) markDone(pendingItem.id, km);
+          setPendingItem(null);
+        }}
       />
     </div>
   );
-}
-
-function Index() {
-  return <PlaceholderIndex />;
 }
