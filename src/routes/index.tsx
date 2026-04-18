@@ -12,13 +12,15 @@ import {
 import { useAppState } from "@/hooks/use-app-state";
 import {
   CATEGORIES,
-  MAINTENANCE_ITEMS,
+  applicableItems,
   computeStatus,
   type Category,
   type MaintenanceItem,
   type Status,
 } from "@/lib/maintenance-data";
+import { findEngine } from "@/lib/vehicles";
 import { BrandSelector } from "@/components/BrandSelector";
+import { VehicleSelector } from "@/components/VehicleSelector";
 import { KmInput } from "@/components/KmInput";
 import { StatCard } from "@/components/StatCard";
 import { MaintenanceCard } from "@/components/MaintenanceCard";
@@ -59,6 +61,7 @@ function Index() {
     state,
     hydrated,
     setBrand,
+    setVehicle,
     setCurrentKm,
     toggleTheme,
     markDone,
@@ -70,11 +73,22 @@ function Index() {
   const [historyOpen, setHistoryOpen] = useState(false);
   const [pendingItem, setPendingItem] = useState<MaintenanceItem | null>(null);
 
+  const engine = useMemo(() => {
+    const v = state.vehicle;
+    if (!v.modelId || !v.generationId || !v.engineId) return null;
+    return findEngine(state.brand, v.modelId, v.generationId, v.engineId) ?? null;
+  }, [state.brand, state.vehicle]);
+
+  const items = useMemo(
+    () => applicableItems(engine, state.vehicle.transmission),
+    [engine, state.vehicle.transmission],
+  );
+
   const statuses = useMemo(() => {
-    return MAINTENANCE_ITEMS.map((item) =>
-      computeStatus(item, state.currentKm, state.lastDone[item.id] ?? 0),
+    return items.map((item) =>
+      computeStatus(item, state.currentKm, state.lastDone[item.id] ?? 0, engine),
     );
-  }, [state.currentKm, state.lastDone]);
+  }, [items, state.currentKm, state.lastDone, engine]);
 
   const counts = useMemo(() => {
     const c = { overdue: 0, due: 0, soon: 0, ok: 0 };
