@@ -22,7 +22,7 @@ import {
 import { findEngine } from "@/lib/vehicles";
 import { BrandSelector } from "@/components/BrandSelector";
 import { VehicleSelector } from "@/components/VehicleSelector";
-import { KmInput } from "@/components/KmInput";
+import { VehicleDashboard } from "@/components/VehicleDashboard";
 import { StatCard } from "@/components/StatCard";
 import { MaintenanceCard } from "@/components/MaintenanceCard";
 import { HistorySheet } from "@/components/HistorySheet";
@@ -170,9 +170,14 @@ function Index() {
           />
         </div>
 
-        {/* Km input */}
+        {/* Vehicle dashboard (km + identity) */}
         <div className="mt-3">
-          <KmInput value={state.currentKm} onChange={setCurrentKm} />
+          <VehicleDashboard
+            brand={state.brand}
+            vehicle={state.vehicle}
+            km={state.currentKm}
+            onKmChange={setCurrentKm}
+          />
         </div>
 
         {/* Stats */}
