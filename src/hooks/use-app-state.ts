@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
-import { loadState, saveState, type AppState } from "@/lib/storage";
+import { loadState, saveState, type AppState, type VehicleConfig } from "@/lib/storage";
 import type { Brand, HistoryEntry } from "@/lib/maintenance-data";
 
 export function useAppState() {
@@ -33,7 +33,16 @@ export function useAppState() {
   }, []);
 
   const setBrand = useCallback((brand: Brand) => {
-    setState((s) => ({ ...s, brand }));
+    setState((s) => ({
+      ...s,
+      brand,
+      // reset vehicle cascade when brand changes
+      vehicle: { modelId: null, generationId: null, engineId: null, transmission: null, drivetrain: null },
+    }));
+  }, []);
+
+  const setVehicle = useCallback((vehicle: Partial<VehicleConfig>) => {
+    setState((s) => ({ ...s, vehicle: { ...s.vehicle, ...vehicle } }));
   }, []);
 
   const setVehicleName = useCallback((vehicleName: string) => {
@@ -74,6 +83,7 @@ export function useAppState() {
     hydrated,
     setCurrentKm,
     setBrand,
+    setVehicle,
     setVehicleName,
     toggleTheme,
     markDone,
