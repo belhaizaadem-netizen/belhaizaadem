@@ -224,19 +224,19 @@ function Light({
     overdue: {
       wrap: "bg-destructive/15 border-destructive/40",
       icon: "text-destructive",
-      ring: "shadow-[0_0_12px_-2px_hsl(var(--destructive)/0.6)]",
+      ring: "shadow-[0_0_14px_-2px_var(--destructive)]",
       pulse: true,
     },
     due: {
       wrap: "bg-destructive/10 border-destructive/30",
       icon: "text-destructive",
-      ring: "shadow-[0_0_8px_-2px_hsl(var(--destructive)/0.5)]",
+      ring: "shadow-[0_0_10px_-2px_var(--destructive)]",
       pulse: false,
     },
     soon: {
       wrap: "bg-warning/15 border-warning/40",
       icon: "text-warning",
-      ring: "shadow-[0_0_10px_-2px_hsl(var(--warning)/0.5)]",
+      ring: "shadow-[0_0_10px_-2px_var(--warning)]",
       pulse: false,
     },
     ok: {
