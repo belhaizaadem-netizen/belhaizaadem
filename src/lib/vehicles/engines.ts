@@ -51,6 +51,7 @@ export const ENGINE_BLUEPRINTS: Record<string, Blueprint> = {
   // --- ESSENCE EA888 ---
   "1.8-tsi-160":  E("1.8-tsi-160",  "1.8 TSI 160",  1.8, 160, "essence", { code: "EA888 gen2" }),
   "1.8-tsi-180":  E("1.8-tsi-180",  "1.8 TSI 180",  1.8, 180, "essence", { code: "EA888 gen3" }),
+  "2.0-tsi-180":  E("2.0-tsi-180",  "2.0 TSI 180",  2.0, 180, "essence", { code: "EA888 gen3" }),
   "2.0-tsi-190":  E("2.0-tsi-190",  "2.0 TSI 190",  2.0, 190, "essence", { code: "EA888 gen3" }),
   "2.0-tsi-200":  E("2.0-tsi-200",  "2.0 TSI 200",  2.0, 200, "essence", { code: "EA888 gen3" }),
   "2.0-tsi-220":  E("2.0-tsi-220",  "2.0 TSI 220 GTI",  2.0, 220, "essence", { code: "EA888 gen3" }),
@@ -86,6 +87,7 @@ export const ENGINE_BLUEPRINTS: Record<string, Blueprint> = {
   "1.6-tdi-105":  E("1.6-tdi-105",  "1.6 TDI 105",  1.6, 105, "diesel", { code: "EA189" }),
   "1.6-tdi-110":  E("1.6-tdi-110",  "1.6 TDI 110",  1.6, 110, "diesel", { code: "EA288" }),
   "1.6-tdi-115":  E("1.6-tdi-115",  "1.6 TDI 115",  1.6, 115, "diesel", { code: "EA288" }),
+  "1.6-tdi-120":  E("1.6-tdi-120",  "1.6 TDI 120",  1.6, 120, "diesel", { code: "EA288" }),
   "2.0-tdi-110":  E("2.0-tdi-110",  "2.0 TDI 110",  2.0, 110, "diesel", { code: "EA288" }),
   "2.0-tdi-115":  E("2.0-tdi-115",  "2.0 TDI 115",  2.0, 115, "diesel", { code: "EA288 evo" }),
   "2.0-tdi-140":  E("2.0-tdi-140",  "2.0 TDI 140",  2.0, 140, "diesel", { code: "EA189" }),
@@ -105,6 +107,7 @@ export const ENGINE_BLUEPRINTS: Record<string, Blueprint> = {
 
   // --- HYBRIDES PHEV ---
   "1.4-tsi-phev-204": E("1.4-tsi-phev-204", "1.4 eHybrid 204 (PHEV)", 1.4, 204, "phev", { code: "EA211" }),
+  "1.4-tsi-phev-218": E("1.4-tsi-phev-218", "1.4 eHybrid 218 (PHEV)", 1.4, 218, "phev", { code: "EA211" }),
   "1.4-tsi-phev-245": E("1.4-tsi-phev-245", "1.4 GTE 245 (PHEV)",     1.4, 245, "phev", { code: "EA211" }),
   "1.5-tsi-phev-204": E("1.5-tsi-phev-204", "1.5 eHybrid 204 (PHEV)", 1.5, 204, "phev", { code: "EA211 evo2" }),
   "1.5-tsi-phev-272": E("1.5-tsi-phev-272", "1.5 GTE 272 (PHEV)",     1.5, 272, "phev", { code: "EA211 evo2" }),
