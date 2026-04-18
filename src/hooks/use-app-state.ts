@@ -78,6 +78,22 @@ export function useAppState() {
     setState((s) => ({ ...s, lastDone: {}, history: [] }));
   }, []);
 
+  const resetItems = useCallback((itemIds: string[]) => {
+    if (itemIds.length === 0) return;
+    const ids = new Set(itemIds);
+    setState((s) => {
+      const lastDone = { ...s.lastDone };
+      ids.forEach((id) => {
+        delete lastDone[id];
+      });
+      return {
+        ...s,
+        lastDone,
+        history: s.history.filter((h) => !ids.has(h.itemId)),
+      };
+    });
+  }, []);
+
   return {
     state,
     hydrated,
@@ -89,5 +105,6 @@ export function useAppState() {
     markDone,
     removeHistory,
     resetAll,
+    resetItems,
   };
 }
