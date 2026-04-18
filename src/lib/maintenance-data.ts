@@ -1,3 +1,5 @@
+import type { Engine, FuelType } from "./vehicles/types";
+
 export type Category =
   | "Moteur"
   | "Transmission"
@@ -16,26 +18,49 @@ export interface MaintenanceItem {
   id: string;
   name: string;
   category: Category;
-  intervalKm: number;
+  intervalKm: number;                    // intervalle de référence
+  // Conditions d'applicabilité au véhicule sélectionné
+  fuels?: FuelType[];                    // si défini, item visible uniquement pour ces carburants
+  requiresHaldex?: boolean;              // visible uniquement si moteur AWD avec Haldex
+  requiresDPF?: boolean;                 // FAP -> diesel uniquement
+  requiresHPFP?: boolean;                // pompe injection HP
+  requiresDSG?: boolean;                 // boîte DSG/S-tronic
+  requiresManual?: boolean;              // boîte manuelle
+  // Modificateurs d'intervalle par carburant (multiplicateur)
+  intervalByFuel?: Partial<Record<FuelType, number>>;
 }
 
 export const MAINTENANCE_ITEMS: MaintenanceItem[] = [
   // MOTEUR
-  { id: "huile-moteur", name: "Huile moteur + filtre", category: "Moteur", intervalKm: 15000 },
-  { id: "filtre-air", name: "Filtre à air", category: "Moteur", intervalKm: 30000 },
-  { id: "bougies", name: "Bougies", category: "Moteur", intervalKm: 60000 },
-  { id: "courroie-dist", name: "Courroie distribution + pompe à eau", category: "Moteur", intervalKm: 90000 },
-  { id: "soupape-pcv", name: "Soupape PCV", category: "Moteur", intervalKm: 60000 },
-  { id: "nettoyage-soupapes", name: "Nettoyage soupapes admission", category: "Moteur", intervalKm: 80000 },
-  { id: "inspection-turbo", name: "Inspection turbo", category: "Moteur", intervalKm: 80000 },
+  {
+    id: "huile-moteur", name: "Huile moteur + filtre", category: "Moteur", intervalKm: 15000,
+    fuels: ["essence", "diesel", "hybride", "phev", "gnv"],
+    intervalByFuel: { diesel: 20000, essence: 15000, hybride: 15000, phev: 15000 },
+  },
+  { id: "filtre-air", name: "Filtre à air", category: "Moteur", intervalKm: 30000,
+    fuels: ["essence", "diesel", "hybride", "phev", "gnv"] },
+  { id: "bougies", name: "Bougies d'allumage", category: "Moteur", intervalKm: 60000,
+    fuels: ["essence", "hybride", "phev", "gnv"] },
+  { id: "courroie-dist", name: "Courroie distribution + pompe à eau", category: "Moteur", intervalKm: 90000,
+    fuels: ["essence", "diesel", "hybride", "phev", "gnv"] },
+  { id: "soupape-pcv", name: "Soupape PCV", category: "Moteur", intervalKm: 60000,
+    fuels: ["essence", "hybride", "phev"] },
+  { id: "nettoyage-soupapes", name: "Nettoyage soupapes admission", category: "Moteur", intervalKm: 80000,
+    requiresHPFP: true, fuels: ["essence", "hybride", "phev"] },
+  { id: "inspection-turbo", name: "Inspection turbo", category: "Moteur", intervalKm: 80000,
+    fuels: ["essence", "diesel", "hybride", "phev"] },
   { id: "supports-moteur", name: "Supports moteur + boîte", category: "Moteur", intervalKm: 120000 },
 
   // TRANSMISSION
-  { id: "huile-dsg", name: "Huile DSG / S-tronic + filtre", category: "Transmission", intervalKm: 60000 },
-  { id: "huile-bv-manuelle", name: "Huile boîte manuelle", category: "Transmission", intervalKm: 80000 },
-  { id: "embrayage", name: "Embrayage", category: "Transmission", intervalKm: 140000 },
+  { id: "huile-dsg", name: "Huile DSG / S-tronic + filtre", category: "Transmission", intervalKm: 60000,
+    requiresDSG: true },
+  { id: "huile-bv-manuelle", name: "Huile boîte manuelle", category: "Transmission", intervalKm: 80000,
+    requiresManual: true },
+  { id: "embrayage", name: "Embrayage", category: "Transmission", intervalKm: 140000,
+    requiresManual: true },
   { id: "soufflets-cardan", name: "Soufflets cardan", category: "Transmission", intervalKm: 100000 },
-  { id: "haldex", name: "Huile Haldex / différentiel AWD", category: "Transmission", intervalKm: 60000 },
+  { id: "haldex", name: "Huile Haldex / différentiel AWD", category: "Transmission", intervalKm: 60000,
+    requiresHaldex: true },
 
   // FREINAGE
   { id: "liquide-frein", name: "Liquide de frein", category: "Freinage", intervalKm: 40000 },
@@ -57,15 +82,20 @@ export const MAINTENANCE_ITEMS: MaintenanceItem[] = [
 
   // REFROIDISSEMENT
   { id: "liquide-refroid", name: "Liquide de refroidissement", category: "Refroidissement", intervalKm: 60000 },
-  { id: "thermostat", name: "Thermostat", category: "Refroidissement", intervalKm: 120000 },
+  { id: "thermostat", name: "Thermostat", category: "Refroidissement", intervalKm: 120000,
+    fuels: ["essence", "diesel", "hybride", "phev", "gnv"] },
   { id: "durites-radiateur", name: "Durites radiateur", category: "Refroidissement", intervalKm: 120000 },
   { id: "vase-expansion", name: "Vase d'expansion", category: "Refroidissement", intervalKm: 120000 },
 
   // CARBURANT & ADMISSION
-  { id: "filtre-carburant", name: "Filtre carburant", category: "Carburant & Admission", intervalKm: 60000 },
-  { id: "vanne-egr", name: "Nettoyage vanne EGR", category: "Carburant & Admission", intervalKm: 80000 },
-  { id: "fap", name: "Entretien FAP", category: "Carburant & Admission", intervalKm: 150000 },
-  { id: "hpfp", name: "Inspection pompe HPFP", category: "Carburant & Admission", intervalKm: 80000 },
+  { id: "filtre-carburant", name: "Filtre carburant", category: "Carburant & Admission", intervalKm: 60000,
+    fuels: ["essence", "diesel", "hybride", "phev", "gnv"] },
+  { id: "vanne-egr", name: "Nettoyage vanne EGR", category: "Carburant & Admission", intervalKm: 80000,
+    fuels: ["diesel"] },
+  { id: "fap", name: "Entretien FAP", category: "Carburant & Admission", intervalKm: 150000,
+    requiresDPF: true },
+  { id: "hpfp", name: "Inspection pompe HPFP", category: "Carburant & Admission", intervalKm: 80000,
+    requiresHPFP: true },
 
   // ÉLECTRIQUE
   { id: "batterie", name: "Batterie 12V", category: "Électrique", intervalKm: 60000 },
@@ -91,6 +121,7 @@ export type Status = "overdue" | "due" | "soon" | "ok";
 
 export interface MaintenanceStatus {
   item: MaintenanceItem;
+  effectiveIntervalKm: number;
   lastDoneKm: number;
   nextDueKm: number;
   kmRemaining: number;
@@ -106,20 +137,49 @@ export interface HistoryEntry {
   note?: string;
 }
 
+/** Filter items applicable to the selected engine + transmission. */
+export function applicableItems(
+  engine: Engine | null | undefined,
+  transmission: string | null | undefined,
+): MaintenanceItem[] {
+  if (!engine) return MAINTENANCE_ITEMS;
+  return MAINTENANCE_ITEMS.filter((item) => {
+    if (item.fuels && !item.fuels.includes(engine.fuel)) return false;
+    if (item.requiresHaldex && !engine.hasHaldex) return false;
+    if (item.requiresDPF && !engine.hasDPF) return false;
+    if (item.requiresHPFP && !engine.hasHPFP) return false;
+    if (item.requiresDSG) {
+      const t = transmission ?? "";
+      if (!["DSG", "S-tronic", "PDK", "Tiptronic"].includes(t)) return false;
+    }
+    if (item.requiresManual && transmission !== "manuelle") return false;
+    return true;
+  });
+}
+
+/** Compute the actual interval for a given engine (fuel-modulated). */
+export function effectiveInterval(item: MaintenanceItem, engine: Engine | null | undefined): number {
+  if (!engine || !item.intervalByFuel) return item.intervalKm;
+  const mod = item.intervalByFuel[engine.fuel];
+  return mod ?? item.intervalKm;
+}
+
 export function computeStatus(
   item: MaintenanceItem,
   currentKm: number,
   lastDoneKm: number,
+  engine?: Engine | null,
 ): MaintenanceStatus {
-  const nextDueKm = lastDoneKm + item.intervalKm;
+  const effectiveIntervalKm = effectiveInterval(item, engine ?? null);
+  const nextDueKm = lastDoneKm + effectiveIntervalKm;
   const kmRemaining = nextDueKm - currentKm;
-  const progress = Math.min(1, Math.max(0, (currentKm - lastDoneKm) / item.intervalKm));
+  const progress = Math.min(1, Math.max(0, (currentKm - lastDoneKm) / effectiveIntervalKm));
 
   let status: Status;
   if (kmRemaining < 0) status = "overdue";
   else if (kmRemaining <= 1000) status = "due";
-  else if (kmRemaining <= item.intervalKm * 0.15) status = "soon";
+  else if (kmRemaining <= effectiveIntervalKm * 0.15) status = "soon";
   else status = "ok";
 
-  return { item, lastDoneKm, nextDueKm, kmRemaining, status, progress };
+  return { item, effectiveIntervalKm, lastDoneKm, nextDueKm, kmRemaining, status, progress };
 }
