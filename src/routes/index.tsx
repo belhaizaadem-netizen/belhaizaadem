@@ -259,19 +259,41 @@ function Index() {
 
         {/* Status filter chip indicator */}
         {statusFilter !== "all" && (
-          <div className="mt-3 flex items-center justify-between rounded-xl bg-secondary/50 px-3 py-2 text-xs">
+          <div className="mt-3 flex items-center justify-between gap-2 rounded-xl bg-secondary/50 px-3 py-2 text-xs">
             <span className="text-muted-foreground">
               Filtre :{" "}
               <span className="font-semibold text-foreground">
                 {STATUS_FILTERS.find((s) => s.key === statusFilter)?.label}
               </span>
             </span>
-            <button
-              onClick={() => setStatusFilter("all")}
-              className="font-semibold text-primary"
-            >
-              Réinitialiser
-            </button>
+            <div className="flex items-center gap-2">
+              {statusFilter === "ok" && counts.ok > 0 && (
+                <button
+                  onClick={() => {
+                    const okIds = statuses
+                      .filter((s) => s.status === "ok")
+                      .map((s) => s.item.id);
+                    if (
+                      okIds.length > 0 &&
+                      confirm(`Réinitialiser les ${okIds.length} entretien(s) marqués OK ?`)
+                    ) {
+                      resetItems(okIds);
+                    }
+                  }}
+                  className="inline-flex items-center gap-1 rounded-full bg-destructive px-2.5 py-1 font-semibold text-destructive-foreground transition-opacity hover:opacity-90"
+                  aria-label="Effacer tous les OK"
+                >
+                  <RotateCcw className="h-3 w-3" strokeWidth={2.5} />
+                  Tout effacer
+                </button>
+              )}
+              <button
+                onClick={() => setStatusFilter("all")}
+                className="font-semibold text-primary"
+              >
+                Réinitialiser
+              </button>
+            </div>
           </div>
         )}
 
