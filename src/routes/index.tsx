@@ -159,8 +159,17 @@ function Index() {
         {/* Brand */}
         <BrandSelector value={state.brand} onChange={setBrand} />
 
+        {/* Vehicle cascade */}
+        <div className="mt-3">
+          <VehicleSelector
+            brand={state.brand}
+            vehicle={state.vehicle}
+            onChange={setVehicle}
+          />
+        </div>
+
         {/* Km input */}
-        <div className="mt-4">
+        <div className="mt-3">
           <KmInput value={state.currentKm} onChange={setCurrentKm} />
         </div>
 
@@ -263,7 +272,7 @@ function Index() {
         open={historyOpen}
         onClose={() => setHistoryOpen(false)}
         history={state.history}
-        items={MAINTENANCE_ITEMS}
+        items={items}
         onRemove={removeHistory}
       />
 
