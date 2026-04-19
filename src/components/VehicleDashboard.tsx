@@ -117,12 +117,13 @@ export function VehicleDashboard({
 
   const formattedKm = (parseInt(local, 10) || 0).toLocaleString("fr-FR");
 
-  // Speedometer (km display) — needle position based on the user's km value within current 1000-km segment
-  const speedMax = 260; // km/h scale, decorative
-  const speedValue = (km % 1000) / 1000 * speedMax; // animated needle as km grows
-  // RPM dial — engine off, needle resting at 0
-  const rpmMax = 8;
-  const rpmValue = 0;
+  // Digital meters
+  const rpmMax = 8000;
+  const rpmValue = 0; // engine off in app context
+  // Visual fill for the km meter — looks alive as user updates km, capped at 300k
+  const kmMax = 300000;
+  const kmFillPct = Math.min(100, (km / kmMax) * 100);
+  const rpmFillPct = (rpmValue / rpmMax) * 100;
 
   return (
     <div className="relative overflow-hidden rounded-3xl border border-border bg-gradient-to-b from-[#0a0e14] via-[#0d1118] to-[#080b10] shadow-card">
@@ -159,71 +160,48 @@ export function VehicleDashboard({
       {/* Top warning lights strip — always visible like a real cluster */}
       <TopWarningStrip lights={lights} />
 
-      {/* Twin gauges cluster */}
-      <div className="relative grid grid-cols-[1fr_1.4fr_1fr] items-center gap-1 px-2 pb-3 pt-2">
-        {/* LEFT — RPM dial (engine off, needle at 0) */}
-        <NeedleDial
+      {/* Twin digital meters */}
+      <div className="relative grid grid-cols-2 gap-2 px-3 pb-3 pt-3">
+        {/* LEFT — RPM digital meter */}
+        <DigitalMeter
+          label="Régime moteur"
+          unit="tr/min"
           value={rpmValue}
           max={rpmMax}
-          ticks={9}
-          redlineFrom={6}
-          label="x1000 RPM"
-          centerText="0"
-          unit="rpm"
+          fillPct={rpmFillPct}
+          accent="hsl(15 90% 55%)"
+          formatValue={(v) => v.toLocaleString("fr-FR")}
+          segments={20}
+          redlineSegment={15}
+          status="OFF"
         />
 
-        {/* CENTER — Odometer */}
-        <div className="relative flex flex-col items-center justify-center px-1">
-          <span className="text-[9px] font-semibold uppercase tracking-[0.25em] text-white/50">
-            Saisir le kilométrage
-          </span>
-          <input
-            type="text"
-            inputMode="numeric"
-            value={local}
-            onChange={(e) => setLocal(e.target.value.replace(/\D/g, ""))}
-            onBlur={() => commit(local)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") (e.target as HTMLInputElement).blur();
-            }}
-            placeholder="0"
-            aria-label="Saisir le kilométrage de votre véhicule"
-            className="sr-only"
-            id="km-input"
-          />
-          <label
-            htmlFor="km-input"
-            className="group block cursor-text select-none text-center"
-            title="Touchez pour modifier le kilométrage"
-          >
-            <span
-              className="block bg-clip-text text-4xl font-extrabold leading-none tracking-tight tabular-nums text-transparent transition-opacity group-hover:opacity-80"
-              style={{ backgroundImage: "var(--gradient-primary)" }}
-            >
-              {formattedKm}
-            </span>
-            <span className="mt-0.5 block text-[10px] font-bold uppercase tracking-widest text-white/60">
-              km · touchez pour modifier
-            </span>
-          </label>
-          {nextServiceKm != null && (
-            <div className="mt-1.5 inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2 py-0.5">
-              <Wind className="h-2.5 w-2.5 text-primary" strokeWidth={2.5} />
-              <span className="text-[9px] font-semibold tabular-nums text-white/70">
-                {nextServiceKm.toLocaleString("fr-FR")} km
-              </span>
-            </div>
-          )}
-        </div>
-
-        {/* RIGHT — Speedometer with km value */}
-        <NeedleDial
-          value={speedValue}
-          max={speedMax}
-          ticks={14}
-          label="km/h"
-          centerText={formattedKm}
+        {/* RIGHT — Kilométrage digital meter (editable) */}
+        <DigitalMeter
+          label="Kilométrage"
           unit="km"
+          value={km}
+          max={kmMax}
+          fillPct={kmFillPct}
+          accent="var(--primary)"
+          formatValue={(v) => v.toLocaleString("fr-FR")}
+          segments={20}
+          editable
+          editableProps={{
+            inputId: "km-input",
+            inputValue: local,
+            onInputChange: (v) => setLocal(v.replace(/\D/g, "")),
+            onBlur: () => commit(local),
+            displayValue: formattedKm,
+          }}
+          footer={
+            nextServiceKm != null ? (
+              <span className="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2 py-0.5 text-[9px] font-semibold text-white/70">
+                <Wind className="h-2.5 w-2.5 text-primary" strokeWidth={2.5} />
+                Service dans {nextServiceKm.toLocaleString("fr-FR")} km
+              </span>
+            ) : null
+          }
         />
       </div>
 
