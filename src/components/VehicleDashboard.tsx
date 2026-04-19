@@ -1,17 +1,21 @@
 import {
-  AlertTriangle,
-  Battery,
   Car,
-  CircleDot,
-  Disc3,
-  Droplet,
   Fuel,
   Gauge,
   Settings2,
-  Thermometer,
   Wind,
   Zap,
 } from "lucide-react";
+import {
+  AbsIcon,
+  BatteryIcon,
+  BrakeIcon,
+  CoolantIcon,
+  EngineIcon,
+  FilterIcon,
+  OilIcon,
+  TirePressureIcon,
+} from "@/components/dashboard/TellTaleIcons";
 import { useEffect, useMemo, useState } from "react";
 import {
   applicableItems,
