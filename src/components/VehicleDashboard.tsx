@@ -304,7 +304,7 @@ function Tell({
   label,
   variant,
 }: {
-  Icon: (props: React.SVGProps<SVGSVGElement>) => JSX.Element;
+  Icon: (props: React.SVGProps<SVGSVGElement>) => React.ReactElement;
   status: Status;
   label: string;
   variant: "red" | "amber";
