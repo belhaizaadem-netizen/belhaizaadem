@@ -195,7 +195,7 @@ export function VehicleDashboard({
         {/* CENTER — Odometer */}
         <div className="relative flex flex-col items-center justify-center px-1">
           <span className="text-[9px] font-semibold uppercase tracking-[0.25em] text-white/50">
-            Kilométrage
+            Saisir le kilométrage
           </span>
           <input
             type="text"
@@ -207,19 +207,23 @@ export function VehicleDashboard({
               if (e.key === "Enter") (e.target as HTMLInputElement).blur();
             }}
             placeholder="0"
-            aria-label="Kilométrage actuel"
+            aria-label="Saisir le kilométrage de votre véhicule"
             className="sr-only"
             id="km-input"
           />
-          <label htmlFor="km-input" className="block cursor-text select-none text-center">
+          <label
+            htmlFor="km-input"
+            className="group block cursor-text select-none text-center"
+            title="Touchez pour modifier le kilométrage"
+          >
             <span
-              className="block bg-clip-text text-4xl font-extrabold leading-none tracking-tight tabular-nums text-transparent"
+              className="block bg-clip-text text-4xl font-extrabold leading-none tracking-tight tabular-nums text-transparent transition-opacity group-hover:opacity-80"
               style={{ backgroundImage: "var(--gradient-primary)" }}
             >
               {formattedKm}
             </span>
             <span className="mt-0.5 block text-[10px] font-bold uppercase tracking-widest text-white/60">
-              km total
+              km · touchez pour modifier
             </span>
           </label>
           {nextServiceKm != null && (
