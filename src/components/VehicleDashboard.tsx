@@ -126,21 +126,12 @@ export function VehicleDashboard({
 
   const formattedKm = (parseInt(local, 10) || 0).toLocaleString("fr-FR");
 
-  // Gauge math (semi-circle, 180deg arc)
-  const RADIUS = 52;
-  const CIRC = Math.PI * RADIUS; // half-circumference
-  const healthDash = (healthPct / 100) * CIRC;
-
-  // Service gauge: 0 km left = full red, 30k+ = green
-  const serviceMax = 30000;
-  const servicePct = nextServiceKm == null
-    ? 100
-    : Math.max(0, Math.min(100, (nextServiceKm / serviceMax) * 100));
-  const serviceDash = (servicePct / 100) * CIRC;
-  const serviceColor =
-    servicePct < 15 ? "var(--destructive)" : servicePct < 40 ? "var(--warning)" : "var(--success)";
-  const healthColor =
-    healthPct < 50 ? "var(--destructive)" : healthPct < 80 ? "var(--warning)" : "var(--success)";
+  // Speedometer (km display) — needle position based on the user's km value within current 1000-km segment
+  const speedMax = 260; // km/h scale, decorative
+  const speedValue = (km % 1000) / 1000 * speedMax; // animated needle as km grows
+  // RPM dial — engine off, needle resting at 0
+  const rpmMax = 8;
+  const rpmValue = 0;
 
   return (
     <div className="relative overflow-hidden rounded-3xl border border-border bg-gradient-to-b from-[#0a0e14] via-[#0d1118] to-[#080b10] shadow-card">
