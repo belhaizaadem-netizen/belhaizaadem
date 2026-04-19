@@ -305,189 +305,151 @@ function Tell({
   );
 }
 
-function NeedleDial({
+
+interface EditableProps {
+  inputId: string;
+  inputValue: string;
+  onInputChange: (v: string) => void;
+  onBlur: () => void;
+  displayValue: string;
+}
+
+function DigitalMeter({
+  label,
+  unit,
   value,
   max,
-  ticks,
-  label,
-  centerText,
-  unit,
-  redlineFrom,
+  fillPct,
+  accent,
+  formatValue,
+  segments,
+  redlineSegment,
+  status,
+  editable = false,
+  editableProps,
+  footer,
 }: {
+  label: string;
+  unit: string;
   value: number;
   max: number;
-  ticks: number;
-  label: string;
-  centerText: string;
-  unit: string;
-  redlineFrom?: number;
+  fillPct: number;
+  accent: string;
+  formatValue: (v: number) => string;
+  segments: number;
+  redlineSegment?: number;
+  status?: string;
+  editable?: boolean;
+  editableProps?: EditableProps;
+  footer?: React.ReactNode;
 }) {
-  const size = 110;
-  const cx = size / 2;
-  const cy = size / 2;
-  const radius = 46;
-  // Sweep from -135deg (bottom-left) to +135deg (bottom-right) = 270deg arc
-  const startAngle = -225; // degrees, measured from +x axis going clockwise (SVG)
-  const sweep = 270;
-  const clamped = Math.max(0, Math.min(max, value));
-  const valueAngleDeg = startAngle + (clamped / max) * sweep;
-  const rad = (deg: number) => (deg * Math.PI) / 180;
-
-  // Needle endpoint
-  const needleLen = radius - 8;
-  const nx = cx + Math.cos(rad(valueAngleDeg)) * needleLen;
-  const ny = cy + Math.sin(rad(valueAngleDeg)) * needleLen;
+  const display = editable && editableProps ? editableProps.displayValue : formatValue(value);
 
   return (
-    <div className="relative flex flex-col items-center">
-      <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} className="overflow-visible">
-        <defs>
-          <radialGradient id={`dialBg-${label}`} cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="rgba(255,255,255,0.04)" />
-            <stop offset="100%" stopColor="rgba(0,0,0,0.5)" />
-          </radialGradient>
-        </defs>
-        {/* outer ring */}
-        <circle cx={cx} cy={cy} r={radius + 4} fill={`url(#dialBg-${label})`} stroke="rgba(255,255,255,0.12)" strokeWidth={1} />
-        {/* inner bezel */}
-        <circle cx={cx} cy={cy} r={radius} fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth={1} />
+    <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-b from-white/[0.04] to-black/40 px-3 py-3 shadow-inner">
+      {/* glow */}
+      <div
+        className="pointer-events-none absolute -top-8 left-1/2 h-16 w-32 -translate-x-1/2 rounded-full opacity-30 blur-2xl"
+        style={{ background: accent }}
+        aria-hidden
+      />
 
-        {/* tick marks */}
-        {Array.from({ length: ticks }).map((_, i) => {
-          const t = i / (ticks - 1);
-          const a = startAngle + t * sweep;
-          const isMajor = true;
-          const inR = radius - (isMajor ? 6 : 3);
-          const outR = radius - 1;
-          const x1 = cx + Math.cos(rad(a)) * inR;
-          const y1 = cy + Math.sin(rad(a)) * inR;
-          const x2 = cx + Math.cos(rad(a)) * outR;
-          const y2 = cy + Math.sin(rad(a)) * outR;
-          const inRedline = redlineFrom != null && i / (ticks - 1) >= redlineFrom / max;
-          return (
-            <line
-              key={i}
-              x1={x1}
-              y1={y1}
-              x2={x2}
-              y2={y2}
-              stroke={inRedline ? "var(--destructive)" : "rgba(255,255,255,0.55)"}
-              strokeWidth={1.4}
-              strokeLinecap="round"
-            />
-          );
-        })}
-
-        {/* tick numbers */}
-        {Array.from({ length: ticks }).map((_, i) => {
-          const t = i / (ticks - 1);
-          const a = startAngle + t * sweep;
-          const lx = cx + Math.cos(rad(a)) * (radius - 14);
-          const ly = cy + Math.sin(rad(a)) * (radius - 14);
-          const num = Math.round((i / (ticks - 1)) * max);
-          // Skip every other label when there are many ticks
-          if (ticks > 9 && i % 2 !== 0) return null;
-          const inRedline = redlineFrom != null && i / (ticks - 1) >= redlineFrom / max;
-          return (
-            <text
-              key={`n-${i}`}
-              x={lx}
-              y={ly + 2}
-              textAnchor="middle"
-              fontSize="7"
-              fontWeight="700"
-              fill={inRedline ? "var(--destructive)" : "rgba(255,255,255,0.7)"}
-              fontFamily="system-ui, sans-serif"
-            >
-              {num}
-            </text>
-          );
-        })}
-
-        {/* redline arc */}
-        {redlineFrom != null && (() => {
-          const aStart = startAngle + (redlineFrom / max) * sweep;
-          const aEnd = startAngle + sweep;
-          const x1 = cx + Math.cos(rad(aStart)) * (radius + 1);
-          const y1 = cy + Math.sin(rad(aStart)) * (radius + 1);
-          const x2 = cx + Math.cos(rad(aEnd)) * (radius + 1);
-          const y2 = cy + Math.sin(rad(aEnd)) * (radius + 1);
-          return (
-            <path
-              d={`M ${x1} ${y1} A ${radius + 1} ${radius + 1} 0 0 1 ${x2} ${y2}`}
-              fill="none"
-              stroke="var(--destructive)"
-              strokeWidth={2.5}
-              strokeLinecap="round"
-            />
-          );
-        })()}
-
-        {/* needle */}
-        <line
-          x1={cx}
-          y1={cy}
-          x2={nx}
-          y2={ny}
-          stroke="var(--destructive)"
-          strokeWidth={2}
-          strokeLinecap="round"
-          style={{
-            filter: "drop-shadow(0 0 3px var(--destructive))",
-            transition: "all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)",
-          }}
-        />
-        {/* hub */}
-        <circle cx={cx} cy={cy} r={4} fill="var(--destructive)" />
-        <circle cx={cx} cy={cy} r={2} fill="rgba(255,255,255,0.9)" />
-
-        {/* center label */}
-        <text
-          x={cx}
-          y={cy + 18}
-          textAnchor="middle"
-          fontSize="10"
-          fontWeight="800"
-          fill="rgba(255,255,255,0.95)"
-          fontFamily="system-ui, sans-serif"
-        >
-          {centerText}
-        </text>
-        <text
-          x={cx}
-          y={cy + 27}
-          textAnchor="middle"
-          fontSize="6"
-          fontWeight="700"
-          fill="rgba(255,255,255,0.5)"
-          letterSpacing="1"
-          fontFamily="system-ui, sans-serif"
-        >
-          {unit.toUpperCase()}
-        </text>
-      </svg>
-      <span className="-mt-1 text-[8px] font-bold uppercase tracking-widest text-white/50">
-        {label}
-      </span>
-    </div>
-  );
-}
-function SpecChip({
-  icon: Icon,
-  label,
-  value,
-}: {
-  icon: typeof Car;
-  label: string;
-  value: string;
-}) {
-  return (
-    <div className="flex min-w-0 flex-col items-center text-center">
-      <div className="flex items-center gap-1 text-white/50">
-        <Icon className="h-2.5 w-2.5" strokeWidth={2.4} />
-        <span className="text-[9px] font-medium uppercase tracking-wider">{label}</span>
+      {/* Header row */}
+      <div className="relative flex items-center justify-between gap-1">
+        <span className="text-[8px] font-bold uppercase tracking-[0.2em] text-white/50">
+          {label}
+        </span>
+        {status ? (
+          <span
+            className="rounded-sm border border-white/15 bg-black/40 px-1 py-0.5 text-[7px] font-black tracking-widest text-white/40"
+          >
+            {status}
+          </span>
+        ) : null}
       </div>
-      <span className="mt-0.5 truncate text-[11px] font-semibold text-white/90">{value}</span>
+
+      {/* Big digital value */}
+      <div className="relative mt-1 text-center">
+        {editable && editableProps ? (
+          <>
+            <input
+              type="text"
+              inputMode="numeric"
+              value={editableProps.inputValue}
+              onChange={(e) => editableProps.onInputChange(e.target.value)}
+              onBlur={editableProps.onBlur}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") (e.target as HTMLInputElement).blur();
+              }}
+              placeholder="0"
+              aria-label={`Saisir ${label}`}
+              className="sr-only"
+              id={editableProps.inputId}
+            />
+            <label
+              htmlFor={editableProps.inputId}
+              className="block cursor-text select-none"
+              title="Touchez pour modifier"
+            >
+              <span
+                className="block bg-clip-text text-3xl font-black leading-none tracking-tight tabular-nums text-transparent"
+                style={{
+                  backgroundImage: `linear-gradient(180deg, ${accent}, color-mix(in oklab, ${accent} 60%, white 40%))`,
+                  fontFamily: "'Courier New', ui-monospace, monospace",
+                  textShadow: `0 0 14px ${accent}`,
+                }}
+              >
+                {display}
+              </span>
+            </label>
+          </>
+        ) : (
+          <span
+            className="block bg-clip-text text-3xl font-black leading-none tracking-tight tabular-nums text-transparent"
+            style={{
+              backgroundImage: `linear-gradient(180deg, ${accent}, color-mix(in oklab, ${accent} 60%, white 40%))`,
+              fontFamily: "'Courier New', ui-monospace, monospace",
+              textShadow: `0 0 14px ${accent}`,
+            }}
+          >
+            {display}
+          </span>
+        )}
+        <span className="mt-0.5 block text-[9px] font-bold uppercase tracking-widest text-white/50">
+          {unit}
+          {editable ? " · touchez pour modifier" : ""}
+        </span>
+      </div>
+
+      {/* Segmented bar */}
+      <div className="relative mt-2 flex h-2 gap-[2px]">
+        {Array.from({ length: segments }).map((_, i) => {
+          const segPct = ((i + 1) / segments) * 100;
+          const lit = segPct <= fillPct;
+          const isRedline = redlineSegment != null && i >= redlineSegment;
+          const segColor = isRedline ? "var(--destructive)" : accent;
+          return (
+            <div
+              key={i}
+              className="flex-1 rounded-[1px] transition-all"
+              style={{
+                background: lit ? segColor : "rgba(255,255,255,0.08)",
+                boxShadow: lit ? `0 0 4px ${segColor}` : "none",
+                opacity: lit ? 1 : 0.5,
+              }}
+            />
+          );
+        })}
+      </div>
+
+      {/* Scale labels */}
+      <div className="mt-1 flex justify-between text-[7px] font-bold tabular-nums text-white/40">
+        <span>0</span>
+        <span>{formatValue(Math.round(max / 2))}</span>
+        <span>{formatValue(max)}</span>
+      </div>
+
+      {footer ? <div className="relative mt-2 flex justify-center">{footer}</div> : null}
     </div>
   );
 }
