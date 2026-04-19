@@ -1,7 +1,6 @@
 import {
   Car,
   Fuel,
-  Gauge,
   Settings2,
   Wind,
   Zap,
