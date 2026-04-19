@@ -91,7 +91,7 @@ export function VehicleDashboard({
       statuses.filter((s) => s.item.category === cat);
 
     const lights = {
-      moteur: worstStatus(pickByIds(["diag-ecu", "bougies", "filtre-air"])),
+      moteur: worstStatus(pickByIds(["bougies", "filtre-air"])),
       huile: worstStatus(pickByIds(["huile-moteur"])),
       freins: worstStatus(pickByCat("Freinage")),
       abs: worstStatus(pickByIds(["capteurs-abs"])),

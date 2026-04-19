@@ -100,7 +100,7 @@ export const MAINTENANCE_ITEMS: MaintenanceItem[] = [
   // ÉLECTRIQUE
   { id: "batterie", name: "Batterie 12V", category: "Électrique", intervalKm: 60000 },
   { id: "filtre-habitacle", name: "Filtre habitacle", category: "Électrique", intervalKm: 20000 },
-  { id: "diag-ecu", name: "Diagnostic ECU complet", category: "Électrique", intervalKm: 20000 },
+  
 
   // PNEUS
   { id: "inspection-pneus", name: "Inspection pneus", category: "Pneus", intervalKm: 100000 },
