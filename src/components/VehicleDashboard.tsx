@@ -453,3 +453,23 @@ function DigitalMeter({
     </div>
   );
 }
+
+function SpecChip({
+  icon: Icon,
+  label,
+  value,
+}: {
+  icon: typeof Car;
+  label: string;
+  value: string;
+}) {
+  return (
+    <div className="flex min-w-0 flex-col items-center text-center">
+      <div className="flex items-center gap-1 text-white/50">
+        <Icon className="h-2.5 w-2.5" strokeWidth={2.4} />
+        <span className="text-[9px] font-medium uppercase tracking-wider">{label}</span>
+      </div>
+      <span className="mt-0.5 truncate text-[11px] font-semibold text-white/90">{value}</span>
+    </div>
+  );
+}
