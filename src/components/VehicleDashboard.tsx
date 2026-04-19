@@ -1,17 +1,21 @@
 import {
-  AlertTriangle,
-  Battery,
   Car,
-  CircleDot,
-  Disc3,
-  Droplet,
   Fuel,
   Gauge,
   Settings2,
-  Thermometer,
   Wind,
   Zap,
 } from "lucide-react";
+import {
+  AbsIcon,
+  BatteryIcon,
+  BrakeIcon,
+  CoolantIcon,
+  EngineIcon,
+  FilterIcon,
+  OilIcon,
+  TirePressureIcon,
+} from "@/components/dashboard/TellTaleIcons";
 import { useEffect, useMemo, useState } from "react";
 import {
   applicableItems,
@@ -274,42 +278,38 @@ export function VehicleDashboard({
 
 function TopWarningStrip({ lights }: { lights: Record<string, Status> }) {
   return (
-    <div className="flex items-center justify-center gap-2 border-b border-white/5 bg-black/40 px-3 py-2">
-      <Tell icon={AlertTriangle} status={lights.moteur} title="Moteur" variant="amber" />
-      <Tell icon={Battery} status={lights.batterie} title="Batterie" variant="red" />
-      <Tell icon={Disc3} status={lights.freins} title="Freins" variant="red" />
-      <Tell icon={Droplet} status={lights.huile} title="Huile moteur" variant="red" />
-      <Tell icon={Thermometer} status={lights.temp} title="Température" variant="red" />
+    <div className="grid grid-cols-5 items-start gap-1 border-b border-white/5 bg-black/40 px-2 py-2">
+      <Tell Icon={EngineIcon} status={lights.moteur} label="Moteur" variant="amber" />
+      <Tell Icon={BatteryIcon} status={lights.batterie} label="Batterie" variant="red" />
+      <Tell Icon={BrakeIcon} status={lights.freins} label="Freins" variant="red" />
+      <Tell Icon={OilIcon} status={lights.huile} label="Huile" variant="red" />
+      <Tell Icon={CoolantIcon} status={lights.temp} label="Temp." variant="red" />
     </div>
   );
 }
 
 function BottomWarningStrip({ lights }: { lights: Record<string, Status> }) {
   return (
-    <div className="flex items-center justify-center gap-2 border-t border-white/5 bg-black/40 px-3 py-2">
-      <Tell icon={CircleDot} status={lights.abs} title="ABS" variant="amber" label="ABS" />
-      <Tell icon={CircleDot} status={lights.pneus} title="Pression pneus" variant="amber" />
-      <Tell icon={Wind} status={lights.filtres} title="Filtres" variant="amber" />
+    <div className="grid grid-cols-3 items-start gap-1 border-t border-white/5 bg-black/40 px-2 py-2">
+      <Tell Icon={AbsIcon} status={lights.abs} label="ABS" variant="amber" />
+      <Tell Icon={TirePressureIcon} status={lights.pneus} label="Pneus" variant="amber" />
+      <Tell Icon={FilterIcon} status={lights.filtres} label="Filtres" variant="amber" />
     </div>
   );
 }
 
 function Tell({
-  icon: Icon,
+  Icon,
   status,
-  title,
-  variant,
   label,
+  variant,
 }: {
-  icon: typeof Car;
+  Icon: (props: React.SVGProps<SVGSVGElement>) => React.ReactElement;
   status: Status;
-  title: string;
+  label: string;
   variant: "red" | "amber";
-  label?: string;
 }) {
   const isOn = status !== "ok";
-  // overdue/due => primary alert color (red for critical, amber for warnings)
-  // soon => amber regardless
   const lit =
     status === "overdue" || status === "due"
       ? variant === "red"
@@ -317,30 +317,32 @@ function Tell({
         : { color: "text-warning", glow: "drop-shadow-[0_0_6px_var(--warning)]" }
       : status === "soon"
         ? { color: "text-warning", glow: "drop-shadow-[0_0_5px_var(--warning)]" }
-        : { color: "text-white/15", glow: "" };
+        : { color: "text-white/20", glow: "" };
 
   const pulse = status === "overdue";
 
   return (
     <div
-      className={cn("relative flex h-6 w-6 items-center justify-center", pulse && "animate-pulse")}
-      title={`${title} — ${status}`}
-      aria-label={`${title}: ${status}`}
+      className="flex flex-col items-center gap-0.5"
+      title={`${label} — ${status}`}
+      aria-label={`${label}: ${status}`}
     >
       <Icon
-        className={cn("h-5 w-5 transition-all", lit.color, isOn && lit.glow)}
-        strokeWidth={2.4}
+        className={cn(
+          "h-5 w-5 transition-all",
+          lit.color,
+          isOn && lit.glow,
+          pulse && "animate-pulse",
+        )}
       />
-      {label && (
-        <span
-          className={cn(
-            "absolute inset-0 flex items-center justify-center text-[7px] font-black",
-            lit.color,
-          )}
-        >
-          {label}
-        </span>
-      )}
+      <span
+        className={cn(
+          "text-[8px] font-bold uppercase tracking-wider leading-none transition-colors",
+          isOn ? "text-white/80" : "text-white/40",
+        )}
+      >
+        {label}
+      </span>
     </div>
   );
 }
