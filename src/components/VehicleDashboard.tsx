@@ -170,17 +170,15 @@ export function VehicleDashboard({
 
       {/* Twin gauges cluster */}
       <div className="relative grid grid-cols-[1fr_1.4fr_1fr] items-center gap-1 px-2 pb-3 pt-2">
-        {/* LEFT gauge — Vehicle health */}
-        <Gauge180
-          value={healthPct}
-          max={100}
-          dash={healthDash}
-          circ={CIRC}
-          radius={RADIUS}
-          color={healthColor}
-          label="Santé"
-          unit="%"
-          icon={Gauge}
+        {/* LEFT — RPM dial (engine off, needle at 0) */}
+        <NeedleDial
+          value={rpmValue}
+          max={rpmMax}
+          ticks={9}
+          redlineFrom={6}
+          label="x1000 RPM"
+          centerText="0"
+          unit="rpm"
         />
 
         {/* CENTER — Odometer */}
@@ -227,18 +225,14 @@ export function VehicleDashboard({
           )}
         </div>
 
-        {/* RIGHT gauge — Next service */}
-        <Gauge180
-          value={nextServiceKm ?? serviceMax}
-          max={serviceMax}
-          dash={serviceDash}
-          circ={CIRC}
-          radius={RADIUS}
-          color={serviceColor}
-          label="Service"
+        {/* RIGHT — Speedometer with km value */}
+        <NeedleDial
+          value={speedValue}
+          max={speedMax}
+          ticks={14}
+          label="km/h"
+          centerText={formattedKm}
           unit="km"
-          icon={Settings2}
-          showRaw
         />
       </div>
 
