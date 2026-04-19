@@ -78,7 +78,7 @@ export function VehicleDashboard({
       : undefined;
 
   // Compute warning lights from real maintenance data
-  const { lights, nextServiceKm, healthPct } = useMemo(() => {
+  const { lights, nextServiceKm } = useMemo(() => {
     const items = applicableItems(engine ?? null, vehicle.transmission);
     const statuses = items.map((it) =>
       computeStatus(it, km, lastDone[it.id] ?? 0, engine ?? null),
@@ -100,21 +100,13 @@ export function VehicleDashboard({
       filtres: worstStatus(pickByIds(["filtre-habitacle", "filtre-air", "filtre-carburant"])),
     };
 
-    // next service: smallest positive kmRemaining
     const upcoming = statuses
       .filter((s) => s.kmRemaining > 0)
       .sort((a, b) => a.kmRemaining - b.kmRemaining)[0];
 
-    // health: % of items in OK
-    const okCount = statuses.filter((s) => s.status === "ok").length;
-    const healthPct = statuses.length
-      ? Math.round((okCount / statuses.length) * 100)
-      : 100;
-
     return {
       lights,
       nextServiceKm: upcoming?.kmRemaining ?? null,
-      healthPct,
     };
   }, [engine, vehicle.transmission, km, lastDone]);
 
@@ -335,56 +327,65 @@ function Tell({
   );
 }
 
-function Gauge180({
+function NeedleDial({
   value,
   max,
-  dash,
-  circ,
-  radius,
-  color,
+  ticks,
   label,
+  centerText,
   unit,
-  icon: Icon,
-  showRaw = false,
+  redlineFrom,
 }: {
   value: number;
   max: number;
-  dash: number;
-  circ: number;
-  radius: number;
-  color: string;
+  ticks: number;
   label: string;
+  centerText: string;
   unit: string;
-  icon: typeof Car;
-  showRaw?: boolean;
+  redlineFrom?: number;
 }) {
-  const size = radius * 2 + 16;
+  const size = 110;
   const cx = size / 2;
-  const cy = radius + 8;
-  const display = showRaw
-    ? value >= 1000
-      ? `${(value / 1000).toFixed(1)}k`
-      : Math.round(value).toString()
-    : Math.round((value / max) * 100).toString();
+  const cy = size / 2;
+  const radius = 46;
+  // Sweep from -135deg (bottom-left) to +135deg (bottom-right) = 270deg arc
+  const startAngle = -225; // degrees, measured from +x axis going clockwise (SVG)
+  const sweep = 270;
+  const clamped = Math.max(0, Math.min(max, value));
+  const valueAngleDeg = startAngle + (clamped / max) * sweep;
+  const rad = (deg: number) => (deg * Math.PI) / 180;
+
+  // Needle endpoint
+  const needleLen = radius - 8;
+  const nx = cx + Math.cos(rad(valueAngleDeg)) * needleLen;
+  const ny = cy + Math.sin(rad(valueAngleDeg)) * needleLen;
 
   return (
     <div className="relative flex flex-col items-center">
-      <svg width={size} height={cy + 4} viewBox={`0 0 ${size} ${cy + 4}`} className="overflow-visible">
-        {/* track */}
-        <path
-          d={`M ${cx - radius} ${cy} A ${radius} ${radius} 0 0 1 ${cx + radius} ${cy}`}
-          fill="none"
-          stroke="rgba(255,255,255,0.08)"
-          strokeWidth={6}
-          strokeLinecap="round"
-        />
+      <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} className="overflow-visible">
+        <defs>
+          <radialGradient id={`dialBg-${label}`} cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="rgba(255,255,255,0.04)" />
+            <stop offset="100%" stopColor="rgba(0,0,0,0.5)" />
+          </radialGradient>
+        </defs>
+        {/* outer ring */}
+        <circle cx={cx} cy={cy} r={radius + 4} fill={`url(#dialBg-${label})`} stroke="rgba(255,255,255,0.12)" strokeWidth={1} />
+        {/* inner bezel */}
+        <circle cx={cx} cy={cy} r={radius} fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth={1} />
+
         {/* tick marks */}
-        {Array.from({ length: 11 }).map((_, i) => {
-          const angle = Math.PI - (i / 10) * Math.PI;
-          const x1 = cx + Math.cos(angle) * (radius + 4);
-          const y1 = cy - Math.sin(angle) * (radius + 4);
-          const x2 = cx + Math.cos(angle) * (radius - 1);
-          const y2 = cy - Math.sin(angle) * (radius - 1);
+        {Array.from({ length: ticks }).map((_, i) => {
+          const t = i / (ticks - 1);
+          const a = startAngle + t * sweep;
+          const isMajor = true;
+          const inR = radius - (isMajor ? 6 : 3);
+          const outR = radius - 1;
+          const x1 = cx + Math.cos(rad(a)) * inR;
+          const y1 = cy + Math.sin(rad(a)) * inR;
+          const x2 = cx + Math.cos(rad(a)) * outR;
+          const y2 = cy + Math.sin(rad(a)) * outR;
+          const inRedline = redlineFrom != null && i / (ticks - 1) >= redlineFrom / max;
           return (
             <line
               key={i}
@@ -392,39 +393,107 @@ function Gauge180({
               y1={y1}
               x2={x2}
               y2={y2}
-              stroke="rgba(255,255,255,0.18)"
-              strokeWidth={i % 5 === 0 ? 1.5 : 0.8}
+              stroke={inRedline ? "var(--destructive)" : "rgba(255,255,255,0.55)"}
+              strokeWidth={1.4}
+              strokeLinecap="round"
             />
           );
         })}
-        {/* progress */}
-        <path
-          d={`M ${cx - radius} ${cy} A ${radius} ${radius} 0 0 1 ${cx + radius} ${cy}`}
-          fill="none"
-          stroke={color}
-          strokeWidth={6}
+
+        {/* tick numbers */}
+        {Array.from({ length: ticks }).map((_, i) => {
+          const t = i / (ticks - 1);
+          const a = startAngle + t * sweep;
+          const lx = cx + Math.cos(rad(a)) * (radius - 14);
+          const ly = cy + Math.sin(rad(a)) * (radius - 14);
+          const num = Math.round((i / (ticks - 1)) * max);
+          // Skip every other label when there are many ticks
+          if (ticks > 9 && i % 2 !== 0) return null;
+          const inRedline = redlineFrom != null && i / (ticks - 1) >= redlineFrom / max;
+          return (
+            <text
+              key={`n-${i}`}
+              x={lx}
+              y={ly + 2}
+              textAnchor="middle"
+              fontSize="7"
+              fontWeight="700"
+              fill={inRedline ? "var(--destructive)" : "rgba(255,255,255,0.7)"}
+              fontFamily="system-ui, sans-serif"
+            >
+              {num}
+            </text>
+          );
+        })}
+
+        {/* redline arc */}
+        {redlineFrom != null && (() => {
+          const aStart = startAngle + (redlineFrom / max) * sweep;
+          const aEnd = startAngle + sweep;
+          const x1 = cx + Math.cos(rad(aStart)) * (radius + 1);
+          const y1 = cy + Math.sin(rad(aStart)) * (radius + 1);
+          const x2 = cx + Math.cos(rad(aEnd)) * (radius + 1);
+          const y2 = cy + Math.sin(rad(aEnd)) * (radius + 1);
+          return (
+            <path
+              d={`M ${x1} ${y1} A ${radius + 1} ${radius + 1} 0 0 1 ${x2} ${y2}`}
+              fill="none"
+              stroke="var(--destructive)"
+              strokeWidth={2.5}
+              strokeLinecap="round"
+            />
+          );
+        })()}
+
+        {/* needle */}
+        <line
+          x1={cx}
+          y1={cy}
+          x2={nx}
+          y2={ny}
+          stroke="var(--destructive)"
+          strokeWidth={2}
           strokeLinecap="round"
-          strokeDasharray={`${dash} ${circ}`}
           style={{
-            filter: `drop-shadow(0 0 4px ${color})`,
-            transition: "stroke-dasharray 0.6s ease, stroke 0.4s ease",
+            filter: "drop-shadow(0 0 3px var(--destructive))",
+            transition: "all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)",
           }}
         />
+        {/* hub */}
+        <circle cx={cx} cy={cy} r={4} fill="var(--destructive)" />
+        <circle cx={cx} cy={cy} r={2} fill="rgba(255,255,255,0.9)" />
+
+        {/* center label */}
+        <text
+          x={cx}
+          y={cy + 18}
+          textAnchor="middle"
+          fontSize="10"
+          fontWeight="800"
+          fill="rgba(255,255,255,0.95)"
+          fontFamily="system-ui, sans-serif"
+        >
+          {centerText}
+        </text>
+        <text
+          x={cx}
+          y={cy + 27}
+          textAnchor="middle"
+          fontSize="6"
+          fontWeight="700"
+          fill="rgba(255,255,255,0.5)"
+          letterSpacing="1"
+          fontFamily="system-ui, sans-serif"
+        >
+          {unit.toUpperCase()}
+        </text>
       </svg>
-      <div className="-mt-7 flex flex-col items-center">
-        <Icon className="h-3 w-3" style={{ color }} strokeWidth={2.5} />
-        <span className="mt-0.5 text-base font-extrabold leading-none tabular-nums text-white">
-          {display}
-          <span className="ml-0.5 text-[8px] font-semibold text-white/50">{unit}</span>
-        </span>
-        <span className="mt-0.5 text-[8px] font-semibold uppercase tracking-widest text-white/50">
-          {label}
-        </span>
-      </div>
+      <span className="-mt-1 text-[8px] font-bold uppercase tracking-widest text-white/50">
+        {label}
+      </span>
     </div>
   );
 }
-
 function SpecChip({
   icon: Icon,
   label,
