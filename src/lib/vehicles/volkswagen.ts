@@ -2,61 +2,7 @@ import type { Model } from "./types";
 import { buildEngine as e } from "./engines";
 
 export const VOLKSWAGEN_MODELS: Model[] = [
-  {
-    id: "up", name: "up!", brand: "Volkswagen",
-    generations: [
-      { id: "g1", name: "up! (2011-2023)", yearStart: 2011, yearEnd: 2023, engines: [
-        e("1.0-mpi-65", ["manuelle"], ["FWD"]),
-        e("1.0-mpi-75", ["manuelle"], ["FWD"]),
-        e("1.0-tsi-90", ["manuelle"], ["FWD"]),
-        e("1.0-tsi-115", ["manuelle"], ["FWD"]),
-      ]},
-    ],
-  },
-  {
-    id: "polo", name: "Polo", brand: "Volkswagen",
-    generations: [
-      { id: "mk5", name: "Polo V — 6R/6C (2009-2017)", yearStart: 2009, yearEnd: 2017, engines: [
-        e("1.0-mpi-75", ["manuelle"], ["FWD"]),
-        e("1.2-tsi-86", ["manuelle", "DSG"], ["FWD"]),
-        e("1.2-tsi-105", ["manuelle", "DSG"], ["FWD"]),
-        e("1.4-tsi-150", ["DSG"], ["FWD"]),
-        e("1.6-tdi-90", ["manuelle"], ["FWD"]),
-        e("1.6-tdi-105", ["manuelle"], ["FWD"]),
-      ]},
-      { id: "mk6", name: "Polo VI — AW (2017-)", yearStart: 2017, engines: [
-        e("1.0-tsi-95", ["manuelle", "DSG"], ["FWD"]),
-        e("1.0-tsi-115", ["manuelle", "DSG"], ["FWD"]),
-        e("1.5-tsi-150", ["DSG"], ["FWD"]),
-        e("2.0-tsi-200", ["DSG"], ["FWD"]),
-        e("1.6-tdi-95" as never, ["manuelle"], ["FWD"]),
-      ].filter((x) => x !== undefined) as never },
-    ],
-  },
-  {
-    id: "t-cross", name: "T-Cross", brand: "Volkswagen",
-    generations: [
-      { id: "g1", name: "T-Cross (2018-)", yearStart: 2018, engines: [
-        e("1.0-tsi-95", ["manuelle"], ["FWD"]),
-        e("1.0-tsi-110", ["manuelle", "DSG"], ["FWD"]),
-        e("1.5-tsi-150", ["DSG"], ["FWD"]),
-        e("1.6-tdi-95" as never, ["manuelle"], ["FWD"]),
-      ].filter((x) => x !== undefined) as never },
-    ],
-  },
-  {
-    id: "t-roc", name: "T-Roc", brand: "Volkswagen",
-    generations: [
-      { id: "g1", name: "T-Roc (2017-)", yearStart: 2017, engines: [
-        e("1.0-tsi-110", ["manuelle"], ["FWD"]),
-        e("1.5-tsi-150", ["manuelle", "DSG"], ["FWD"]),
-        e("2.0-tsi-190", ["DSG"], ["AWD"]),
-        e("2.0-tsi-300", ["DSG"], ["AWD"]),
-        e("1.6-tdi-115", ["manuelle"], ["FWD"]),
-        e("2.0-tdi-150", ["manuelle", "DSG"], ["FWD", "AWD"]),
-      ]},
-    ],
-  },
+  // ============== GOLF (Mk5 → Mk8) ==============
   {
     id: "golf", name: "Golf", brand: "Volkswagen",
     generations: [
@@ -72,6 +18,7 @@ export const VOLKSWAGEN_MODELS: Model[] = [
         e("1.4-tsi-122", ["manuelle", "DSG"], ["FWD"]),
         e("1.4-tsi-150", ["DSG"], ["FWD"]),
         e("2.0-tsi-200", ["manuelle", "DSG"], ["FWD"]),
+        e("2.0-tsi-265", ["manuelle", "DSG"], ["FWD"]),
         e("1.6-tdi-105", ["manuelle"], ["FWD"]),
         e("2.0-tdi-140", ["manuelle", "DSG"], ["FWD"]),
         e("2.0-tdi-170", ["manuelle", "DSG"], ["FWD"]),
@@ -116,52 +63,43 @@ export const VOLKSWAGEN_MODELS: Model[] = [
       ]},
     ],
   },
+
+  // ============== POLO (2010 → 2026) ==============
   {
-    id: "passat", name: "Passat", brand: "Volkswagen",
+    id: "polo", name: "Polo", brand: "Volkswagen",
     generations: [
-      { id: "b7", name: "Passat B7 (2010-2014)", yearStart: 2010, yearEnd: 2014, engines: [
-        e("1.4-tsi-122", ["manuelle", "DSG"], ["FWD"]),
-        e("1.8-tsi-160", ["manuelle", "DSG"], ["FWD"]),
+      { id: "mk5", name: "Polo V — 6R/6C (2009-2017)", yearStart: 2009, yearEnd: 2017, engines: [
+        e("1.0-mpi-65", ["manuelle"], ["FWD"]),
+        e("1.0-mpi-75", ["manuelle"], ["FWD"]),
+        e("1.2-tsi-86", ["manuelle", "DSG"], ["FWD"]),
+        e("1.2-tsi-105", ["manuelle", "DSG"], ["FWD"]),
+        e("1.4-tsi-150", ["DSG"], ["FWD"]),
+        e("1.8-tsi-180", ["manuelle", "DSG"], ["FWD"]),
+        e("1.6-tdi-90", ["manuelle"], ["FWD"]),
         e("1.6-tdi-105", ["manuelle"], ["FWD"]),
-        e("2.0-tdi-140", ["manuelle", "DSG"], ["FWD", "AWD"]),
-        e("2.0-tdi-170", ["manuelle", "DSG"], ["FWD", "AWD"]),
       ]},
-      { id: "b8", name: "Passat B8 (2014-2023)", yearStart: 2014, yearEnd: 2023, engines: [
-        e("1.4-tsi-125", ["manuelle", "DSG"], ["FWD"]),
-        e("1.4-tsi-150", ["manuelle", "DSG"], ["FWD"]),
-        e("1.5-tsi-150", ["manuelle", "DSG"], ["FWD"]),
-        e("1.8-tsi-180", ["DSG"], ["FWD"]),
-        e("2.0-tsi-220", ["DSG"], ["FWD"]),
-        e("2.0-tdi-150", ["manuelle", "DSG"], ["FWD", "AWD"]),
-        e("2.0-tdi-190", ["DSG"], ["FWD", "AWD"]),
-      ]},
-      { id: "b9", name: "Passat B9 (2023-)", yearStart: 2023, engines: [
-        e("1.5-etsi-150", ["DSG"], ["FWD"]),
-        e("1.5-tsi-phev-204", ["DSG"], ["FWD"]),
-        e("1.5-tsi-phev-272", ["DSG"], ["FWD"]),
-        e("2.0-tdi-150", ["DSG"], ["FWD", "AWD"]),
-        e("2.0-tdi-200", ["DSG"], ["AWD"]),
-      ]},
-    ],
-  },
-  {
-    id: "arteon", name: "Arteon", brand: "Volkswagen",
-    generations: [
-      { id: "g1", name: "Arteon (2017-2023)", yearStart: 2017, yearEnd: 2023, engines: [
+      { id: "mk6", name: "Polo VI — AW (2017-)", yearStart: 2017, engines: [
+        e("1.0-mpi-65", ["manuelle"], ["FWD"]),
+        e("1.0-mpi-75", ["manuelle"], ["FWD"]),
+        e("1.0-tsi-95", ["manuelle", "DSG"], ["FWD"]),
+        e("1.0-tsi-110", ["manuelle", "DSG"], ["FWD"]),
+        e("1.0-tsi-115", ["manuelle", "DSG"], ["FWD"]),
         e("1.5-tsi-150", ["DSG"], ["FWD"]),
-        e("2.0-tsi-190", ["DSG"], ["FWD"]),
-        e("2.0-tsi-280", ["DSG"], ["AWD"]),
-        e("2.0-tsi-320", ["DSG"], ["AWD"]),
-        e("2.0-tdi-150", ["DSG"], ["FWD", "AWD"]),
-        e("2.0-tdi-200", ["DSG"], ["AWD"]),
-      ]},
+        e("2.0-tsi-200", ["DSG"], ["FWD"]),
+        e("2.0-tsi-207" as never, ["DSG"], ["FWD"]) as never,
+        e("1.6-tdi-95", ["manuelle"], ["FWD"]),
+      ].filter(Boolean) as never },
     ],
   },
+
+  // ============== TIGUAN (toutes gen) ==============
   {
     id: "tiguan", name: "Tiguan", brand: "Volkswagen",
     generations: [
       { id: "mk1", name: "Tiguan I (2007-2016)", yearStart: 2007, yearEnd: 2016, engines: [
+        e("1.4-tsi-122", ["manuelle", "DSG"], ["FWD"]),
         e("1.4-tsi-150", ["manuelle", "DSG"], ["FWD", "AWD"]),
+        e("2.0-tsi-180", ["manuelle", "DSG"], ["AWD"]),
         e("2.0-tsi-200", ["DSG"], ["AWD"]),
         e("2.0-tdi-110", ["manuelle"], ["FWD"]),
         e("2.0-tdi-140", ["manuelle", "DSG"], ["AWD"]),
@@ -169,9 +107,11 @@ export const VOLKSWAGEN_MODELS: Model[] = [
         e("2.0-tdi-184", ["DSG"], ["AWD"]),
       ]},
       { id: "mk2", name: "Tiguan II (2016-2023)", yearStart: 2016, yearEnd: 2023, engines: [
+        e("1.4-tsi-125", ["manuelle", "DSG"], ["FWD"]),
         e("1.4-tsi-150", ["manuelle", "DSG"], ["FWD", "AWD"]),
         e("1.5-tsi-130", ["manuelle"], ["FWD"]),
         e("1.5-tsi-150", ["manuelle", "DSG"], ["FWD"]),
+        e("2.0-tsi-180", ["DSG"], ["AWD"]),
         e("2.0-tsi-190", ["DSG"], ["AWD"]),
         e("2.0-tsi-220", ["DSG"], ["AWD"]),
         e("2.0-tsi-245", ["DSG"], ["AWD"]),
@@ -192,63 +132,142 @@ export const VOLKSWAGEN_MODELS: Model[] = [
       ]},
     ],
   },
+
+  // ============== CADDY (2007 → 2026) ==============
+  {
+    id: "caddy", name: "Caddy", brand: "Volkswagen",
+    generations: [
+      { id: "mk3", name: "Caddy III — 2K (2003-2015)", yearStart: 2003, yearEnd: 2015, engines: [
+        e("1.2-tsi-86", ["manuelle"], ["FWD"]),
+        e("1.2-tsi-105", ["manuelle", "DSG"], ["FWD"]),
+        e("1.4-tsi-125", ["manuelle", "DSG"], ["FWD"]),
+        e("1.6-tdi-75" as never, ["manuelle"], ["FWD"]) as never,
+        e("1.6-tdi-90", ["manuelle"], ["FWD"]),
+        e("1.6-tdi-105", ["manuelle", "DSG"], ["FWD"]),
+        e("2.0-tdi-110", ["manuelle"], ["FWD"]),
+        e("2.0-tdi-140", ["manuelle", "DSG"], ["FWD", "AWD"]),
+        e("2.0-tdi-170", ["DSG"], ["AWD"]),
+      ].filter(Boolean) as never },
+      { id: "mk4", name: "Caddy IV — 2K facelift (2015-2020)", yearStart: 2015, yearEnd: 2020, engines: [
+        e("1.0-tsi-95", ["manuelle"], ["FWD"]),
+        e("1.4-tsi-125", ["manuelle", "DSG"], ["FWD"]),
+        e("2.0-tdi-75" as never, ["manuelle"], ["FWD"]) as never,
+        e("2.0-tdi-102" as never, ["manuelle"], ["FWD"]) as never,
+        e("2.0-tdi-110", ["manuelle"], ["FWD"]),
+        e("2.0-tdi-150", ["manuelle", "DSG"], ["FWD", "AWD"]),
+      ].filter(Boolean) as never },
+      { id: "mk5", name: "Caddy V — SB (2020-)", yearStart: 2020, engines: [
+        e("1.5-tsi-114" as never, ["manuelle", "DSG"], ["FWD"]) as never,
+        e("1.5-tsi-150", ["manuelle", "DSG"], ["FWD"]),
+        e("2.0-tdi-75" as never, ["manuelle"], ["FWD"]) as never,
+        e("2.0-tdi-102" as never, ["manuelle"], ["FWD"]) as never,
+        e("2.0-tdi-122" as never, ["manuelle", "DSG"], ["FWD"]) as never,
+        e("2.0-tdi-150", ["manuelle", "DSG"], ["FWD", "AWD"]),
+      ].filter(Boolean) as never },
+    ],
+  },
+
+  // ============== T-ROC ==============
+  {
+    id: "t-roc", name: "T-Roc", brand: "Volkswagen",
+    generations: [
+      { id: "g1", name: "T-Roc (2017-2023)", yearStart: 2017, yearEnd: 2023, engines: [
+        e("1.0-tsi-110", ["manuelle"], ["FWD"]),
+        e("1.5-tsi-150", ["manuelle", "DSG"], ["FWD"]),
+        e("2.0-tsi-190", ["DSG"], ["AWD"]),
+        e("2.0-tsi-300", ["DSG"], ["AWD"]),
+        e("1.6-tdi-115", ["manuelle"], ["FWD"]),
+        e("2.0-tdi-150", ["manuelle", "DSG"], ["FWD", "AWD"]),
+      ]},
+      { id: "g1fl", name: "T-Roc facelift (2022-)", yearStart: 2022, engines: [
+        e("1.0-tsi-110", ["manuelle"], ["FWD"]),
+        e("1.5-tsi-150", ["manuelle", "DSG"], ["FWD"]),
+        e("2.0-tsi-190", ["DSG"], ["AWD"]),
+        e("2.0-tsi-300", ["DSG"], ["AWD"]),
+        e("2.0-tdi-115", ["manuelle"], ["FWD"]),
+        e("2.0-tdi-150", ["DSG"], ["FWD", "AWD"]),
+      ]},
+    ],
+  },
+
+  // ============== T-CROSS ==============
+  {
+    id: "t-cross", name: "T-Cross", brand: "Volkswagen",
+    generations: [
+      { id: "g1", name: "T-Cross (2018-)", yearStart: 2018, engines: [
+        e("1.0-tsi-95", ["manuelle"], ["FWD"]),
+        e("1.0-tsi-110", ["manuelle", "DSG"], ["FWD"]),
+        e("1.5-tsi-150", ["DSG"], ["FWD"]),
+        e("1.6-tdi-95", ["manuelle"], ["FWD"]),
+      ]},
+    ],
+  },
+
+  // ============== PASSAT (2008 → 2026) ==============
+  {
+    id: "passat", name: "Passat", brand: "Volkswagen",
+    generations: [
+      { id: "b6", name: "Passat B6 (2005-2010)", yearStart: 2005, yearEnd: 2010, engines: [
+        e("1.4-tsi-122", ["manuelle", "DSG"], ["FWD"]),
+        e("1.8-tsi-160", ["manuelle", "DSG"], ["FWD"]),
+        e("2.0-tsi-200", ["manuelle", "DSG"], ["FWD"]),
+        e("1.6-tdi-105", ["manuelle"], ["FWD"]),
+        e("2.0-tdi-140", ["manuelle", "DSG"], ["FWD", "AWD"]),
+        e("2.0-tdi-170", ["manuelle", "DSG"], ["FWD", "AWD"]),
+      ]},
+      { id: "b7", name: "Passat B7 (2010-2014)", yearStart: 2010, yearEnd: 2014, engines: [
+        e("1.4-tsi-122", ["manuelle", "DSG"], ["FWD"]),
+        e("1.8-tsi-160", ["manuelle", "DSG"], ["FWD"]),
+        e("2.0-tsi-210" as never, ["DSG"], ["FWD"]) as never,
+        e("1.6-tdi-105", ["manuelle"], ["FWD"]),
+        e("2.0-tdi-140", ["manuelle", "DSG"], ["FWD", "AWD"]),
+        e("2.0-tdi-170", ["manuelle", "DSG"], ["FWD", "AWD"]),
+      ].filter(Boolean) as never },
+      { id: "b8", name: "Passat B8 (2014-2023)", yearStart: 2014, yearEnd: 2023, engines: [
+        e("1.4-tsi-125", ["manuelle", "DSG"], ["FWD"]),
+        e("1.4-tsi-150", ["manuelle", "DSG"], ["FWD"]),
+        e("1.5-tsi-150", ["manuelle", "DSG"], ["FWD"]),
+        e("1.8-tsi-180", ["DSG"], ["FWD"]),
+        e("2.0-tsi-220", ["DSG"], ["FWD"]),
+        e("2.0-tsi-272" as never, ["DSG"], ["AWD"]) as never,
+        e("1.4-tsi-phev-218", ["DSG"], ["FWD"]),
+        e("2.0-tdi-150", ["manuelle", "DSG"], ["FWD", "AWD"]),
+        e("2.0-tdi-190", ["DSG"], ["FWD", "AWD"]),
+        e("2.0-tdi-240" as never, ["DSG"], ["AWD"]) as never,
+      ].filter(Boolean) as never },
+      { id: "b9", name: "Passat B9 (2023-)", yearStart: 2023, engines: [
+        e("1.5-etsi-150", ["DSG"], ["FWD"]),
+        e("1.5-tsi-phev-204", ["DSG"], ["FWD"]),
+        e("1.5-tsi-phev-272", ["DSG"], ["FWD"]),
+        e("2.0-tdi-150", ["DSG"], ["FWD", "AWD"]),
+        e("2.0-tdi-200", ["DSG"], ["AWD"]),
+      ]},
+    ],
+  },
+
+  // ============== TOUAREG ==============
   {
     id: "touareg", name: "Touareg", brand: "Volkswagen",
     generations: [
-      { id: "g3", name: "Touareg III / CR (2018-)", yearStart: 2018, engines: [
+      { id: "g1", name: "Touareg I — 7L (2002-2010)", yearStart: 2002, yearEnd: 2010, engines: [
+        e("3.0-tdi-204", ["Tiptronic"], ["AWD"]),
+        e("3.0-tfsi-272", ["Tiptronic"], ["AWD"]),
+        e("4.0-tfsi-450" as never, ["Tiptronic"], ["AWD"]) as never,
+      ].filter(Boolean) as never },
+      { id: "g2", name: "Touareg II — 7P (2010-2018)", yearStart: 2010, yearEnd: 2018, engines: [
+        e("3.0-tdi-204", ["Tiptronic"], ["AWD"]),
+        e("3.0-tdi-231", ["Tiptronic"], ["AWD"]),
+        e("3.0-tdi-272", ["Tiptronic"], ["AWD"]),
+        e("3.0-tfsi-333", ["Tiptronic"], ["AWD"]),
+      ]},
+      { id: "g3", name: "Touareg III — CR (2018-)", yearStart: 2018, engines: [
         e("3.0-tdi-231", ["Tiptronic"], ["AWD"]),
         e("3.0-tdi-286", ["Tiptronic"], ["AWD"]),
         e("3.0-tfsi-340", ["Tiptronic"], ["AWD"]),
-      ]},
-    ],
-  },
-  {
-    id: "id3", name: "ID.3", brand: "Volkswagen",
-    generations: [
-      { id: "g1", name: "ID.3 (2019-)", yearStart: 2019, engines: [
-        e("ev-id3-150", ["auto"], ["RWD"]),
-        e("ev-id3-204", ["auto"], ["RWD"]),
-        e("ev-id3-231", ["auto"], ["RWD"]),
-      ]},
-    ],
-  },
-  {
-    id: "id4", name: "ID.4", brand: "Volkswagen",
-    generations: [
-      { id: "g1", name: "ID.4 (2020-)", yearStart: 2020, engines: [
-        e("ev-id4-174", ["auto"], ["RWD"]),
-        e("ev-id4-204", ["auto"], ["RWD"]),
-        e("ev-id4-286", ["auto"], ["RWD"]),
-        e("ev-id4-gtx", ["auto"], ["AWD"]),
-      ]},
-    ],
-  },
-  {
-    id: "id5", name: "ID.5", brand: "Volkswagen",
-    generations: [
-      { id: "g1", name: "ID.5 (2021-)", yearStart: 2021, engines: [
-        e("ev-id4-174", ["auto"], ["RWD"]),
-        e("ev-id4-204", ["auto"], ["RWD"]),
-        e("ev-id4-286", ["auto"], ["RWD"]),
-        e("ev-id4-gtx", ["auto"], ["AWD"]),
-      ]},
-    ],
-  },
-  {
-    id: "id7", name: "ID.7", brand: "Volkswagen",
-    generations: [
-      { id: "g1", name: "ID.7 (2023-)", yearStart: 2023, engines: [
-        e("ev-id4-286", ["auto"], ["RWD"]),
-      ]},
-    ],
-  },
-  {
-    id: "id-buzz", name: "ID. Buzz", brand: "Volkswagen",
-    generations: [
-      { id: "g1", name: "ID. Buzz (2022-)", yearStart: 2022, engines: [
-        e("ev-id4-204", ["auto"], ["RWD"]),
-        e("ev-id4-286", ["auto"], ["RWD"]),
-      ]},
+        e("3.0-tfsi-381" as never, ["Tiptronic"], ["AWD"]) as never,
+        e("3.0-tfsi-462" as never, ["Tiptronic"], ["AWD"]) as never,
+        e("4.0-tdi-421" as never, ["Tiptronic"], ["AWD"]) as never,
+      ].filter(Boolean) as never },
     ],
   },
 ];
