@@ -14,18 +14,24 @@ const E = (
   power: number,
   fuel: FuelType,
   extras: Partial<Blueprint> = {},
-): Blueprint => ({
-  id,
-  name,
-  displacement,
-  power,
-  fuel,
-  turbo: fuel !== "electrique",
-  hasDPF: fuel === "diesel",
-  hasGPF: fuel === "essence" && (extras.code?.includes("evo") || (extras.code?.includes("EA888") ?? false)),
-  hasHPFP: fuel === "essence" || fuel === "diesel",
-  ...extras,
-});
+): Blueprint => {
+  const code = extras.code ?? "";
+  // EA888 (toutes générations) = chaîne de distribution
+  const isEA888 = code.includes("EA888");
+  return {
+    id,
+    name,
+    displacement,
+    power,
+    fuel,
+    turbo: fuel !== "electrique",
+    hasDPF: fuel === "diesel",
+    hasGPF: fuel === "essence" && (code.includes("evo") || isEA888),
+    hasHPFP: fuel === "essence" || fuel === "diesel",
+    hasTimingChain: isEA888,
+    ...extras,
+  };
+};
 
 export const ENGINE_BLUEPRINTS: Record<string, Blueprint> = {
   // --- ESSENCE 3-cyl EA211 ---
