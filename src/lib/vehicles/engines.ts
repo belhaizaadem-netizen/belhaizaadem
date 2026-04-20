@@ -88,7 +88,6 @@ export const ENGINE_BLUEPRINTS: Record<string, Blueprint> = {
   "4.0-tfsi-600": E("4.0-tfsi-600", "4.0 TFSI 600 (RS)", 4.0, 600, "essence", { code: "EA824" }),
 
   // --- DIESEL EA189 / EA288 / EA288 evo ---
-  "1.6-tdi-90":   E("1.6-tdi-90",   "1.6 TDI 90",   1.6, 90,  "diesel", { code: "EA189" }),
   "1.6-tdi-75":   E("1.6-tdi-75",   "1.6 TDI 75",   1.6, 75,  "diesel", { code: "EA189" }),
   "1.6-tdi-90":   E("1.6-tdi-90",   "1.6 TDI 90",   1.6, 90,  "diesel", { code: "EA189" }),
   "1.6-tdi-95":   E("1.6-tdi-95",   "1.6 TDI 95",   1.6, 95,  "diesel", { code: "EA288" }),
