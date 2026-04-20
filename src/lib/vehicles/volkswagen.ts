@@ -73,6 +73,7 @@ export const VOLKSWAGEN_MODELS: Model[] = [
       { id: "mk5", name: "Polo V — 6R/6C (2009-2017)", yearStart: 2009, yearEnd: 2017, engines: [
         e("1.0-mpi-65", ["manuelle"], ["FWD"]),
         e("1.0-mpi-75", ["manuelle"], ["FWD"]),
+        e("1.4-16v-86", ["manuelle"], ["FWD"]),
         e("1.2-tsi-86", ["manuelle", "DSG"], ["FWD"]),
         e("1.2-tsi-105", ["manuelle", "DSG"], ["FWD"]),
         e("1.4-tsi-150", ["DSG"], ["FWD"]),
