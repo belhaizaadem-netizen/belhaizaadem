@@ -156,13 +156,12 @@ export const VOLKSWAGEN_MODELS: Model[] = [
         e("2.0-tdi-150", ["manuelle", "DSG"], ["FWD", "AWD"]),
       ]},
       { id: "mk5", name: "Caddy V — SB (2020-)", yearStart: 2020, engines: [
-        e("1.5-tsi-115" as never, ["manuelle", "DSG"], ["FWD"]) as never,
         e("1.5-tsi-150", ["manuelle", "DSG"], ["FWD"]),
         e("2.0-tdi-75", ["manuelle"], ["FWD"]),
         e("2.0-tdi-102", ["manuelle"], ["FWD"]),
         e("2.0-tdi-122", ["manuelle", "DSG"], ["FWD"]),
         e("2.0-tdi-150", ["manuelle", "DSG"], ["FWD", "AWD"]),
-      ].filter(Boolean) as never },
+      ]},
     ],
   },
 
