@@ -145,6 +145,9 @@ export function applicableItems(
     if (item.requiresHaldex && !engine.hasHaldex) return false;
     if (item.requiresDPF && !engine.hasDPF) return false;
     if (item.requiresHPFP && !engine.hasHPFP) return false;
+    if (item.requiresTurbo && !engine.turbo) return false;
+    if (item.requiresTimingBelt && engine.hasTimingChain) return false;
+    if (item.requiresTimingChain && !engine.hasTimingChain) return false;
     if (item.requiresDSG) {
       const t = transmission ?? "";
       if (!["DSG", "S-tronic", "PDK", "Tiptronic"].includes(t)) return false;
