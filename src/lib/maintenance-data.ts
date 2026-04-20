@@ -26,6 +26,9 @@ export interface MaintenanceItem {
   requiresHPFP?: boolean;                // pompe injection HP
   requiresDSG?: boolean;                 // boîte DSG/S-tronic
   requiresManual?: boolean;              // boîte manuelle
+  requiresTurbo?: boolean;               // visible uniquement si moteur turbo
+  requiresTimingBelt?: boolean;          // visible uniquement si distribution par courroie (pas chaîne)
+  requiresTimingChain?: boolean;         // visible uniquement si distribution par chaîne
   // Modificateurs d'intervalle par carburant (multiplicateur)
   intervalByFuel?: Partial<Record<FuelType, number>>;
 }
