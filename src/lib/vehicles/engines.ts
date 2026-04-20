@@ -42,6 +42,10 @@ export const ENGINE_BLUEPRINTS: Record<string, Blueprint> = {
   "1.0-tsi-110":  E("1.0-tsi-110",  "1.0 TSI 110",  1.0, 110, "essence", { code: "EA211 evo" }),
   "1.0-tsi-115":  E("1.0-tsi-115",  "1.0 TSI 115",  1.0, 115, "essence", { code: "EA211 evo" }),
 
+  // --- ESSENCE 4-cyl atmosphérique (EA111 16V) ---
+  "1.4-16v-80":   E("1.4-16v-80",   "1.4 16V 80 (atmo)",  1.4, 80,  "essence", { turbo: false, hasHPFP: false, code: "EA111" }),
+  "1.4-16v-86":   E("1.4-16v-86",   "1.4 16V 86 (atmo)",  1.4, 86,  "essence", { turbo: false, hasHPFP: false, code: "EA111" }),
+
   // --- ESSENCE 4-cyl EA211 / EA111 ---
   "1.2-tsi-86":   E("1.2-tsi-86",   "1.2 TSI 86",   1.2, 86,  "essence", { code: "EA211" }),
   "1.2-tsi-105":  E("1.2-tsi-105",  "1.2 TSI 105",  1.2, 105, "essence", { code: "EA211" }),

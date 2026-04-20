@@ -7,6 +7,7 @@ export const VOLKSWAGEN_MODELS: Model[] = [
     id: "golf", name: "Golf", brand: "Volkswagen",
     generations: [
       { id: "mk5", name: "Golf V (2003-2008)", yearStart: 2003, yearEnd: 2008, engines: [
+        e("1.4-16v-80", ["manuelle"], ["FWD"]),
         e("1.4-tsi-122", ["manuelle", "DSG"], ["FWD"]),
         e("2.0-tsi-200", ["manuelle", "DSG"], ["FWD"]),
         e("1.6-tdi-105", ["manuelle"], ["FWD"]),
@@ -14,6 +15,7 @@ export const VOLKSWAGEN_MODELS: Model[] = [
         e("2.0-tdi-170", ["manuelle", "DSG"], ["FWD"]),
       ]},
       { id: "mk6", name: "Golf VI (2008-2012)", yearStart: 2008, yearEnd: 2012, engines: [
+        e("1.4-16v-80", ["manuelle"], ["FWD"]),
         e("1.2-tsi-105", ["manuelle", "DSG"], ["FWD"]),
         e("1.4-tsi-122", ["manuelle", "DSG"], ["FWD"]),
         e("1.4-tsi-150", ["DSG"], ["FWD"]),
@@ -71,6 +73,7 @@ export const VOLKSWAGEN_MODELS: Model[] = [
       { id: "mk5", name: "Polo V — 6R/6C (2009-2017)", yearStart: 2009, yearEnd: 2017, engines: [
         e("1.0-mpi-65", ["manuelle"], ["FWD"]),
         e("1.0-mpi-75", ["manuelle"], ["FWD"]),
+        e("1.4-16v-86", ["manuelle"], ["FWD"]),
         e("1.2-tsi-86", ["manuelle", "DSG"], ["FWD"]),
         e("1.2-tsi-105", ["manuelle", "DSG"], ["FWD"]),
         e("1.4-tsi-150", ["DSG"], ["FWD"]),
