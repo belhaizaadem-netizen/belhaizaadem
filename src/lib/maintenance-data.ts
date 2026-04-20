@@ -26,6 +26,9 @@ export interface MaintenanceItem {
   requiresHPFP?: boolean;                // pompe injection HP
   requiresDSG?: boolean;                 // boîte DSG/S-tronic
   requiresManual?: boolean;              // boîte manuelle
+  requiresTurbo?: boolean;               // visible uniquement si moteur turbo
+  requiresTimingBelt?: boolean;          // visible uniquement si distribution par courroie (pas chaîne)
+  requiresTimingChain?: boolean;         // visible uniquement si distribution par chaîne
   // Modificateurs d'intervalle par carburant (multiplicateur)
   intervalByFuel?: Partial<Record<FuelType, number>>;
 }
@@ -43,17 +46,19 @@ export const MAINTENANCE_ITEMS: MaintenanceItem[] = [
   { id: "courroie-accessoires", name: "Courroie accessoires poly-V + galets", category: "Moteur", intervalKm: 60000,
     fuels: ["essence", "diesel", "hybride", "phev", "gnv"] },
   { id: "courroie-dist", name: "Courroie distribution + pompe à eau", category: "Moteur", intervalKm: 120000,
-    fuels: ["essence", "diesel", "hybride", "phev", "gnv"] },
+    fuels: ["essence", "diesel", "hybride", "phev", "gnv"], requiresTimingBelt: true },
+  { id: "chaine-dist", name: "Contrôle chaîne de distribution", category: "Moteur", intervalKm: 90000,
+    fuels: ["essence", "diesel", "hybride", "phev", "gnv"], requiresTimingChain: true },
   { id: "durites-turbo", name: "Contrôle durites turbo + colliers", category: "Moteur", intervalKm: 30000,
-    fuels: ["essence", "diesel", "hybride", "phev"] },
+    fuels: ["essence", "diesel", "hybride", "phev"], requiresTurbo: true },
   { id: "capteur-map", name: "Contrôle capteur pression turbo (MAP)", category: "Moteur", intervalKm: 30000,
-    fuels: ["essence", "diesel", "hybride", "phev"] },
+    fuels: ["essence", "diesel", "hybride", "phev"], requiresTurbo: true },
   { id: "egr-vnt", name: "Nettoyage EGR + contrôle actionneur VNT", category: "Moteur", intervalKm: 60000,
-    fuels: ["diesel"] },
+    fuels: ["diesel"], requiresTurbo: true },
   { id: "wastegate", name: "Contrôle soupape de décharge (wastegate)", category: "Moteur", intervalKm: 60000,
-    fuels: ["essence", "hybride", "phev"] },
+    fuels: ["essence", "hybride", "phev"], requiresTurbo: true },
   { id: "inspection-turbo", name: "Inspection jeu axial/radial axe turbo", category: "Moteur", intervalKm: 90000,
-    fuels: ["essence", "diesel", "hybride", "phev"] },
+    fuels: ["essence", "diesel", "hybride", "phev"], requiresTurbo: true },
 
   // TRANSMISSION
   { id: "huile-bv-manuelle", name: "Huile boîte manuelle", category: "Transmission", intervalKm: 60000,
@@ -140,6 +145,9 @@ export function applicableItems(
     if (item.requiresHaldex && !engine.hasHaldex) return false;
     if (item.requiresDPF && !engine.hasDPF) return false;
     if (item.requiresHPFP && !engine.hasHPFP) return false;
+    if (item.requiresTurbo && !engine.turbo) return false;
+    if (item.requiresTimingBelt && engine.hasTimingChain) return false;
+    if (item.requiresTimingChain && !engine.hasTimingChain) return false;
     if (item.requiresDSG) {
       const t = transmission ?? "";
       if (!["DSG", "S-tronic", "PDK", "Tiptronic"].includes(t)) return false;

@@ -14,18 +14,24 @@ const E = (
   power: number,
   fuel: FuelType,
   extras: Partial<Blueprint> = {},
-): Blueprint => ({
-  id,
-  name,
-  displacement,
-  power,
-  fuel,
-  turbo: fuel !== "electrique",
-  hasDPF: fuel === "diesel",
-  hasGPF: fuel === "essence" && (extras.code?.includes("evo") || (extras.code?.includes("EA888") ?? false)),
-  hasHPFP: fuel === "essence" || fuel === "diesel",
-  ...extras,
-});
+): Blueprint => {
+  const code = extras.code ?? "";
+  // EA888 (toutes générations) = chaîne de distribution
+  const isEA888 = code.includes("EA888");
+  return {
+    id,
+    name,
+    displacement,
+    power,
+    fuel,
+    turbo: fuel !== "electrique",
+    hasDPF: fuel === "diesel",
+    hasGPF: fuel === "essence" && (code.includes("evo") || isEA888),
+    hasHPFP: fuel === "essence" || fuel === "diesel",
+    hasTimingChain: isEA888,
+    ...extras,
+  };
+};
 
 export const ENGINE_BLUEPRINTS: Record<string, Blueprint> = {
   // --- ESSENCE 3-cyl EA211 ---
@@ -82,20 +88,25 @@ export const ENGINE_BLUEPRINTS: Record<string, Blueprint> = {
   "4.0-tfsi-600": E("4.0-tfsi-600", "4.0 TFSI 600 (RS)", 4.0, 600, "essence", { code: "EA824" }),
 
   // --- DIESEL EA189 / EA288 / EA288 evo ---
+  "1.6-tdi-75":   E("1.6-tdi-75",   "1.6 TDI 75",   1.6, 75,  "diesel", { code: "EA189" }),
   "1.6-tdi-90":   E("1.6-tdi-90",   "1.6 TDI 90",   1.6, 90,  "diesel", { code: "EA189" }),
   "1.6-tdi-95":   E("1.6-tdi-95",   "1.6 TDI 95",   1.6, 95,  "diesel", { code: "EA288" }),
   "1.6-tdi-105":  E("1.6-tdi-105",  "1.6 TDI 105",  1.6, 105, "diesel", { code: "EA189" }),
   "1.6-tdi-110":  E("1.6-tdi-110",  "1.6 TDI 110",  1.6, 110, "diesel", { code: "EA288" }),
   "1.6-tdi-115":  E("1.6-tdi-115",  "1.6 TDI 115",  1.6, 115, "diesel", { code: "EA288" }),
   "1.6-tdi-120":  E("1.6-tdi-120",  "1.6 TDI 120",  1.6, 120, "diesel", { code: "EA288" }),
+  "2.0-tdi-75":   E("2.0-tdi-75",   "2.0 TDI 75",   2.0, 75,  "diesel", { code: "EA288" }),
+  "2.0-tdi-102":  E("2.0-tdi-102",  "2.0 TDI 102",  2.0, 102, "diesel", { code: "EA288" }),
   "2.0-tdi-110":  E("2.0-tdi-110",  "2.0 TDI 110",  2.0, 110, "diesel", { code: "EA288" }),
   "2.0-tdi-115":  E("2.0-tdi-115",  "2.0 TDI 115",  2.0, 115, "diesel", { code: "EA288 evo" }),
+  "2.0-tdi-122":  E("2.0-tdi-122",  "2.0 TDI 122",  2.0, 122, "diesel", { code: "EA288 evo" }),
   "2.0-tdi-140":  E("2.0-tdi-140",  "2.0 TDI 140",  2.0, 140, "diesel", { code: "EA189" }),
   "2.0-tdi-150":  E("2.0-tdi-150",  "2.0 TDI 150",  2.0, 150, "diesel", { code: "EA288" }),
   "2.0-tdi-170":  E("2.0-tdi-170",  "2.0 TDI 170",  2.0, 170, "diesel", { code: "EA189" }),
   "2.0-tdi-184":  E("2.0-tdi-184",  "2.0 TDI 184",  2.0, 184, "diesel", { code: "EA288" }),
   "2.0-tdi-190":  E("2.0-tdi-190",  "2.0 TDI 190",  2.0, 190, "diesel", { code: "EA288 evo" }),
   "2.0-tdi-200":  E("2.0-tdi-200",  "2.0 TDI 200",  2.0, 200, "diesel", { code: "EA288 evo" }),
+  "2.0-tdi-240":  E("2.0-tdi-240",  "2.0 BiTDI 240",2.0, 240, "diesel", { code: "EA288 BiTDI" }),
 
   // --- DIESEL V6 ---
   "3.0-tdi-204":  E("3.0-tdi-204",  "3.0 TDI 204",  3.0, 204, "diesel", { code: "EA897" }),
