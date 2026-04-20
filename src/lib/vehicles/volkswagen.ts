@@ -15,6 +15,7 @@ export const VOLKSWAGEN_MODELS: Model[] = [
         e("2.0-tdi-170", ["manuelle", "DSG"], ["FWD"]),
       ]},
       { id: "mk6", name: "Golf VI (2008-2012)", yearStart: 2008, yearEnd: 2012, engines: [
+        e("1.4-16v-80", ["manuelle"], ["FWD"]),
         e("1.2-tsi-105", ["manuelle", "DSG"], ["FWD"]),
         e("1.4-tsi-122", ["manuelle", "DSG"], ["FWD"]),
         e("1.4-tsi-150", ["DSG"], ["FWD"]),
