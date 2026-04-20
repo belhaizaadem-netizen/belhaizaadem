@@ -7,6 +7,7 @@ export const VOLKSWAGEN_MODELS: Model[] = [
     id: "golf", name: "Golf", brand: "Volkswagen",
     generations: [
       { id: "mk5", name: "Golf V (2003-2008)", yearStart: 2003, yearEnd: 2008, engines: [
+        e("1.4-16v-80", ["manuelle"], ["FWD"]),
         e("1.4-tsi-122", ["manuelle", "DSG"], ["FWD"]),
         e("2.0-tsi-200", ["manuelle", "DSG"], ["FWD"]),
         e("1.6-tdi-105", ["manuelle"], ["FWD"]),
