@@ -15,6 +15,7 @@ export interface Engine {
   hasDPF?: boolean;      // FAP diesel
   hasGPF?: boolean;      // filtre particules essence
   hasHPFP?: boolean;     // injection directe haute pression
+  hasTimingChain?: boolean; // distribution par chaîne (pas de courroie de distribution)
   transmissions: Transmission[];
   drivetrains: Drivetrain[];
   hasHaldex?: boolean;   // si AWD basé Haldex
