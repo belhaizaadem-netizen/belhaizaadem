@@ -232,8 +232,8 @@ export function VehicleDashboard({
           max={speedMax}
           ticks={14}
           label="km/h"
-          centerText={formattedKm}
-          unit="km"
+          centerText={speedCenterText}
+          unit={speedUnit}
         />
       </div>
 
