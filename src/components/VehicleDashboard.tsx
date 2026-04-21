@@ -139,9 +139,21 @@ export function VehicleDashboard({
       ? Math.round(liveSpeedKmh).toString()
       : formattedKm;
   const speedUnit = liveSpeedKmh != null && liveSpeedKmh > 0 ? "km/h" : "km";
-  // RPM dial — engine off, needle resting at 0
-  const rpmMax = 8;
-  const rpmValue = 0;
+  // Cardinal heading helper
+  const cardinal = (deg: number | null | undefined) => {
+    if (deg == null || isNaN(deg)) return null;
+    const dirs = ["N", "NE", "E", "SE", "S", "SO", "O", "NO"];
+    return dirs[Math.round(((deg % 360) + 360) % 360 / 45) % 8];
+  };
+  const formatCoord = (n: number | null | undefined, posChar: string, negChar: string) => {
+    if (n == null || isNaN(n)) return "—";
+    const abs = Math.abs(n);
+    const deg = Math.floor(abs);
+    const minFloat = (abs - deg) * 60;
+    const min = Math.floor(minFloat);
+    const sec = ((minFloat - min) * 60).toFixed(1);
+    return `${deg}°${min.toString().padStart(2, "0")}'${sec}" ${n >= 0 ? posChar : negChar}`;
+  };
 
   return (
     <div className="relative overflow-hidden rounded-3xl border border-border bg-gradient-to-b from-[#0a0e14] via-[#0d1118] to-[#080b10] shadow-card">
@@ -180,15 +192,11 @@ export function VehicleDashboard({
 
       {/* Twin gauges cluster */}
       <div className="relative grid grid-cols-[1fr_1.4fr_1fr] items-center gap-1 px-2 pb-3 pt-2">
-        {/* LEFT — RPM dial (engine off, needle at 0) */}
-        <NeedleDial
-          value={rpmValue}
-          max={rpmMax}
-          ticks={9}
-          redlineFrom={6}
-          label="x1000 RPM"
-          centerText="0"
-          unit="rpm"
+        {/* LEFT — GPS position panel (replaces RPM dial) */}
+        <GpsPositionPanel
+          position={livePosition}
+          formatCoord={formatCoord}
+          cardinal={cardinal}
         />
 
         {/* CENTER — Odometer */}
