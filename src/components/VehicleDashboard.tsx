@@ -521,6 +521,95 @@ function NeedleDial({
     </div>
   );
 }
+
+function GpsPositionPanel({
+  position,
+  formatCoord,
+  cardinal,
+}: {
+  position?: {
+    latitude: number | null;
+    longitude: number | null;
+    accuracy: number | null;
+    heading: number | null;
+    enabled: boolean;
+  };
+  formatCoord: (n: number | null | undefined, posChar: string, negChar: string) => string;
+  cardinal: (deg: number | null | undefined) => string | null;
+}) {
+  const enabled = position?.enabled ?? false;
+  const hasFix = enabled && position?.latitude != null && position?.longitude != null;
+  const dir = cardinal(position?.heading);
+
+  return (
+    <div className="relative flex flex-col items-center justify-center px-1">
+      <div
+        className={cn(
+          "flex h-[110px] w-full flex-col items-center justify-center gap-1 rounded-2xl border px-2 py-2 text-center",
+          hasFix
+            ? "border-primary/40 bg-primary/5"
+            : "border-white/10 bg-black/30",
+        )}
+        title={hasFix ? "Position GPS actuelle" : "GPS désactivé ou en attente d'un fix"}
+      >
+        <div className="flex items-center gap-1">
+          <MapPin
+            className={cn(
+              "h-3 w-3 transition-colors",
+              hasFix ? "text-primary" : "text-white/30",
+            )}
+            strokeWidth={2.6}
+          />
+          <span
+            className={cn(
+              "text-[8px] font-bold uppercase tracking-widest",
+              hasFix ? "text-primary" : "text-white/40",
+            )}
+          >
+            Position
+          </span>
+        </div>
+
+        {hasFix ? (
+          <>
+            <div className="flex flex-col gap-0 leading-tight">
+              <span className="text-[9px] font-bold tabular-nums text-white/90">
+                {formatCoord(position!.latitude, "N", "S")}
+              </span>
+              <span className="text-[9px] font-bold tabular-nums text-white/90">
+                {formatCoord(position!.longitude, "E", "O")}
+              </span>
+            </div>
+            <div className="flex items-center gap-1">
+              {dir && (
+                <span className="rounded-full border border-white/15 bg-white/5 px-1.5 py-0.5 text-[8px] font-bold text-white/80">
+                  {dir}
+                </span>
+              )}
+              {position!.accuracy != null && (
+                <span className="text-[8px] font-semibold tabular-nums text-white/50">
+                  ±{position!.accuracy.toFixed(0)} m
+                </span>
+              )}
+            </div>
+          </>
+        ) : (
+          <>
+            <span className="text-[10px] font-bold text-white/60">
+              {enabled ? "Recherche…" : "GPS off"}
+            </span>
+            <span className="text-[8px] text-white/40">
+              {enabled ? "En attente du signal" : "Activez le suivi GPS"}
+            </span>
+          </>
+        )}
+      </div>
+      <span className="-mt-0.5 text-[8px] font-bold uppercase tracking-widest text-white/50">
+        Position GPS
+      </span>
+    </div>
+  );
+}
 function SpecChip({
   icon: Icon,
   label,
