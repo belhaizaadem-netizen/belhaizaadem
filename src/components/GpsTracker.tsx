@@ -8,9 +8,16 @@ const ENABLED_KEY = "vag-gps-enabled-v1";
 interface Props {
   onDistanceDelta: (km: number) => void;
   onLiveSpeed?: (kmh: number) => void;
+  onLivePosition?: (pos: {
+    latitude: number | null;
+    longitude: number | null;
+    accuracy: number | null;
+    heading: number | null;
+    enabled: boolean;
+  }) => void;
 }
 
-export function GpsTracker({ onDistanceDelta, onLiveSpeed }: Props) {
+export function GpsTracker({ onDistanceDelta, onLiveSpeed, onLivePosition }: Props) {
   const [enabled, setEnabled] = useState<boolean>(() => {
     if (typeof window === "undefined") return false;
     return localStorage.getItem(ENABLED_KEY) === "1";
@@ -26,6 +33,16 @@ export function GpsTracker({ onDistanceDelta, onLiveSpeed }: Props) {
   useEffect(() => {
     onLiveSpeed?.(enabled ? gps.speedKmh : 0);
   }, [gps.speedKmh, enabled, onLiveSpeed]);
+
+  useEffect(() => {
+    onLivePosition?.({
+      latitude: enabled ? gps.latitude : null,
+      longitude: enabled ? gps.longitude : null,
+      accuracy: enabled ? gps.accuracy : null,
+      heading: enabled ? gps.heading : null,
+      enabled,
+    });
+  }, [enabled, gps.latitude, gps.longitude, gps.accuracy, gps.heading, onLivePosition]);
 
   return (
     <div className="gradient-card shadow-card overflow-hidden rounded-2xl border border-border">

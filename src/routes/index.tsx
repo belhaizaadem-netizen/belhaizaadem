@@ -74,6 +74,13 @@ function Index() {
   } = useAppState();
 
   const [liveSpeedKmh, setLiveSpeedKmh] = useState(0);
+  const [livePosition, setLivePosition] = useState<{
+    latitude: number | null;
+    longitude: number | null;
+    accuracy: number | null;
+    heading: number | null;
+    enabled: boolean;
+  }>({ latitude: null, longitude: null, accuracy: null, heading: null, enabled: false });
   const handleGpsDistance = useCallback((delta: number) => addKm(delta), [addKm]);
 
   const [categoryFilter, setCategoryFilter] = useState<Category | "all">("all");
@@ -188,6 +195,7 @@ function Index() {
             lastDone={state.lastDone}
             onKmChange={setCurrentKm}
             liveSpeedKmh={liveSpeedKmh}
+            livePosition={livePosition}
           />
         </div>
 
@@ -196,6 +204,7 @@ function Index() {
           <GpsTracker
             onDistanceDelta={handleGpsDistance}
             onLiveSpeed={setLiveSpeedKmh}
+            onLivePosition={setLivePosition}
           />
         </div>
 

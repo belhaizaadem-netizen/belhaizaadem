@@ -16,6 +16,9 @@ export interface GpsState {
   sessionKm: number; // km parcourus depuis le démarrage
   totalKm: number; // total cumulé persistant
   accuracy: number | null;
+  latitude: number | null;
+  longitude: number | null;
+  heading: number | null;
   error: string | null;
 }
 
@@ -64,6 +67,9 @@ export function useGpsTracker({ enabled, onDistanceDelta }: UseGpsTrackerOptions
     sessionKm: 0,
     totalKm: loadPersisted().totalKm,
     accuracy: null,
+    latitude: null,
+    longitude: null,
+    heading: null,
     error: null,
   }));
 
@@ -100,11 +106,11 @@ export function useGpsTracker({ enabled, onDistanceDelta }: UseGpsTrackerOptions
 
   const handlePosition = useCallback(
     (pos: GeolocationPosition) => {
-      const { latitude, longitude, accuracy, speed } = pos.coords;
+      const { latitude, longitude, accuracy, speed, heading } = pos.coords;
       const now = pos.timestamp;
 
       if (accuracy > MIN_ACCURACY_M) {
-        setState((s) => ({ ...s, accuracy }));
+        setState((s) => ({ ...s, accuracy, latitude, longitude, heading: heading ?? s.heading }));
         return;
       }
 
@@ -125,7 +131,7 @@ export function useGpsTracker({ enabled, onDistanceDelta }: UseGpsTrackerOptions
         modeRef.current = "tracking";
         lastPointRef.current = { lat: latitude, lon: longitude, t: now };
         lowSpeedSinceRef.current = null;
-        setState((s) => ({ ...s, mode: "tracking", sessionKm: 0 }));
+        setState((s) => ({ ...s, mode: "tracking", sessionKm: 0, latitude, longitude, heading: heading ?? s.heading, accuracy }));
         return;
       }
 
@@ -145,9 +151,12 @@ export function useGpsTracker({ enabled, onDistanceDelta }: UseGpsTrackerOptions
             totalKm: newTotal,
             speedKmh,
             accuracy,
+            latitude,
+            longitude,
+            heading: heading ?? s.heading,
           }));
         } else {
-          setState((s) => ({ ...s, speedKmh, accuracy }));
+          setState((s) => ({ ...s, speedKmh, accuracy, latitude, longitude, heading: heading ?? s.heading }));
         }
 
         // Auto-pause si arrêt prolongé
@@ -163,7 +172,7 @@ export function useGpsTracker({ enabled, onDistanceDelta }: UseGpsTrackerOptions
           lowSpeedSinceRef.current = null;
         }
       } else {
-        setState((s) => ({ ...s, speedKmh, accuracy }));
+        setState((s) => ({ ...s, speedKmh, accuracy, latitude, longitude, heading: heading ?? s.heading }));
       }
 
       lastPointRef.current = { lat: latitude, lon: longitude, t: now };
