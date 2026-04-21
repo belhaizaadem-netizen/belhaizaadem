@@ -32,6 +32,11 @@ export function useAppState() {
     setState((s) => ({ ...s, currentKm: Math.max(0, km) }));
   }, []);
 
+  const addKm = useCallback((delta: number) => {
+    if (!delta || delta <= 0) return;
+    setState((s) => ({ ...s, currentKm: Math.max(0, s.currentKm + delta) }));
+  }, []);
+
   const setBrand = useCallback((brand: Brand) => {
     setState((s) => ({
       ...s,
@@ -98,6 +103,7 @@ export function useAppState() {
     state,
     hydrated,
     setCurrentKm,
+    addKm,
     setBrand,
     setVehicle,
     setVehicleName,
