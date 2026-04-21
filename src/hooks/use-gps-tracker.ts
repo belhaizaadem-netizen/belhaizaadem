@@ -131,7 +131,7 @@ export function useGpsTracker({ enabled, onDistanceDelta }: UseGpsTrackerOptions
         modeRef.current = "tracking";
         lastPointRef.current = { lat: latitude, lon: longitude, t: now };
         lowSpeedSinceRef.current = null;
-        setState((s) => ({ ...s, mode: "tracking", sessionKm: 0 }));
+        setState((s) => ({ ...s, mode: "tracking", sessionKm: 0, latitude, longitude, heading: heading ?? s.heading, accuracy }));
         return;
       }
 
@@ -151,9 +151,12 @@ export function useGpsTracker({ enabled, onDistanceDelta }: UseGpsTrackerOptions
             totalKm: newTotal,
             speedKmh,
             accuracy,
+            latitude,
+            longitude,
+            heading: heading ?? s.heading,
           }));
         } else {
-          setState((s) => ({ ...s, speedKmh, accuracy }));
+          setState((s) => ({ ...s, speedKmh, accuracy, latitude, longitude, heading: heading ?? s.heading }));
         }
 
         // Auto-pause si arrêt prolongé
@@ -169,7 +172,7 @@ export function useGpsTracker({ enabled, onDistanceDelta }: UseGpsTrackerOptions
           lowSpeedSinceRef.current = null;
         }
       } else {
-        setState((s) => ({ ...s, speedKmh, accuracy }));
+        setState((s) => ({ ...s, speedKmh, accuracy, latitude, longitude, heading: heading ?? s.heading }));
       }
 
       lastPointRef.current = { lat: latitude, lon: longitude, t: now };
