@@ -97,8 +97,11 @@ export function MaintenanceCard({ status, onMarkDone }: Props) {
 
         <div className="min-w-0 flex-1">
           <div className="flex items-start justify-between gap-2">
-            <div className="min-w-0">
-              <p className="truncate font-semibold text-foreground">{status.item.name}</p>
+            <div className="min-w-0 flex-1">
+              <ScrollingLabel
+                text={status.item.name}
+                className="font-semibold text-foreground"
+              />
               <p className="text-xs text-muted-foreground">{status.item.category}</p>
             </div>
             <span
@@ -128,10 +131,7 @@ export function MaintenanceCard({ status, onMarkDone }: Props) {
             </div>
           </div>
 
-          <div className="mt-3 flex items-center justify-between gap-3">
-            <span className="text-[11px] text-muted-foreground">
-              Prochain : <span className="text-foreground">{formatKm(status.nextDueKm)}</span>
-            </span>
+          <div className="mt-3 flex items-center justify-end">
             <button
               onClick={onMarkDone}
               className="inline-flex items-center gap-1.5 rounded-full bg-primary px-3 py-1.5 text-xs font-semibold text-primary-foreground transition-all hover:opacity-90 active:scale-95"
