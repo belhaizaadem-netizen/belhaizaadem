@@ -1,6 +1,47 @@
+import { useEffect, useRef, useState } from "react";
 import { Check, AlertTriangle, AlertCircle, CheckCircle2 } from "lucide-react";
 import type { MaintenanceStatus } from "@/lib/maintenance-data";
 import { cn } from "@/lib/utils";
+
+function ScrollingLabel({ text, className }: { text: string; className?: string }) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const textRef = useRef<HTMLSpanElement>(null);
+  const [overflow, setOverflow] = useState(false);
+
+  useEffect(() => {
+    const check = () => {
+      const c = containerRef.current;
+      const t = textRef.current;
+      if (!c || !t) return;
+      setOverflow(t.scrollWidth > c.clientWidth + 1);
+    };
+    check();
+    const ro = new ResizeObserver(check);
+    if (containerRef.current) ro.observe(containerRef.current);
+    if (textRef.current) ro.observe(textRef.current);
+    return () => ro.disconnect();
+  }, [text]);
+
+  return (
+    <div ref={containerRef} className={cn("marquee-mask w-full", className)}>
+      {overflow ? (
+        <div className="marquee-track">
+          <span>{text}</span>
+          <span aria-hidden="true">{text}</span>
+        </div>
+      ) : (
+        <span ref={textRef} className="block truncate whitespace-nowrap">
+          {text}
+        </span>
+      )}
+      {!overflow && (
+        <span ref={textRef} className="sr-only">
+          {text}
+        </span>
+      )}
+    </div>
+  );
+}
 
 interface Props {
   status: MaintenanceStatus;
