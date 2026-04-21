@@ -66,7 +66,7 @@ export function VehicleDashboard({
   const [local, setLocal] = useState(String(km));
 
   useEffect(() => {
-    setLocal(String(km));
+    setLocal(String(Math.round(km)));
   }, [km]);
 
   const model = vehicle.modelId ? findModel(brand, vehicle.modelId) : undefined;
@@ -117,7 +117,7 @@ export function VehicleDashboard({
     onKmChange(isNaN(n) ? 0 : n);
   };
 
-  const formattedKm = (parseInt(local, 10) || 0).toLocaleString("fr-FR");
+  const formattedKm = Math.round(parseFloat(local) || 0).toLocaleString("fr-FR");
 
   // Speedometer — uses live GPS speed if available, otherwise decorative animation
   const speedMax = 260;
