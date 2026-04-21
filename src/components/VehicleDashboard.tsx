@@ -1,6 +1,7 @@
 import {
   Car,
   Fuel,
+  MapPin,
   Settings2,
   Wind,
   Zap,
@@ -34,6 +35,13 @@ interface Props {
   lastDone: Record<string, number>;
   onKmChange: (km: number) => void;
   liveSpeedKmh?: number;
+  livePosition?: {
+    latitude: number | null;
+    longitude: number | null;
+    accuracy: number | null;
+    heading: number | null;
+    enabled: boolean;
+  };
 }
 
 const fuelLabel: Record<string, string> = {
@@ -62,6 +70,7 @@ export function VehicleDashboard({
   lastDone,
   onKmChange,
   liveSpeedKmh,
+  livePosition,
 }: Props) {
   const [local, setLocal] = useState(String(km));
 
