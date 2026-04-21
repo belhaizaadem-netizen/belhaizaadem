@@ -33,6 +33,7 @@ interface Props {
   km: number;
   lastDone: Record<string, number>;
   onKmChange: (km: number) => void;
+  liveSpeedKmh?: number;
 }
 
 const fuelLabel: Record<string, string> = {
@@ -60,6 +61,7 @@ export function VehicleDashboard({
   km,
   lastDone,
   onKmChange,
+  liveSpeedKmh,
 }: Props) {
   const [local, setLocal] = useState(String(km));
 
@@ -117,9 +119,17 @@ export function VehicleDashboard({
 
   const formattedKm = (parseInt(local, 10) || 0).toLocaleString("fr-FR");
 
-  // Speedometer (km display) — needle position based on the user's km value within current 1000-km segment
-  const speedMax = 260; // km/h scale, decorative
-  const speedValue = (km % 1000) / 1000 * speedMax; // animated needle as km grows
+  // Speedometer — uses live GPS speed if available, otherwise decorative animation
+  const speedMax = 260;
+  const speedValue =
+    liveSpeedKmh != null && liveSpeedKmh > 0
+      ? Math.min(liveSpeedKmh, speedMax)
+      : ((km % 1000) / 1000) * speedMax;
+  const speedCenterText =
+    liveSpeedKmh != null && liveSpeedKmh > 0
+      ? Math.round(liveSpeedKmh).toString()
+      : formattedKm;
+  const speedUnit = liveSpeedKmh != null && liveSpeedKmh > 0 ? "km/h" : "km";
   // RPM dial — engine off, needle resting at 0
   const rpmMax = 8;
   const rpmValue = 0;
