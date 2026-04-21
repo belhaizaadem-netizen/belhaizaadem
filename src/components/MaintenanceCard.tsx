@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+
 import { Check, AlertTriangle, AlertCircle, CheckCircle2 } from "lucide-react";
 import type { MaintenanceStatus } from "@/lib/maintenance-data";
 import { cn } from "@/lib/utils";
