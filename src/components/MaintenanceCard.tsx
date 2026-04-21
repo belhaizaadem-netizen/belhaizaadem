@@ -4,41 +4,12 @@ import type { MaintenanceStatus } from "@/lib/maintenance-data";
 import { cn } from "@/lib/utils";
 
 function ScrollingLabel({ text, className }: { text: string; className?: string }) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const measureRef = useRef<HTMLSpanElement>(null);
-  const [overflow, setOverflow] = useState(false);
-
-  useEffect(() => {
-    const check = () => {
-      const c = containerRef.current;
-      const m = measureRef.current;
-      if (!c || !m) return;
-      setOverflow(m.scrollWidth > c.clientWidth + 1);
-    };
-    check();
-    const ro = new ResizeObserver(check);
-    if (containerRef.current) ro.observe(containerRef.current);
-    return () => ro.disconnect();
-  }, [text]);
-
   return (
-    <div ref={containerRef} className={cn("marquee-mask relative w-full", className)}>
-      {/* Hidden measurer to detect overflow */}
-      <span
-        ref={measureRef}
-        aria-hidden="true"
-        className="invisible pointer-events-none absolute left-0 top-0 whitespace-nowrap"
-      >
-        {text}
-      </span>
-      {overflow ? (
-        <div className="marquee-track">
-          <span>{text}</span>
-          <span aria-hidden="true">{text}</span>
-        </div>
-      ) : (
-        <span className="block truncate whitespace-nowrap">{text}</span>
-      )}
+    <div className={cn("marquee-mask relative w-full", className)}>
+      <div className="marquee-track">
+        <span>{text}</span>
+        <span aria-hidden="true">{text}</span>
+      </div>
     </div>
   );
 }
