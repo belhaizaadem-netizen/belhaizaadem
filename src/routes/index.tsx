@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import {
   AlertCircle,
   AlertTriangle,
@@ -28,6 +28,7 @@ import { MaintenanceCard } from "@/components/MaintenanceCard";
 import { HistorySheet } from "@/components/HistorySheet";
 import { MarkDoneDialog } from "@/components/MarkDoneDialog";
 import { UserGuide } from "@/components/UserGuide";
+import { GpsTracker } from "@/components/GpsTracker";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/")({
@@ -65,11 +66,15 @@ function Index() {
     setBrand,
     setVehicle,
     setCurrentKm,
+    addKm,
     toggleTheme,
     markDone,
     removeHistory,
     resetItems,
   } = useAppState();
+
+  const [liveSpeedKmh, setLiveSpeedKmh] = useState(0);
+  const handleGpsDistance = useCallback((delta: number) => addKm(delta), [addKm]);
 
   const [categoryFilter, setCategoryFilter] = useState<Category | "all">("all");
   const [statusFilter, setStatusFilter] = useState<Status | "all">("all");
@@ -182,6 +187,15 @@ function Index() {
             km={state.currentKm}
             lastDone={state.lastDone}
             onKmChange={setCurrentKm}
+            liveSpeedKmh={liveSpeedKmh}
+          />
+        </div>
+
+        {/* GPS tracker */}
+        <div className="mt-3">
+          <GpsTracker
+            onDistanceDelta={handleGpsDistance}
+            onLiveSpeed={setLiveSpeedKmh}
           />
         </div>
 
