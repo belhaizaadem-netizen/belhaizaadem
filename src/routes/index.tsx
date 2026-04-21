@@ -27,6 +27,7 @@ import { StatCard } from "@/components/StatCard";
 import { MaintenanceCard } from "@/components/MaintenanceCard";
 import { HistorySheet } from "@/components/HistorySheet";
 import { MarkDoneDialog } from "@/components/MarkDoneDialog";
+import { UserGuide } from "@/components/UserGuide";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/")({
@@ -157,6 +158,9 @@ function Index() {
             </button>
           </div>
         </header>
+
+        {/* User guide */}
+        <UserGuide />
 
         {/* Brand */}
         <BrandSelector value={state.brand} onChange={setBrand} />
