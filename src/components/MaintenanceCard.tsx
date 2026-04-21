@@ -5,39 +5,39 @@ import { cn } from "@/lib/utils";
 
 function ScrollingLabel({ text, className }: { text: string; className?: string }) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const textRef = useRef<HTMLSpanElement>(null);
+  const measureRef = useRef<HTMLSpanElement>(null);
   const [overflow, setOverflow] = useState(false);
 
   useEffect(() => {
     const check = () => {
       const c = containerRef.current;
-      const t = textRef.current;
-      if (!c || !t) return;
-      setOverflow(t.scrollWidth > c.clientWidth + 1);
+      const m = measureRef.current;
+      if (!c || !m) return;
+      setOverflow(m.scrollWidth > c.clientWidth + 1);
     };
     check();
     const ro = new ResizeObserver(check);
     if (containerRef.current) ro.observe(containerRef.current);
-    if (textRef.current) ro.observe(textRef.current);
     return () => ro.disconnect();
   }, [text]);
 
   return (
-    <div ref={containerRef} className={cn("marquee-mask w-full", className)}>
+    <div ref={containerRef} className={cn("marquee-mask relative w-full", className)}>
+      {/* Hidden measurer to detect overflow */}
+      <span
+        ref={measureRef}
+        aria-hidden="true"
+        className="invisible pointer-events-none absolute left-0 top-0 whitespace-nowrap"
+      >
+        {text}
+      </span>
       {overflow ? (
         <div className="marquee-track">
           <span>{text}</span>
           <span aria-hidden="true">{text}</span>
         </div>
       ) : (
-        <span ref={textRef} className="block truncate whitespace-nowrap">
-          {text}
-        </span>
-      )}
-      {!overflow && (
-        <span ref={textRef} className="sr-only">
-          {text}
-        </span>
+        <span className="block truncate whitespace-nowrap">{text}</span>
       )}
     </div>
   );
