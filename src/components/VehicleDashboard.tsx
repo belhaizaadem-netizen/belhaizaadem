@@ -312,7 +312,7 @@ function Tell({
           "h-5 w-5 transition-all",
           lit.color,
           isOn && lit.glow,
-          pulse && "animate-pulse",
+          pulse && "animate-blink-fast",
         )}
       />
       <span
