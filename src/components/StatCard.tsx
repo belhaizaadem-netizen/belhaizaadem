@@ -30,7 +30,7 @@ export function StatCard({ label, value, icon: Icon, variant, active, onClick }:
       <div className={cn("absolute right-2 top-2 rounded-lg p-1.5", variantClasses[variant])}>
         <Icon className="h-3.5 w-3.5 text-white" strokeWidth={2.5} />
       </div>
-      <span className="text-2xl font-bold tracking-tight text-foreground">{value}</span>
+      <span className="pr-9 text-2xl font-bold tracking-tight text-foreground">{value}</span>
       <span className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
         {label}
       </span>

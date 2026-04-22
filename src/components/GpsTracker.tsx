@@ -121,24 +121,6 @@ export function GpsTracker({ onDistanceDelta, onLiveSpeed, onLivePosition }: Pro
         </div>
       )}
 
-      {enabled && (
-        <div className="flex items-center justify-between border-t border-border bg-secondary/20 px-3 py-1.5 text-[10px] text-muted-foreground">
-          <span className="inline-flex items-center gap-1">
-            <Navigation className="h-3 w-3" strokeWidth={2.5} />
-            Total GPS cumulé : <span className="font-semibold text-foreground">{gps.totalKm.toFixed(1)} km</span>
-          </span>
-          {gps.totalKm > 0 && (
-            <button
-              onClick={() => {
-                if (confirm("Réinitialiser le total GPS cumulé ?")) gps.resetTotal();
-              }}
-              className="font-semibold text-primary hover:underline"
-            >
-              Reset
-            </button>
-          )}
-        </div>
-      )}
     </div>
   );
 }
