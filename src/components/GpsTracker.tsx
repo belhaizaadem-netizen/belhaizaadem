@@ -1,4 +1,4 @@
-import { Navigation, Pause, Play, Satellite } from "lucide-react";
+import { Pause, Play, Satellite } from "lucide-react";
 import { useGpsTracker, type GpsState } from "@/hooks/use-gps-tracker";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
