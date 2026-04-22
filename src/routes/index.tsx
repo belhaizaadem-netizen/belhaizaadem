@@ -1,16 +1,18 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { useCallback, useMemo, useState } from "react";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   AlertCircle,
   AlertTriangle,
   CheckCircle2,
   History,
+  LogOut,
   Moon,
   RotateCcw,
   Sun,
   Wrench,
 } from "lucide-react";
 import { useAppState } from "@/hooks/use-app-state";
+import { useAuth } from "@/hooks/use-auth";
 import {
   CATEGORIES,
   applicableItems,
@@ -60,6 +62,15 @@ const STATUS_FILTERS: { key: Status | "all"; label: string }[] = [
 ];
 
 function Index() {
+  const navigate = useNavigate();
+  const { user, loading: authLoading, signOut } = useAuth();
+
+  useEffect(() => {
+    if (!authLoading && !user) {
+      navigate({ to: "/auth" });
+    }
+  }, [authLoading, user, navigate]);
+
   const {
     state,
     hydrated,
@@ -129,7 +140,7 @@ function Index() {
       .sort((a, b) => order[a.status] - order[b.status] || a.kmRemaining - b.kmRemaining);
   }, [statuses, categoryFilter, statusFilter]);
 
-  if (!hydrated) {
+  if (authLoading || !user || !hydrated) {
     return <div className="min-h-screen bg-background" />;
   }
 
@@ -167,6 +178,17 @@ function Index() {
               ) : (
                 <Moon className="h-4 w-4" />
               )}
+            </button>
+            <button
+              onClick={async () => {
+                await signOut();
+                navigate({ to: "/auth" });
+              }}
+              className="rounded-xl border border-border bg-card p-2.5 text-muted-foreground transition-colors hover:text-destructive"
+              aria-label="Se déconnecter"
+              title="Se déconnecter"
+            >
+              <LogOut className="h-4 w-4" />
             </button>
           </div>
         </header>

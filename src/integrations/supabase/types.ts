@@ -14,7 +14,42 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      user_vehicle_state: {
+        Row: {
+          brand: string
+          created_at: string
+          current_km: number
+          history: Json
+          last_done: Json
+          updated_at: string
+          user_id: string
+          vehicle: Json
+          vehicle_name: string
+        }
+        Insert: {
+          brand?: string
+          created_at?: string
+          current_km?: number
+          history?: Json
+          last_done?: Json
+          updated_at?: string
+          user_id: string
+          vehicle?: Json
+          vehicle_name?: string
+        }
+        Update: {
+          brand?: string
+          created_at?: string
+          current_km?: number
+          history?: Json
+          last_done?: Json
+          updated_at?: string
+          user_id?: string
+          vehicle?: Json
+          vehicle_name?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

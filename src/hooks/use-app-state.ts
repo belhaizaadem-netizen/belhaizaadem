@@ -1,19 +1,144 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { loadState, saveState, type AppState, type VehicleConfig } from "@/lib/storage";
 import type { Brand, HistoryEntry } from "@/lib/maintenance-data";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/use-auth";
+import type { Json } from "@/integrations/supabase/types";
+
+const REMOTE_MIGRATED_KEY = "vw-maintenance-remote-migrated";
+
+interface RemoteRow {
+  brand: string;
+  vehicle_name: string;
+  vehicle: VehicleConfig;
+  current_km: number;
+  last_done: Record<string, number>;
+  history: HistoryEntry[];
+}
+
+function rowToState(row: RemoteRow, theme: AppState["theme"]): AppState {
+  return {
+    brand: row.brand as Brand,
+    vehicleName: row.vehicle_name,
+    vehicle: row.vehicle,
+    currentKm: row.current_km,
+    lastDone: row.last_done ?? {},
+    history: row.history ?? [],
+    theme,
+  };
+}
 
 export function useAppState() {
+  const { user, loading: authLoading } = useAuth();
   const [state, setState] = useState<AppState>(() => loadState());
   const [hydrated, setHydrated] = useState(false);
+  const lastSavedRef = useRef<string>("");
+  const saveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const userIdRef = useRef<string | null>(null);
 
+  // Load state from cloud (or local if not logged in)
   useEffect(() => {
-    setState(loadState());
-    setHydrated(true);
-  }, []);
+    if (authLoading) return;
 
+    let cancelled = false;
+
+    async function load() {
+      const local = loadState();
+
+      if (!user) {
+        if (cancelled) return;
+        setState(local);
+        setHydrated(true);
+        userIdRef.current = null;
+        return;
+      }
+
+      userIdRef.current = user.id;
+      const { data, error } = await supabase
+        .from("user_vehicle_state")
+        .select("brand, vehicle_name, vehicle, current_km, last_done, history")
+        .eq("user_id", user.id)
+        .maybeSingle();
+
+      if (cancelled) return;
+
+      if (error) {
+        console.error("Failed to load remote state", error);
+        setState(local);
+        setHydrated(true);
+        return;
+      }
+
+      if (!data) {
+        // First time login: migrate local data to cloud
+        const migrated = local;
+        const { error: insertErr } = await supabase.from("user_vehicle_state").insert([
+          {
+            user_id: user.id,
+            brand: migrated.brand,
+            vehicle_name: migrated.vehicleName,
+            vehicle: migrated.vehicle as unknown as Json,
+            current_km: migrated.currentKm,
+            last_done: migrated.lastDone as unknown as Json,
+            history: migrated.history as unknown as Json,
+          },
+        ]);
+        if (insertErr) console.error("Failed to migrate local state", insertErr);
+        if (typeof window !== "undefined") {
+          localStorage.setItem(REMOTE_MIGRATED_KEY, "1");
+        }
+        if (cancelled) return;
+        setState(migrated);
+        lastSavedRef.current = serializeForRemote(migrated);
+      } else {
+        const next = rowToState(data as unknown as RemoteRow, local.theme);
+        setState(next);
+        lastSavedRef.current = serializeForRemote(next);
+      }
+      setHydrated(true);
+    }
+
+    load();
+    return () => {
+      cancelled = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user?.id, authLoading]);
+
+  // Persist to local storage always (offline cache)
   useEffect(() => {
     if (hydrated) saveState(state);
   }, [state, hydrated]);
+
+  // Persist to cloud (debounced) when logged in
+  useEffect(() => {
+    if (!hydrated || !user) return;
+    const payload = serializeForRemote(state);
+    if (payload === lastSavedRef.current) return;
+
+    if (saveTimerRef.current) clearTimeout(saveTimerRef.current);
+    saveTimerRef.current = setTimeout(async () => {
+      const uid = userIdRef.current;
+      if (!uid) return;
+      const { error } = await supabase
+        .from("user_vehicle_state")
+        .update({
+          brand: state.brand,
+          vehicle_name: state.vehicleName,
+          vehicle: state.vehicle as unknown as Json,
+          current_km: state.currentKm,
+          last_done: state.lastDone as unknown as Json,
+          history: state.history as unknown as Json,
+        })
+        .eq("user_id", uid);
+      if (error) console.error("Failed to sync state", error);
+      else lastSavedRef.current = payload;
+    }, 600);
+
+    return () => {
+      if (saveTimerRef.current) clearTimeout(saveTimerRef.current);
+    };
+  }, [state, hydrated, user]);
 
   // theme
   useEffect(() => {
@@ -41,7 +166,6 @@ export function useAppState() {
     setState((s) => ({
       ...s,
       brand,
-      // reset vehicle cascade when brand changes
       vehicle: { modelId: null, generationId: null, engineId: null, transmission: null, drivetrain: null },
     }));
   }, []);
@@ -113,4 +237,15 @@ export function useAppState() {
     resetAll,
     resetItems,
   };
+}
+
+function serializeForRemote(s: AppState): string {
+  return JSON.stringify({
+    brand: s.brand,
+    vehicleName: s.vehicleName,
+    vehicle: s.vehicle,
+    currentKm: s.currentKm,
+    lastDone: s.lastDone,
+    history: s.history,
+  });
 }
