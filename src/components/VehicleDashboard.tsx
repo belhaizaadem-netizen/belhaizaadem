@@ -147,15 +147,6 @@ export function VehicleDashboard({
     const dirs = ["N", "NE", "E", "SE", "S", "SO", "O", "NO"];
     return dirs[Math.round(((deg % 360) + 360) % 360 / 45) % 8];
   };
-  const formatCoord = (n: number | null | undefined, posChar: string, negChar: string) => {
-    if (n == null || isNaN(n)) return "—";
-    const abs = Math.abs(n);
-    const deg = Math.floor(abs);
-    const minFloat = (abs - deg) * 60;
-    const min = Math.floor(minFloat);
-    const sec = ((minFloat - min) * 60).toFixed(1);
-    return `${deg}°${min.toString().padStart(2, "0")}'${sec}" ${n >= 0 ? posChar : negChar}`;
-  };
 
   return (
     <div className="relative overflow-hidden rounded-3xl border border-border bg-gradient-to-b from-[#0a0e14] via-[#0d1118] to-[#080b10] shadow-card">
