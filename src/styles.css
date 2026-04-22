@@ -161,16 +161,17 @@
     animation: blink-fast 0.35s steps(1, end) infinite;
   }
 
-  /* Marquee for long maintenance item names */
-  @keyframes marquee {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
+  /* Marquee for long maintenance item names — full slide out before repeating */
+  @keyframes marquee-single {
+    0%, 10% { transform: translateX(0); }
+    45%, 55% { transform: translateX(calc(-100% - 2rem)); }
+    56% { transform: translateX(100%); }
+    90%, 100% { transform: translateX(0); }
   }
-  .marquee-track {
-    display: inline-flex;
-    gap: 2.5rem;
+  .marquee-single {
+    display: inline-block;
     white-space: nowrap;
-    animation: marquee 12s linear infinite;
+    animation: marquee-single 10s ease-in-out infinite;
     will-change: transform;
   }
   .marquee-mask {

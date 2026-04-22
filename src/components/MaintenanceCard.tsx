@@ -6,9 +6,8 @@ import { cn } from "@/lib/utils";
 function ScrollingLabel({ text, className }: { text: string; className?: string }) {
   return (
     <div className={cn("marquee-mask relative w-full", className)}>
-      <div className="marquee-track">
+      <div className="marquee-single">
         <span>{text}</span>
-        <span aria-hidden="true">{text}</span>
       </div>
     </div>
   );
