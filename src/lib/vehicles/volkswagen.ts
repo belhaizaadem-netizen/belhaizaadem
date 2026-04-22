@@ -321,7 +321,7 @@ export const VOLKSWAGEN_MODELS: Model[] = [
       { id: "mk2", name: "Amarok II (2022-)", yearStart: 2022, engines: [
         e("2.0-tdi-150", ["manuelle", "Tiptronic"], ["AWD"]),
         e("2.0-tdi-200", ["Tiptronic"], ["AWD"]),
-        e("3.0-tdi-240", ["Tiptronic"], ["AWD"]),
+        e("3.0-tdi-231", ["Tiptronic"], ["AWD"]),
       ]},
     ],
   },
