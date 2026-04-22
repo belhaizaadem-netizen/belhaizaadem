@@ -3,15 +3,6 @@ import { Check, AlertTriangle, AlertCircle, CheckCircle2 } from "lucide-react";
 import type { MaintenanceStatus } from "@/lib/maintenance-data";
 import { cn } from "@/lib/utils";
 
-function ScrollingLabel({ text, className }: { text: string; className?: string }) {
-  return (
-    <div className={cn("marquee-mask relative w-full", className)}>
-      <div className="marquee-single">
-        <span>{text}</span>
-      </div>
-    </div>
-  );
-}
 
 interface Props {
   status: MaintenanceStatus;
@@ -68,10 +59,9 @@ export function MaintenanceCard({ status, onMarkDone }: Props) {
         <div className="min-w-0 flex-1">
           <div className="flex items-start justify-between gap-2">
             <div className="min-w-0 flex-1">
-              <ScrollingLabel
-                text={status.item.name}
-                className="font-semibold text-foreground"
-              />
+              <p className="break-words text-sm font-semibold leading-snug text-foreground">
+                {status.item.name}
+              </p>
               <p className="text-xs text-muted-foreground">{status.item.category}</p>
             </div>
             <span
