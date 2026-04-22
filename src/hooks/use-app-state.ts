@@ -71,15 +71,17 @@ export function useAppState() {
       if (!data) {
         // First time login: migrate local data to cloud
         const migrated = local;
-        const { error: insertErr } = await supabase.from("user_vehicle_state").insert({
-          user_id: user.id,
-          brand: migrated.brand,
-          vehicle_name: migrated.vehicleName,
-          vehicle: migrated.vehicle,
-          current_km: migrated.currentKm,
-          last_done: migrated.lastDone,
-          history: migrated.history,
-        });
+        const { error: insertErr } = await supabase.from("user_vehicle_state").insert([
+          {
+            user_id: user.id,
+            brand: migrated.brand,
+            vehicle_name: migrated.vehicleName,
+            vehicle: migrated.vehicle as unknown as Json,
+            current_km: migrated.currentKm,
+            last_done: migrated.lastDone as unknown as Json,
+            history: migrated.history as unknown as Json,
+          },
+        ]);
         if (insertErr) console.error("Failed to migrate local state", insertErr);
         if (typeof window !== "undefined") {
           localStorage.setItem(REMOTE_MIGRATED_KEY, "1");
@@ -88,7 +90,7 @@ export function useAppState() {
         setState(migrated);
         lastSavedRef.current = serializeForRemote(migrated);
       } else {
-        const next = rowToState(data as RemoteRow, local.theme);
+        const next = rowToState(data as unknown as RemoteRow, local.theme);
         setState(next);
         lastSavedRef.current = serializeForRemote(next);
       }
