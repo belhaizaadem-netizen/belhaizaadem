@@ -1,11 +1,13 @@
 import {
   Car,
   Fuel,
+  Loader2,
   MapPin,
   Settings2,
   Wind,
   Zap,
 } from "lucide-react";
+import { useReverseGeocode } from "@/hooks/use-reverse-geocode";
 import {
   AbsIcon,
   BatteryIcon,
@@ -145,15 +147,6 @@ export function VehicleDashboard({
     const dirs = ["N", "NE", "E", "SE", "S", "SO", "O", "NO"];
     return dirs[Math.round(((deg % 360) + 360) % 360 / 45) % 8];
   };
-  const formatCoord = (n: number | null | undefined, posChar: string, negChar: string) => {
-    if (n == null || isNaN(n)) return "—";
-    const abs = Math.abs(n);
-    const deg = Math.floor(abs);
-    const minFloat = (abs - deg) * 60;
-    const min = Math.floor(minFloat);
-    const sec = ((minFloat - min) * 60).toFixed(1);
-    return `${deg}°${min.toString().padStart(2, "0")}'${sec}" ${n >= 0 ? posChar : negChar}`;
-  };
 
   return (
     <div className="relative overflow-hidden rounded-3xl border border-border bg-gradient-to-b from-[#0a0e14] via-[#0d1118] to-[#080b10] shadow-card">
@@ -195,7 +188,6 @@ export function VehicleDashboard({
         {/* LEFT — GPS position panel (replaces RPM dial) */}
         <GpsPositionPanel
           position={livePosition}
-          formatCoord={formatCoord}
           cardinal={cardinal}
         />
 
@@ -524,7 +516,6 @@ function NeedleDial({
 
 function GpsPositionPanel({
   position,
-  formatCoord,
   cardinal,
 }: {
   position?: {
@@ -534,12 +525,20 @@ function GpsPositionPanel({
     heading: number | null;
     enabled: boolean;
   };
-  formatCoord: (n: number | null | undefined, posChar: string, negChar: string) => string;
   cardinal: (deg: number | null | undefined) => string | null;
 }) {
   const enabled = position?.enabled ?? false;
   const hasFix = enabled && position?.latitude != null && position?.longitude != null;
   const dir = cardinal(position?.heading);
+
+  const geo = useReverseGeocode(
+    position?.latitude ?? null,
+    position?.longitude ?? null,
+    hasFix,
+  );
+
+  const cityLabel = geo.city ?? (geo.loading ? "…" : "—");
+  const countryLabel = geo.country ?? (geo.loading ? "…" : "—");
 
   return (
     <div className="relative flex flex-col items-center justify-center px-1">
@@ -550,7 +549,11 @@ function GpsPositionPanel({
             ? "border-primary/40 bg-primary/5"
             : "border-white/10 bg-black/30",
         )}
-        title={hasFix ? "Position GPS actuelle" : "GPS désactivé ou en attente d'un fix"}
+        title={
+          hasFix
+            ? `Position : ${cityLabel}, ${countryLabel}`
+            : "GPS désactivé ou en attente d'un fix"
+        }
       >
         <div className="flex items-center gap-1">
           <MapPin
@@ -573,12 +576,26 @@ function GpsPositionPanel({
         {hasFix ? (
           <>
             <div className="flex flex-col gap-0 leading-tight">
-              <span className="text-[9px] font-bold tabular-nums text-white/90">
-                {formatCoord(position!.latitude, "N", "S")}
-              </span>
-              <span className="text-[9px] font-bold tabular-nums text-white/90">
-                {formatCoord(position!.longitude, "E", "O")}
-              </span>
+              {geo.loading && !geo.city ? (
+                <span className="flex items-center justify-center gap-1 text-[10px] text-white/60">
+                  <Loader2 className="h-2.5 w-2.5 animate-spin" />
+                  Localisation…
+                </span>
+              ) : (
+                <>
+                  <span className="truncate text-[11px] font-bold leading-tight text-white">
+                    {cityLabel}
+                  </span>
+                  <span className="flex items-center justify-center gap-1 truncate text-[9px] font-semibold leading-tight text-white/70">
+                    {geo.countryCode && (
+                      <span className="rounded bg-white/10 px-1 py-px text-[7px] font-bold tracking-wider text-white/80">
+                        {geo.countryCode}
+                      </span>
+                    )}
+                    {countryLabel}
+                  </span>
+                </>
+              )}
             </div>
             <div className="flex items-center gap-1">
               {dir && (
