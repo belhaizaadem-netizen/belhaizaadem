@@ -246,6 +246,86 @@ export const VOLKSWAGEN_MODELS: Model[] = [
     ],
   },
 
+  // ============== JETTA (très répandue en Tunisie) ==============
+  {
+    id: "jetta", name: "Jetta", brand: "Volkswagen",
+    generations: [
+      { id: "mk5", name: "Jetta V — 1K (2005-2010)", yearStart: 2005, yearEnd: 2010, engines: [
+        e("1.4-tsi-122", ["manuelle", "DSG"], ["FWD"]),
+        e("2.0-tsi-200", ["manuelle", "DSG"], ["FWD"]),
+        e("1.6-tdi-105", ["manuelle"], ["FWD"]),
+        e("2.0-tdi-140", ["manuelle", "DSG"], ["FWD"]),
+      ]},
+      { id: "mk6", name: "Jetta VI — A6 (2010-2018)", yearStart: 2010, yearEnd: 2018, engines: [
+        e("1.2-tsi-105", ["manuelle", "DSG"], ["FWD"]),
+        e("1.4-tsi-122", ["manuelle", "DSG"], ["FWD"]),
+        e("1.4-tsi-150", ["DSG"], ["FWD"]),
+        e("2.0-tsi-200", ["manuelle", "DSG"], ["FWD"]),
+        e("1.6-tdi-105", ["manuelle"], ["FWD"]),
+        e("2.0-tdi-140", ["manuelle", "DSG"], ["FWD"]),
+      ]},
+      { id: "mk7", name: "Jetta VII — A7 (2018-)", yearStart: 2018, engines: [
+        e("1.4-tsi-150", ["manuelle", "DSG"], ["FWD"]),
+        e("1.5-tsi-150", ["manuelle", "DSG"], ["FWD"]),
+        e("2.0-tsi-200", ["DSG"], ["FWD"]),
+      ]},
+    ],
+  },
+
+  // ============== TOURAN ==============
+  {
+    id: "touran", name: "Touran", brand: "Volkswagen",
+    generations: [
+      { id: "mk1", name: "Touran I — 1T (2003-2015)", yearStart: 2003, yearEnd: 2015, engines: [
+        e("1.4-tsi-122", ["manuelle", "DSG"], ["FWD"]),
+        e("1.4-tsi-150", ["DSG"], ["FWD"]),
+        e("1.6-tdi-105", ["manuelle", "DSG"], ["FWD"]),
+        e("2.0-tdi-140", ["manuelle", "DSG"], ["FWD"]),
+        e("2.0-tdi-170", ["DSG"], ["FWD"]),
+      ]},
+      { id: "mk2", name: "Touran II — 5T (2015-)", yearStart: 2015, engines: [
+        e("1.2-tsi-105", ["manuelle", "DSG"], ["FWD"]),
+        e("1.4-tsi-150", ["manuelle", "DSG"], ["FWD"]),
+        e("1.5-tsi-150", ["manuelle", "DSG"], ["FWD"]),
+        e("2.0-tdi-115", ["manuelle"], ["FWD"]),
+        e("2.0-tdi-150", ["manuelle", "DSG"], ["FWD"]),
+        e("2.0-tdi-190", ["DSG"], ["FWD"]),
+      ]},
+    ],
+  },
+
+  // ============== SHARAN ==============
+  {
+    id: "sharan", name: "Sharan", brand: "Volkswagen",
+    generations: [
+      { id: "mk2", name: "Sharan II — 7N (2010-2022)", yearStart: 2010, yearEnd: 2022, engines: [
+        e("1.4-tsi-150", ["manuelle", "DSG"], ["FWD"]),
+        e("2.0-tsi-200", ["DSG"], ["FWD"]),
+        e("2.0-tdi-140", ["manuelle", "DSG"], ["FWD", "AWD"]),
+        e("2.0-tdi-150", ["manuelle", "DSG"], ["FWD", "AWD"]),
+        e("2.0-tdi-184", ["DSG"], ["FWD", "AWD"]),
+      ]},
+    ],
+  },
+
+  // ============== AMAROK (pick-up) ==============
+  {
+    id: "amarok", name: "Amarok", brand: "Volkswagen",
+    generations: [
+      { id: "mk1", name: "Amarok I — 2H (2010-2020)", yearStart: 2010, yearEnd: 2020, engines: [
+        e("2.0-tdi-140", ["manuelle"], ["AWD"]),
+        e("2.0-tdi-170", ["manuelle", "Tiptronic"], ["AWD"]),
+        e("3.0-tdi-204", ["Tiptronic"], ["AWD"]),
+        e("3.0-tdi-231", ["Tiptronic"], ["AWD"]),
+      ]},
+      { id: "mk2", name: "Amarok II (2022-)", yearStart: 2022, engines: [
+        e("2.0-tdi-150", ["manuelle", "Tiptronic"], ["AWD"]),
+        e("2.0-tdi-200", ["Tiptronic"], ["AWD"]),
+        e("3.0-tdi-231", ["Tiptronic"], ["AWD"]),
+      ]},
+    ],
+  },
+
   // ============== TOUAREG ==============
   {
     id: "touareg", name: "Touareg", brand: "Volkswagen",
