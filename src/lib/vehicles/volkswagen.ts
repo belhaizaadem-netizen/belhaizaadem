@@ -326,7 +326,7 @@ export const VOLKSWAGEN_MODELS: Model[] = [
     ],
   },
 
-  // ============== TOUAREG ==============
+  // ============== TOUAREG  ==============
   {
     id: "touareg", name: "Touareg", brand: "Volkswagen",
     generations: [
