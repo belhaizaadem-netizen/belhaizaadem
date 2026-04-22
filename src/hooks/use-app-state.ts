@@ -3,6 +3,7 @@ import { loadState, saveState, type AppState, type VehicleConfig } from "@/lib/s
 import type { Brand, HistoryEntry } from "@/lib/maintenance-data";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
+import type { Json } from "@/integrations/supabase/types";
 
 const REMOTE_MIGRATED_KEY = "vw-maintenance-remote-migrated";
 
@@ -124,10 +125,10 @@ export function useAppState() {
         .update({
           brand: state.brand,
           vehicle_name: state.vehicleName,
-          vehicle: state.vehicle,
+          vehicle: state.vehicle as unknown as Json,
           current_km: state.currentKm,
-          last_done: state.lastDone,
-          history: state.history,
+          last_done: state.lastDone as unknown as Json,
+          history: state.history as unknown as Json,
         })
         .eq("user_id", uid);
       if (error) console.error("Failed to sync state", error);
