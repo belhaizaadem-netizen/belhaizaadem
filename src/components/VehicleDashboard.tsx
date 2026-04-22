@@ -1,11 +1,13 @@
 import {
   Car,
   Fuel,
+  Loader2,
   MapPin,
   Settings2,
   Wind,
   Zap,
 } from "lucide-react";
+import { useReverseGeocode } from "@/hooks/use-reverse-geocode";
 import {
   AbsIcon,
   BatteryIcon,
