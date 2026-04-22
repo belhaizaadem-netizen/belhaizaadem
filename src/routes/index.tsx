@@ -1,16 +1,18 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { useCallback, useMemo, useState } from "react";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   AlertCircle,
   AlertTriangle,
   CheckCircle2,
   History,
+  LogOut,
   Moon,
   RotateCcw,
   Sun,
   Wrench,
 } from "lucide-react";
 import { useAppState } from "@/hooks/use-app-state";
+import { useAuth } from "@/hooks/use-auth";
 import {
   CATEGORIES,
   applicableItems,
@@ -60,6 +62,15 @@ const STATUS_FILTERS: { key: Status | "all"; label: string }[] = [
 ];
 
 function Index() {
+  const navigate = useNavigate();
+  const { user, loading: authLoading, signOut } = useAuth();
+
+  useEffect(() => {
+    if (!authLoading && !user) {
+      navigate({ to: "/auth" });
+    }
+  }, [authLoading, user, navigate]);
+
   const {
     state,
     hydrated,
