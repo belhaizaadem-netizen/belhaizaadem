@@ -140,7 +140,7 @@ function Index() {
       .sort((a, b) => order[a.status] - order[b.status] || a.kmRemaining - b.kmRemaining);
   }, [statuses, categoryFilter, statusFilter]);
 
-  if (!hydrated) {
+  if (authLoading || !user || !hydrated) {
     return <div className="min-h-screen bg-background" />;
   }
 
@@ -178,6 +178,17 @@ function Index() {
               ) : (
                 <Moon className="h-4 w-4" />
               )}
+            </button>
+            <button
+              onClick={async () => {
+                await signOut();
+                navigate({ to: "/auth" });
+              }}
+              className="rounded-xl border border-border bg-card p-2.5 text-muted-foreground transition-colors hover:text-destructive"
+              aria-label="Se déconnecter"
+              title="Se déconnecter"
+            >
+              <LogOut className="h-4 w-4" />
             </button>
           </div>
         </header>
