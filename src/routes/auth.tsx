@@ -1,4 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { Capacitor } from "@capacitor/core";
 import { useEffect, useState, type FormEvent } from "react";
 import { Wrench, Loader2 } from "lucide-react";
 import { z } from "zod";
@@ -76,6 +77,12 @@ function AuthPage() {
 
   const handleGoogle = async () => {
     setError(null);
+
+    if (Capacitor.isNativePlatform()) {
+      setError("Dans l'APK, utilisez la connexion par email et mot de passe. Google ouvre Chrome et peut bloquer le retour vers l'application.");
+      return;
+    }
+
     setBusy(true);
     const result = await lovable.auth.signInWithOAuth("google", {
       redirect_uri: window.location.origin,
