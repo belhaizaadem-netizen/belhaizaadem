@@ -61,15 +61,24 @@ const STATUS_FILTERS: { key: Status | "all"; label: string }[] = [
   { key: "ok", label: "OK" },
 ];
 
+const GUEST_KEY = "vag-guest-mode";
+
 function Index() {
   const navigate = useNavigate();
   const { user, loading: authLoading, signOut } = useAuth();
+  const [isGuest, setIsGuest] = useState(false);
 
   useEffect(() => {
-    if (!authLoading && !user) {
+    if (typeof window !== "undefined") {
+      setIsGuest(localStorage.getItem(GUEST_KEY) === "1");
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!authLoading && !user && !isGuest) {
       navigate({ to: "/auth" });
     }
-  }, [authLoading, user, navigate]);
+  }, [authLoading, user, isGuest, navigate]);
 
   const {
     state,
@@ -140,7 +149,7 @@ function Index() {
       .sort((a, b) => order[a.status] - order[b.status] || a.kmRemaining - b.kmRemaining);
   }, [statuses, categoryFilter, statusFilter]);
 
-  if (authLoading || !user || !hydrated) {
+  if (authLoading || (!user && !isGuest) || !hydrated) {
     return <div className="min-h-screen bg-background" />;
   }
 
@@ -181,7 +190,10 @@ function Index() {
             </button>
             <button
               onClick={async () => {
-                await signOut();
+                if (typeof window !== "undefined") {
+                  localStorage.removeItem(GUEST_KEY);
+                }
+                if (user) await signOut();
                 navigate({ to: "/auth" });
               }}
               className="rounded-xl border border-border bg-card p-2.5 text-muted-foreground transition-colors hover:text-destructive"
