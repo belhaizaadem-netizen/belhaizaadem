@@ -61,15 +61,24 @@ const STATUS_FILTERS: { key: Status | "all"; label: string }[] = [
   { key: "ok", label: "OK" },
 ];
 
+const GUEST_KEY = "vag-guest-mode";
+
 function Index() {
   const navigate = useNavigate();
   const { user, loading: authLoading, signOut } = useAuth();
+  const [isGuest, setIsGuest] = useState(false);
 
   useEffect(() => {
-    if (!authLoading && !user) {
+    if (typeof window !== "undefined") {
+      setIsGuest(localStorage.getItem(GUEST_KEY) === "1");
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!authLoading && !user && !isGuest) {
       navigate({ to: "/auth" });
     }
-  }, [authLoading, user, navigate]);
+  }, [authLoading, user, isGuest, navigate]);
 
   const {
     state,
