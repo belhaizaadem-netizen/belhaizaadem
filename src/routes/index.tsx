@@ -190,7 +190,10 @@ function Index() {
             </button>
             <button
               onClick={async () => {
-                await signOut();
+                if (typeof window !== "undefined") {
+                  localStorage.removeItem(GUEST_KEY);
+                }
+                if (user) await signOut();
                 navigate({ to: "/auth" });
               }}
               className="rounded-xl border border-border bg-card p-2.5 text-muted-foreground transition-colors hover:text-destructive"
