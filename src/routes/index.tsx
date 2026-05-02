@@ -149,7 +149,7 @@ function Index() {
       .sort((a, b) => order[a.status] - order[b.status] || a.kmRemaining - b.kmRemaining);
   }, [statuses, categoryFilter, statusFilter]);
 
-  if (authLoading || !user || !hydrated) {
+  if (authLoading || (!user && !isGuest) || !hydrated) {
     return <div className="min-h-screen bg-background" />;
   }
 
