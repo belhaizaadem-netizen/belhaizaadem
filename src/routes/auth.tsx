@@ -1,10 +1,8 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { Capacitor } from "@capacitor/core";
 import { useEffect, useState, type FormEvent } from "react";
-import { Wrench, Loader2 } from "lucide-react";
+import { Wrench, Loader2, UserCircle2 } from "lucide-react";
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
-import { lovable } from "@/integrations/lovable";
 import { useAuth } from "@/hooks/use-auth";
 import { cn } from "@/lib/utils";
 
@@ -12,20 +10,42 @@ export const Route = createFileRoute("/auth")({
   head: () => ({
     meta: [
       { title: "Connexion — VAG Maintenance" },
-      { name: "description", content: "Connectez-vous pour synchroniser vos entretiens en ligne." },
+      { name: "description", content: "Connectez-vous ou continuez en mode invité." },
     ],
   }),
   component: AuthPage,
 });
 
-const emailSchema = z.string().trim().email("Email invalide").max(255);
+const GUEST_KEY = "vag-guest-mode";
+
+const emailSchema = z.string().trim().email("Email ou identifiant invalide").max(255);
 const passwordSchema = z.string().min(6, "Minimum 6 caractères").max(72);
+// Username: lettres/chiffres/._- (3-30) — converti en email interne pour Supabase
+const usernameSchema = z
+  .string()
+  .trim()
+  .min(3, "Minimum 3 caractères")
+  .max(30, "Maximum 30 caractères")
+  .regex(/^[a-zA-Z0-9._-]+$/, "Lettres, chiffres, . _ - uniquement");
+
+// Convertit un identifiant (username, téléphone ou email) en email valide pour Supabase
+function toEmailIdentifier(raw: string): string {
+  const v = raw.trim();
+  if (v.includes("@")) return v.toLowerCase();
+  // Téléphone : on garde uniquement les chiffres
+  const digits = v.replace(/\D/g, "");
+  if (digits.length >= 6 && digits.length === v.replace(/[\s+\-().]/g, "").length) {
+    return `phone${digits}@vag-maintenance.local`;
+  }
+  // Username
+  return `${v.toLowerCase()}@vag-maintenance.local`;
+}
 
 function AuthPage() {
   const navigate = useNavigate();
   const { session, loading: authLoading } = useAuth();
   const [mode, setMode] = useState<"signin" | "signup">("signin");
-  const [email, setEmail] = useState("");
+  const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
@@ -40,11 +60,35 @@ function AuthPage() {
     e.preventDefault();
     setError(null);
 
-    const emailParse = emailSchema.safeParse(email);
-    if (!emailParse.success) {
-      setError(emailParse.error.issues[0].message);
+    // Valider l'identifiant : soit email, soit username, soit téléphone
+    const trimmed = identifier.trim();
+    if (!trimmed) {
+      setError("Identifiant requis");
       return;
     }
+
+    let emailToUse: string;
+    if (trimmed.includes("@")) {
+      const r = emailSchema.safeParse(trimmed);
+      if (!r.success) {
+        setError(r.error.issues[0].message);
+        return;
+      }
+      emailToUse = r.data.toLowerCase();
+    } else {
+      // username ou téléphone
+      const digits = trimmed.replace(/\D/g, "");
+      const looksLikePhone = digits.length >= 6 && digits.length === trimmed.replace(/[\s+\-().]/g, "").length;
+      if (!looksLikePhone) {
+        const r = usernameSchema.safeParse(trimmed);
+        if (!r.success) {
+          setError(r.error.issues[0].message);
+          return;
+        }
+      }
+      emailToUse = toEmailIdentifier(trimmed);
+    }
+
     const pwParse = passwordSchema.safeParse(password);
     if (!pwParse.success) {
       setError(pwParse.error.issues[0].message);
@@ -55,42 +99,49 @@ function AuthPage() {
     try {
       if (mode === "signup") {
         const { error: err } = await supabase.auth.signUp({
-          email: emailParse.data,
+          email: emailToUse,
           password: pwParse.data,
           options: { emailRedirectTo: window.location.origin },
         });
         if (err) throw err;
+        // Si on a créé via username/téléphone, pas besoin de confirmation email
+        // (l'email interne n'est pas réel) — on tente une connexion immédiate
+        if (!emailToUse.endsWith("@vag-maintenance.local")) {
+          // email réel : confirmation requise
+        } else {
+          await supabase.auth.signInWithPassword({
+            email: emailToUse,
+            password: pwParse.data,
+          });
+        }
       } else {
         const { error: err } = await supabase.auth.signInWithPassword({
-          email: emailParse.data,
+          email: emailToUse,
           password: pwParse.data,
         });
         if (err) throw err;
       }
+      // Sortir du mode invité si on s'authentifie
+      if (typeof window !== "undefined") localStorage.removeItem(GUEST_KEY);
     } catch (e) {
       const msg = e instanceof Error ? e.message : "Erreur inconnue";
-      setError(msg.includes("Invalid login") ? "Email ou mot de passe incorrect." : msg);
+      setError(
+        msg.includes("Invalid login")
+          ? "Identifiant ou mot de passe incorrect."
+          : msg.includes("already registered")
+          ? "Ce compte existe déjà. Essayez de vous connecter."
+          : msg,
+      );
     } finally {
       setBusy(false);
     }
   };
 
-  const handleGoogle = async () => {
-    setError(null);
-
-    if (Capacitor.isNativePlatform()) {
-      setError("Dans l'APK, utilisez la connexion par email et mot de passe. Google ouvre Chrome et peut bloquer le retour vers l'application.");
-      return;
+  const handleGuest = () => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem(GUEST_KEY, "1");
     }
-
-    setBusy(true);
-    const result = await lovable.auth.signInWithOAuth("google", {
-      redirect_uri: window.location.origin,
-    });
-    if (result.error) {
-      setError(result.error.message ?? "Échec de la connexion Google.");
-      setBusy(false);
-    }
+    navigate({ to: "/" });
   };
 
   return (
@@ -134,16 +185,16 @@ function AuthPage() {
           <form onSubmit={handleSubmit} className="space-y-3">
             <div>
               <label className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
-                Email
+                Nom d'utilisateur, téléphone ou email
               </label>
               <input
-                type="email"
+                type="text"
                 required
-                autoComplete="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                autoComplete="username"
+                value={identifier}
+                onChange={(e) => setIdentifier(e.target.value)}
                 className="mt-1 w-full rounded-xl border border-border bg-secondary/40 px-3 py-2.5 text-sm text-foreground outline-none focus:border-primary"
-                placeholder="vous@exemple.com"
+                placeholder="ex. ahmed, 0612345678 ou vous@exemple.com"
               />
             </div>
             <div>
@@ -187,18 +238,15 @@ function AuthPage() {
 
           <button
             type="button"
-            onClick={handleGoogle}
-            disabled={busy}
-            className="flex w-full items-center justify-center gap-2 rounded-xl border border-border bg-card px-4 py-2.5 text-sm font-semibold text-foreground transition-colors hover:bg-secondary disabled:opacity-60"
+            onClick={handleGuest}
+            className="flex w-full items-center justify-center gap-2 rounded-xl border border-border bg-card px-4 py-2.5 text-sm font-semibold text-foreground transition-colors hover:bg-secondary"
           >
-            <svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true">
-              <path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.9 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.6 6.1 29.6 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.3-.4-3.5z" />
-              <path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 16 19 13 24 13c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.6 7.1 29.6 5 24 5 16.3 5 9.7 9.3 6.3 14.7z" />
-              <path fill="#4CAF50" d="M24 44c5.3 0 10.1-2 13.8-5.3l-6.4-5.4C29.3 35 26.8 36 24 36c-5.3 0-9.7-3.1-11.3-7.6l-6.5 5C9.7 39.7 16.3 44 24 44z" />
-              <path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.3-2.3 4.2-4.2 5.6l6.4 5.4C42 35.6 44 30.2 44 24c0-1.3-.1-2.3-.4-3.5z" />
-            </svg>
-            Continuer avec Google
+            <UserCircle2 className="h-4 w-4" />
+            Continuer en invité
           </button>
+          <p className="mt-2 text-center text-[11px] text-muted-foreground">
+            Mode invité : vos données restent sur cet appareil uniquement.
+          </p>
         </div>
       </div>
     </div>
