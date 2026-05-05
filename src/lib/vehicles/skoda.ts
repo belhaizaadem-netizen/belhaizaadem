@@ -155,4 +155,33 @@ export const SKODA_MODELS: Model[] = [
       ]},
     ],
   },
+  {
+    id: "roomster", name: "Roomster", brand: "Škoda",
+    generations: [
+      { id: "g1", name: "Roomster (2006-2015)", yearStart: 2006, yearEnd: 2015, engines: [
+        e("1.4-mpi-85", ["manuelle"], ["FWD"]),
+        e("1.2-tsi-86", ["manuelle"], ["FWD"]),
+        e("1.6-tdi-90", ["manuelle"], ["FWD"]),
+      ]},
+    ],
+  },
+  {
+    id: "praktik", name: "Praktik", brand: "Škoda",
+    generations: [
+      { id: "g1", name: "Praktik (2007-2015)", yearStart: 2007, yearEnd: 2015, engines: [
+        e("1.4-mpi-85", ["manuelle"], ["FWD"]),
+        e("1.6-tdi-90", ["manuelle"], ["FWD"]),
+      ]},
+    ],
+  },
+  {
+    id: "enyaq-coupe", name: "Enyaq Coupé", brand: "Škoda",
+    generations: [
+      { id: "g1", name: "Enyaq Coupé (2022-)", yearStart: 2022, engines: [
+        e("ev-id4-204", ["auto"], ["RWD"]),
+        e("ev-id4-286", ["auto"], ["RWD"]),
+        e("ev-id4-gtx", ["auto"], ["AWD"]),
+      ]},
+    ],
+  },
 ];
