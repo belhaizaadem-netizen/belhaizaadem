@@ -260,4 +260,53 @@ export const AUDI_MODELS: Model[] = [
       ]},
     ],
   },
+  {
+    id: "a2", name: "A2", brand: "Audi",
+    generations: [
+      { id: "g1", name: "A2 (1999-2005)", yearStart: 1999, yearEnd: 2005, engines: [
+        e("1.4-mpi-75", ["manuelle"], ["FWD"]),
+        e("1.6-tdi-90", ["manuelle"], ["FWD"]),
+      ]},
+    ],
+  },
+  {
+    id: "tt-8j", name: "TT 8J", brand: "Audi",
+    generations: [
+      { id: "g1", name: "TT 8J (2006-2014)", yearStart: 2006, yearEnd: 2014, engines: [
+        e("1.8-tsi-160", ["manuelle", "S-tronic"], ["FWD"]),
+        e("2.0-tsi-200", ["manuelle", "S-tronic"], ["FWD", "AWD"]),
+        e("2.0-tsi-265", ["S-tronic"], ["AWD"]),
+      ]},
+    ],
+  },
+  {
+    id: "r8", name: "R8", brand: "Audi",
+    generations: [
+      { id: "42", name: "R8 42 (2007-2015)", yearStart: 2007, yearEnd: 2015, engines: [
+        e("4.2-fsi-r8-420", ["manuelle", "S-tronic"], ["AWD"]),
+        e("5.2-fsi-r8-525", ["manuelle", "S-tronic"], ["AWD"]),
+      ]},
+      { id: "4s", name: "R8 4S (2015-2024)", yearStart: 2015, yearEnd: 2024, engines: [
+        e("5.2-fsi-r8-540", ["S-tronic"], ["AWD"]),
+        e("5.2-fsi-r8-610", ["S-tronic"], ["AWD"]),
+      ]},
+    ],
+  },
+  {
+    id: "q8-etron", name: "Q8 e-tron", brand: "Audi",
+    generations: [
+      { id: "g1", name: "Q8 e-tron (2023-)", yearStart: 2023, engines: [
+        e("ev-id4-286", ["auto"], ["AWD"]),
+        e("ev-id4-gtx", ["auto"], ["AWD"]),
+      ]},
+    ],
+  },
+  {
+    id: "rs-etron-gt", name: "RS e-tron GT", brand: "Audi",
+    generations: [
+      { id: "g1", name: "RS e-tron GT (2021-)", yearStart: 2021, engines: [
+        e("ev-id4-gtx", ["auto"], ["AWD"]),
+      ]},
+    ],
+  },
 ];
