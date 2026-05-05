@@ -95,4 +95,34 @@ export const SEAT_MODELS: Model[] = [
       ]},
     ],
   },
+  {
+    id: "altea", name: "Altea", brand: "SEAT",
+    generations: [
+      { id: "g1", name: "Altea (2004-2015)", yearStart: 2004, yearEnd: 2015, engines: [
+        e("1.4-mpi-85", ["manuelle"], ["FWD"]),
+        e("1.4-tsi-125", ["manuelle", "DSG"], ["FWD"]),
+        e("1.6-tdi-105", ["manuelle"], ["FWD"]),
+        e("2.0-tdi-140", ["manuelle", "DSG"], ["FWD"]),
+      ]},
+    ],
+  },
+  {
+    id: "cordoba", name: "Cordoba", brand: "SEAT",
+    generations: [
+      { id: "g1", name: "Cordoba (1993-2009)", yearStart: 1993, yearEnd: 2009, engines: [
+        e("1.4-mpi-75", ["manuelle"], ["FWD"]),
+        e("1.4-mpi-85", ["manuelle"], ["FWD"]),
+      ]},
+    ],
+  },
+  {
+    id: "toledo", name: "Toledo", brand: "SEAT",
+    generations: [
+      { id: "iii", name: "Toledo III (2004-2009)", yearStart: 2004, yearEnd: 2009, engines: [
+        e("1.4-mpi-85", ["manuelle"], ["FWD"]),
+        e("1.6-tdi-105", ["manuelle"], ["FWD"]),
+        e("2.0-tdi-140", ["manuelle", "DSG"], ["FWD"]),
+      ]},
+    ],
+  },
 ];
