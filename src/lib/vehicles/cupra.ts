@@ -72,4 +72,13 @@ export const CUPRA_MODELS: Model[] = [
       ]},
     ],
   },
+  {
+    id: "raval", name: "Raval", brand: "Cupra",
+    generations: [
+      { id: "g1", name: "Raval (2025-)", yearStart: 2025, engines: [
+        e("ev-id3-150", ["auto"], ["FWD"]),
+        e("ev-id3-204", ["auto"], ["FWD"]),
+      ]},
+    ],
+  },
 ];
