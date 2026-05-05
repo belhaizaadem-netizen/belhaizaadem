@@ -147,6 +147,45 @@ export const ENGINE_BLUEPRINTS: Record<string, Blueprint> = {
   "p-3.0-t-450":    E("p-3.0-t-450",    "3.0 6cyl Turbo 450 (Carrera S)",  3.0, 450, "essence", { code: "9A2" }),
   "p-3.8-tt-580":   E("p-3.8-tt-580",   "3.8 6cyl BiTurbo 580 (Turbo)",    3.8, 580, "essence", { code: "9A2" }),
   "p-4.0-fa-500":   E("p-4.0-fa-500",   "4.0 6cyl atmo 500 (GT3)",         4.0, 500, "essence", { code: "9A1 evo", turbo: false }),
+
+  // --- ESSENCE atmo anciennes (Up!, Lupo, Polo IV, Bora, Cordoba, Toledo, Altea, Fabia I/II, Roomster, A2) ---
+  "1.0-mpi-60":   E("1.0-mpi-60",   "1.0 MPI 60",   1.0, 60,  "essence", { turbo: false, hasHPFP: false, code: "EA111" }),
+  "1.4-mpi-75":   E("1.4-mpi-75",   "1.4 MPI 75",   1.4, 75,  "essence", { turbo: false, hasHPFP: false, code: "EA111" }),
+  "1.4-mpi-85":   E("1.4-mpi-85",   "1.4 MPI 85",   1.4, 85,  "essence", { turbo: false, hasHPFP: false, code: "EA111" }),
+  "1.4-fsi-90":   E("1.4-fsi-90",   "1.4 FSI 90",   1.4, 90,  "essence", { turbo: false, code: "EA111" }),
+
+  // --- AUDI R8 ---
+  "4.2-fsi-r8-420":  E("4.2-fsi-r8-420",  "4.2 V8 FSI 420 (R8)",  4.2, 420, "essence", { turbo: false, code: "BYH" }),
+  "5.2-fsi-r8-525":  E("5.2-fsi-r8-525",  "5.2 V10 FSI 525 (R8)", 5.2, 525, "essence", { turbo: false, code: "BUJ" }),
+  "5.2-fsi-r8-540":  E("5.2-fsi-r8-540",  "5.2 V10 FSI 540 (R8)", 5.2, 540, "essence", { turbo: false, code: "CSP" }),
+  "5.2-fsi-r8-610":  E("5.2-fsi-r8-610",  "5.2 V10 FSI 610 (R8 Plus)", 5.2, 610, "essence", { turbo: false, code: "DJP" }),
+
+  // --- PORSCHE 718 (982) ---
+  "p-2.0-f4-300":   E("p-2.0-f4-300",   "2.0 Flat-4 Turbo 300 (718)",  2.0, 300, "essence", { code: "MA2.20" }),
+  "p-2.5-f4-350":   E("p-2.5-f4-350",   "2.5 Flat-4 Turbo 350 (718 S)", 2.5, 350, "essence", { code: "MA2.21" }),
+  "p-2.5-f4-365":   E("p-2.5-f4-365",   "2.5 Flat-4 Turbo 365 (718 GTS)", 2.5, 365, "essence", { code: "MA2.21" }),
+  "p-4.0-f6-400":   E("p-4.0-f6-400",   "4.0 Flat-6 atmo 400 (718 GTS 4.0)", 4.0, 400, "essence", { turbo: false, code: "9A1" }),
+  "p-4.0-f6-420":   E("p-4.0-f6-420",   "4.0 Flat-6 atmo 420 (718 GT4/Spyder)", 4.0, 420, "essence", { turbo: false, code: "9A1" }),
+
+  // --- PORSCHE 911 991 ---
+  "p-3.4-f6-350":   E("p-3.4-f6-350",   "3.4 Flat-6 atmo 350 (991 Carrera)", 3.4, 350, "essence", { turbo: false, code: "9A1" }),
+  "p-3.8-f6-400":   E("p-3.8-f6-400",   "3.8 Flat-6 atmo 400 (991 S)",       3.8, 400, "essence", { turbo: false, code: "9A1" }),
+  "p-3.8-f6-475":   E("p-3.8-f6-475",   "3.8 Flat-6 GT3 475 (991)",          3.8, 475, "essence", { turbo: false, code: "9A1 evo" }),
+  "p-4.0-f6-500":   E("p-4.0-f6-500",   "4.0 Flat-6 GT3 500 (991.2)",        4.0, 500, "essence", { turbo: false, code: "9A1 evo" }),
+  "p-4.0-f6-520":   E("p-4.0-f6-520",   "4.0 Flat-6 GT3 RS 520 (991)",       4.0, 520, "essence", { turbo: false, code: "9A1 evo" }),
+  "p-3.8-tt-580-991": E("p-3.8-tt-580-991", "3.8 Flat-6 BiTurbo 580 (991 Turbo S)", 3.8, 580, "essence", { code: "9A1" }),
+
+  // --- PORSCHE Cayenne 92A / Panamera 970 ---
+  "p-3.6-v6-300":   E("p-3.6-v6-300",   "3.6 V6 atmo 300 (Cayenne/Panamera)", 3.6, 300, "essence", { turbo: false, code: "M55" }),
+  "p-3.6-v6-440":   E("p-3.6-v6-440",   "3.6 V6 BiTurbo 440 (Cayenne GTS)",   3.6, 440, "essence", { code: "MCT" }),
+  "p-4.8-v8-400":   E("p-4.8-v8-400",   "4.8 V8 atmo 400 (Panamera S)",       4.8, 400, "essence", { turbo: false, code: "M48" }),
+  "p-4.8-v8-500":   E("p-4.8-v8-500",   "4.8 V8 BiTurbo 500 (Panamera Turbo)",4.8, 500, "essence", { code: "M48" }),
+
+  // --- ID.Buzz / ID.7 ---
+  "ev-id-buzz-204": E("ev-id-buzz-204", "Pro 204 (77 kWh, ID.Buzz)", 0, 204, "electrique", { turbo: false, hasHPFP: false }),
+  "ev-id-buzz-286": E("ev-id-buzz-286", "GTX 340 AWD (ID.Buzz)",     0, 340, "electrique", { turbo: false, hasHPFP: false }),
+  "ev-id7-286":     E("ev-id7-286",     "Pro 286 (77 kWh, ID.7)",    0, 286, "electrique", { turbo: false, hasHPFP: false }),
+  "ev-id7-340":     E("ev-id7-340",     "GTX 340 AWD (ID.7)",        0, 340, "electrique", { turbo: false, hasHPFP: false }),
 };
 
 export function buildEngine(
