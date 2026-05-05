@@ -5,6 +5,17 @@ export const SKODA_MODELS: Model[] = [
   {
     id: "fabia", name: "Fabia", brand: "Škoda",
     generations: [
+      { id: "mk1", name: "Fabia I 6Y (1999-2007)", yearStart: 1999, yearEnd: 2007, engines: [
+        e("1.4-mpi-75", ["manuelle"], ["FWD"]),
+        e("1.4-mpi-85", ["manuelle"], ["FWD"]),
+      ]},
+      { id: "mk2", name: "Fabia II 5J (2007-2014)", yearStart: 2007, yearEnd: 2014, engines: [
+        e("1.4-mpi-85", ["manuelle"], ["FWD"]),
+        e("1.2-tsi-86", ["manuelle"], ["FWD"]),
+        e("1.2-tsi-105", ["manuelle"], ["FWD"]),
+        e("1.6-tdi-90", ["manuelle"], ["FWD"]),
+        e("1.6-tdi-105", ["manuelle"], ["FWD"]),
+      ]},
       { id: "mk3", name: "Fabia III NJ (2014-2021)", yearStart: 2014, yearEnd: 2021, engines: [
         e("1.0-mpi-75", ["manuelle"], ["FWD"]),
         e("1.0-tsi-95", ["manuelle"], ["FWD"]),
