@@ -10,7 +10,8 @@ import {
   FilterIcon,
 } from "./dashboard/TellTaleIcons";
 
-const DURATION = 2600; // ms total
+const DURATION = 3200; // ms total
+const MAX_KMH = 260;
 
 export function DashboardStartup({ onDone }: { onDone: () => void }) {
   const [t, setT] = useState(0); // 0..1
@@ -25,23 +26,30 @@ export function DashboardStartup({ onDone }: { onDone: () => void }) {
       if (p < 1) raf = requestAnimationFrame(tick);
       else {
         setFadeOut(true);
-        setTimeout(onDone, 400);
+        setTimeout(onDone, 500);
       }
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
   }, [onDone]);
 
-  // Needle: 0 -> max (at t=0.5) -> 0 (at t=1). Range -120deg .. +120deg
-  const sweep = t < 0.5 ? t / 0.5 : 1 - (t - 0.5) / 0.5;
+  // Needle phases: 0-15% hold at 0, 15-55% sweep up to max, 55-90% sweep back to 0, 90-100% hold
+  let sweep = 0;
+  if (t < 0.15) sweep = 0;
+  else if (t < 0.55) sweep = (t - 0.15) / 0.4; // 0 -> 1
+  else if (t < 0.9) sweep = 1 - (t - 0.55) / 0.35; // 1 -> 0
+  else sweep = 0;
   const angle = -120 + sweep * 240;
+  const displayKmh = Math.round(sweep * MAX_KMH);
 
-  // Warning lights: on during first 70%, then fade
-  const lightsOn = t < 0.75;
-  const lightsOpacity = t < 0.75 ? 1 : Math.max(0, 1 - (t - 0.75) / 0.2);
+  // Warning lights: ALL on from start, fade out at the very end
+  const lightsOn = t < 0.92;
+  const lightsOpacity = t < 0.85 ? 1 : Math.max(0, 1 - (t - 0.85) / 0.15);
 
-  // Tick marks
-  const ticks = Array.from({ length: 13 }, (_, i) => i);
+  // Tick marks: 14 ticks for 0..260 (every 20)
+  const tickCount = 14;
+  const ticks = Array.from({ length: tickCount }, (_, i) => i);
+
 
   const lights = [
     { Icon: EngineIcon, color: "#fbbf24" },
@@ -96,9 +104,9 @@ export function DashboardStartup({ onDone }: { onDone: () => void }) {
             strokeLinecap="round"
           />
 
-          {/* Red zone (last quarter) */}
+          {/* Red zone (220-260) */}
           <path
-            d="M 45 78 A 90 90 0 0 1 78 45"
+            d="M 64 64 A 90 90 0 0 1 78 45"
             fill="none"
             stroke="#dc2626"
             strokeWidth="6"
@@ -107,10 +115,11 @@ export function DashboardStartup({ onDone }: { onDone: () => void }) {
 
           {/* Tick marks */}
           {ticks.map((i) => {
-            const a = (-120 + (i * 240) / 12) * (Math.PI / 180);
-            const isRed = i >= 10;
+            const a = (-120 + (i * 240) / (tickCount - 1)) * (Math.PI / 180);
+            const isRed = i >= 11;
+            const major = i % 2 === 0;
             const r1 = 72;
-            const r2 = i % 2 === 0 ? 84 : 80;
+            const r2 = major ? 84 : 80;
             return (
               <line
                 key={i}
@@ -119,25 +128,25 @@ export function DashboardStartup({ onDone }: { onDone: () => void }) {
                 x2={Math.sin(a) * r2}
                 y2={-Math.cos(a) * r2}
                 stroke={isRed ? "#ef4444" : "#9ca3af"}
-                strokeWidth={i % 2 === 0 ? 2.5 : 1.5}
+                strokeWidth={major ? 2.5 : 1.5}
               />
             );
           })}
 
-          {/* Numbers */}
+          {/* Numbers 0..260 */}
           {ticks
             .filter((i) => i % 2 === 0)
             .map((i) => {
-              const a = (-120 + (i * 240) / 12) * (Math.PI / 180);
-              const r = 60;
+              const a = (-120 + (i * 240) / (tickCount - 1)) * (Math.PI / 180);
+              const r = 58;
               return (
                 <text
                   key={i}
                   x={Math.sin(a) * r}
-                  y={-Math.cos(a) * r + 4}
+                  y={-Math.cos(a) * r + 3}
                   textAnchor="middle"
-                  fontSize="10"
-                  fill={i >= 10 ? "#ef4444" : "#d1d5db"}
+                  fontSize="9"
+                  fill={i >= 11 ? "#ef4444" : "#d1d5db"}
                   fontFamily="system-ui, sans-serif"
                   fontWeight="600"
                 >
@@ -145,6 +154,20 @@ export function DashboardStartup({ onDone }: { onDone: () => void }) {
                 </text>
               );
             })}
+
+          {/* Digital km/h readout */}
+          <text
+            x="0"
+            y="20"
+            textAnchor="middle"
+            fontSize="22"
+            fill="#fef3c7"
+            fontFamily="system-ui, sans-serif"
+            fontWeight="800"
+            letterSpacing="1"
+          >
+            {displayKmh}
+          </text>
 
           {/* Needle */}
           <g transform={`rotate(${angle})`} style={{ transition: "none" }}>
@@ -156,7 +179,7 @@ export function DashboardStartup({ onDone }: { onDone: () => void }) {
               stroke="#ef4444"
               strokeWidth="3"
               strokeLinecap="round"
-              filter="drop-shadow(0 0 4px rgba(239,68,68,0.8))"
+              filter="drop-shadow(0 0 4px rgba(239,68,68,0.9))"
             />
             <circle cx="0" cy="0" r="8" fill="#ef4444" />
             <circle cx="0" cy="0" r="3" fill="#0a0a0a" />
@@ -167,7 +190,7 @@ export function DashboardStartup({ onDone }: { onDone: () => void }) {
             x="0"
             y="40"
             textAnchor="middle"
-            fontSize="9"
+            fontSize="8"
             fill="#6b7280"
             fontFamily="system-ui, sans-serif"
             letterSpacing="2"
