@@ -10,7 +10,8 @@ import {
   FilterIcon,
 } from "./dashboard/TellTaleIcons";
 
-const DURATION = 2600; // ms total
+const DURATION = 3200; // ms total
+const MAX_KMH = 260;
 
 export function DashboardStartup({ onDone }: { onDone: () => void }) {
   const [t, setT] = useState(0); // 0..1
@@ -25,23 +26,30 @@ export function DashboardStartup({ onDone }: { onDone: () => void }) {
       if (p < 1) raf = requestAnimationFrame(tick);
       else {
         setFadeOut(true);
-        setTimeout(onDone, 400);
+        setTimeout(onDone, 500);
       }
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
   }, [onDone]);
 
-  // Needle: 0 -> max (at t=0.5) -> 0 (at t=1). Range -120deg .. +120deg
-  const sweep = t < 0.5 ? t / 0.5 : 1 - (t - 0.5) / 0.5;
+  // Needle phases: 0-15% hold at 0, 15-55% sweep up to max, 55-90% sweep back to 0, 90-100% hold
+  let sweep = 0;
+  if (t < 0.15) sweep = 0;
+  else if (t < 0.55) sweep = (t - 0.15) / 0.4; // 0 -> 1
+  else if (t < 0.9) sweep = 1 - (t - 0.55) / 0.35; // 1 -> 0
+  else sweep = 0;
   const angle = -120 + sweep * 240;
+  const displayKmh = Math.round(sweep * MAX_KMH);
 
-  // Warning lights: on during first 70%, then fade
-  const lightsOn = t < 0.75;
-  const lightsOpacity = t < 0.75 ? 1 : Math.max(0, 1 - (t - 0.75) / 0.2);
+  // Warning lights: ALL on from start, fade out at the very end
+  const lightsOn = t < 0.92;
+  const lightsOpacity = t < 0.85 ? 1 : Math.max(0, 1 - (t - 0.85) / 0.15);
 
-  // Tick marks
-  const ticks = Array.from({ length: 13 }, (_, i) => i);
+  // Tick marks: 14 ticks for 0..260 (every 20)
+  const tickCount = 14;
+  const ticks = Array.from({ length: tickCount }, (_, i) => i);
+
 
   const lights = [
     { Icon: EngineIcon, color: "#fbbf24" },
