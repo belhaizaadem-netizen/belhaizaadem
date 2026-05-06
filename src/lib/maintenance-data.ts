@@ -92,7 +92,7 @@ export const MAINTENANCE_ITEMS: MaintenanceItem[] = [
     requiresDPF: true },
 
   // ÉLECTRIQUE
-  { id: "batterie", name: "Test batterie 12V (SOH)", category: "Électrique", intervalKm: 30000 },
+  
   { id: "alternateur", name: "Contrôle alternateur + tension de charge", category: "Électrique", intervalKm: 30000 },
   { id: "maj-calculateurs", name: "Mise à jour logiciel calculateurs (ODIS)", category: "Électrique", intervalKm: 60000 },
   { id: "filtre-habitacle", name: "Filtre habitacle / pollens", category: "Électrique", intervalKm: 30000 },
