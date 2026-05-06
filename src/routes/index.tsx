@@ -69,12 +69,14 @@ const GUEST_KEY = "vag-guest-mode";
 function Index() {
   const navigate = useNavigate();
   const { user, loading: authLoading, signOut } = useAuth();
-  const [isGuest, setIsGuest] = useState(false);
+  const [isGuest, setIsGuest] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return localStorage.getItem(GUEST_KEY) === "1";
+  });
   const [showStartup, setShowStartup] = useState(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      setIsGuest(localStorage.getItem(GUEST_KEY) === "1");
       if (!sessionStorage.getItem(STARTUP_KEY)) {
         setShowStartup(true);
         sessionStorage.setItem(STARTUP_KEY, "1");
