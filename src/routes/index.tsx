@@ -31,7 +31,10 @@ import { HistorySheet } from "@/components/HistorySheet";
 import { MarkDoneDialog } from "@/components/MarkDoneDialog";
 import { UserGuide } from "@/components/UserGuide";
 import { GpsTracker } from "@/components/GpsTracker";
+import { DashboardStartup } from "@/components/DashboardStartup";
 import { cn } from "@/lib/utils";
+
+const STARTUP_KEY = "vag-startup-shown";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -67,10 +70,15 @@ function Index() {
   const navigate = useNavigate();
   const { user, loading: authLoading, signOut } = useAuth();
   const [isGuest, setIsGuest] = useState(false);
+  const [showStartup, setShowStartup] = useState(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       setIsGuest(localStorage.getItem(GUEST_KEY) === "1");
+      if (!sessionStorage.getItem(STARTUP_KEY)) {
+        setShowStartup(true);
+        sessionStorage.setItem(STARTUP_KEY, "1");
+      }
     }
   }, []);
 
@@ -155,6 +163,7 @@ function Index() {
 
   return (
     <div className="min-h-screen bg-background pb-24">
+      {showStartup && <DashboardStartup onDone={() => setShowStartup(false)} />}
       <div className="mx-auto max-w-md px-4 pt-6">
         {/* Header */}
         <header className="mb-5 flex items-center justify-between">
