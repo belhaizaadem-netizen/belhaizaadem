@@ -31,7 +31,10 @@ import { HistorySheet } from "@/components/HistorySheet";
 import { MarkDoneDialog } from "@/components/MarkDoneDialog";
 import { UserGuide } from "@/components/UserGuide";
 import { GpsTracker } from "@/components/GpsTracker";
+import { DashboardStartup } from "@/components/DashboardStartup";
 import { cn } from "@/lib/utils";
+
+const STARTUP_KEY = "vag-startup-shown";
 
 export const Route = createFileRoute("/")({
   head: () => ({
