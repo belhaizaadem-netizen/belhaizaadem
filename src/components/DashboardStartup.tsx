@@ -104,9 +104,9 @@ export function DashboardStartup({ onDone }: { onDone: () => void }) {
             strokeLinecap="round"
           />
 
-          {/* Red zone (last quarter) */}
+          {/* Red zone (220-260) */}
           <path
-            d="M 45 78 A 90 90 0 0 1 78 45"
+            d="M 64 64 A 90 90 0 0 1 78 45"
             fill="none"
             stroke="#dc2626"
             strokeWidth="6"
@@ -115,10 +115,11 @@ export function DashboardStartup({ onDone }: { onDone: () => void }) {
 
           {/* Tick marks */}
           {ticks.map((i) => {
-            const a = (-120 + (i * 240) / 12) * (Math.PI / 180);
-            const isRed = i >= 10;
+            const a = (-120 + (i * 240) / (tickCount - 1)) * (Math.PI / 180);
+            const isRed = i >= 11;
+            const major = i % 2 === 0;
             const r1 = 72;
-            const r2 = i % 2 === 0 ? 84 : 80;
+            const r2 = major ? 84 : 80;
             return (
               <line
                 key={i}
@@ -127,25 +128,25 @@ export function DashboardStartup({ onDone }: { onDone: () => void }) {
                 x2={Math.sin(a) * r2}
                 y2={-Math.cos(a) * r2}
                 stroke={isRed ? "#ef4444" : "#9ca3af"}
-                strokeWidth={i % 2 === 0 ? 2.5 : 1.5}
+                strokeWidth={major ? 2.5 : 1.5}
               />
             );
           })}
 
-          {/* Numbers */}
+          {/* Numbers 0..260 */}
           {ticks
             .filter((i) => i % 2 === 0)
             .map((i) => {
-              const a = (-120 + (i * 240) / 12) * (Math.PI / 180);
-              const r = 60;
+              const a = (-120 + (i * 240) / (tickCount - 1)) * (Math.PI / 180);
+              const r = 58;
               return (
                 <text
                   key={i}
                   x={Math.sin(a) * r}
-                  y={-Math.cos(a) * r + 4}
+                  y={-Math.cos(a) * r + 3}
                   textAnchor="middle"
-                  fontSize="10"
-                  fill={i >= 10 ? "#ef4444" : "#d1d5db"}
+                  fontSize="9"
+                  fill={i >= 11 ? "#ef4444" : "#d1d5db"}
                   fontFamily="system-ui, sans-serif"
                   fontWeight="600"
                 >
@@ -153,6 +154,20 @@ export function DashboardStartup({ onDone }: { onDone: () => void }) {
                 </text>
               );
             })}
+
+          {/* Digital km/h readout */}
+          <text
+            x="0"
+            y="20"
+            textAnchor="middle"
+            fontSize="22"
+            fill="#fef3c7"
+            fontFamily="system-ui, sans-serif"
+            fontWeight="800"
+            letterSpacing="1"
+          >
+            {displayKmh}
+          </text>
 
           {/* Needle */}
           <g transform={`rotate(${angle})`} style={{ transition: "none" }}>
@@ -164,7 +179,7 @@ export function DashboardStartup({ onDone }: { onDone: () => void }) {
               stroke="#ef4444"
               strokeWidth="3"
               strokeLinecap="round"
-              filter="drop-shadow(0 0 4px rgba(239,68,68,0.8))"
+              filter="drop-shadow(0 0 4px rgba(239,68,68,0.9))"
             />
             <circle cx="0" cy="0" r="8" fill="#ef4444" />
             <circle cx="0" cy="0" r="3" fill="#0a0a0a" />
@@ -175,7 +190,7 @@ export function DashboardStartup({ onDone }: { onDone: () => void }) {
             x="0"
             y="40"
             textAnchor="middle"
-            fontSize="9"
+            fontSize="8"
             fill="#6b7280"
             fontFamily="system-ui, sans-serif"
             letterSpacing="2"
