@@ -382,9 +382,9 @@ function Index() {
         )}
 
         {/* List */}
-        <div className="mt-4 space-y-2.5">
+        <div className="mt-4 space-y-2.5 landscape:grid landscape:grid-cols-2 landscape:gap-2.5 landscape:space-y-0 landscape:lg:grid-cols-3">
           {filtered.length === 0 ? (
-            <div className="rounded-2xl border border-dashed border-border p-8 text-center text-sm text-muted-foreground">
+            <div className="rounded-2xl border border-dashed border-border p-8 text-center text-sm text-muted-foreground landscape:col-span-full">
               Aucun entretien dans cette sélection.
             </div>
           ) : (
@@ -396,6 +396,8 @@ function Index() {
               />
             ))
           )}
+        </div>
+        </div>
         </div>
       </div>
 
