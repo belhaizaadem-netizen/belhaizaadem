@@ -219,6 +219,9 @@ function Index() {
         {/* User guide */}
         <UserGuide />
 
+        <div className="landscape:grid landscape:grid-cols-[minmax(320px,42%)_1fr] landscape:gap-5">
+        <div className="landscape:space-y-3">
+
         {/* Brand */}
         <BrandSelector value={state.brand} onChange={setBrand} />
 
