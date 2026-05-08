@@ -166,7 +166,7 @@ function Index() {
   return (
     <div className="min-h-screen bg-background pb-24">
       {showStartup && <DashboardStartup onDone={() => setShowStartup(false)} />}
-      <div className="mx-auto w-full max-w-md px-4 pt-6 landscape:max-w-none landscape:px-6 landscape:lg:max-w-[1400px]">
+      <div className="mx-auto max-w-md px-4 pt-6">
         {/* Header */}
         <header className="mb-5 flex items-center justify-between">
           <div className="flex items-center gap-2.5">
@@ -218,9 +218,6 @@ function Index() {
 
         {/* User guide */}
         <UserGuide />
-
-        <div className="landscape:grid landscape:grid-cols-[minmax(320px,42%)_1fr] landscape:gap-5">
-        <div className="landscape:space-y-3">
 
         {/* Brand */}
         <BrandSelector value={state.brand} onChange={setBrand} />
@@ -317,11 +314,8 @@ function Index() {
           </div>
         </div>
 
-        </div>
-
-        <div className="landscape:min-w-0">
         {/* Category filter */}
-        <div className="scrollbar-hide -mx-4 mt-5 flex gap-2 overflow-x-auto px-4 pb-1 landscape:mx-0 landscape:mt-0 landscape:px-0">
+        <div className="scrollbar-hide -mx-4 mt-5 flex gap-2 overflow-x-auto px-4 pb-1">
           {(["all", ...CATEGORIES] as const).map((cat) => {
             const active = cat === categoryFilter;
             return (
@@ -382,9 +376,9 @@ function Index() {
         )}
 
         {/* List */}
-        <div className="mt-4 space-y-2.5 landscape:grid landscape:grid-cols-2 landscape:gap-2.5 landscape:space-y-0 landscape:lg:grid-cols-3">
+        <div className="mt-4 space-y-2.5">
           {filtered.length === 0 ? (
-            <div className="rounded-2xl border border-dashed border-border p-8 text-center text-sm text-muted-foreground landscape:col-span-full">
+            <div className="rounded-2xl border border-dashed border-border p-8 text-center text-sm text-muted-foreground">
               Aucun entretien dans cette sélection.
             </div>
           ) : (
@@ -396,8 +390,6 @@ function Index() {
               />
             ))
           )}
-        </div>
-        </div>
         </div>
       </div>
 
