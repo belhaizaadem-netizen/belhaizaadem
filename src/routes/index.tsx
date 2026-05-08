@@ -317,8 +317,11 @@ function Index() {
           </div>
         </div>
 
+        </div>
+
+        <div className="landscape:min-w-0">
         {/* Category filter */}
-        <div className="scrollbar-hide -mx-4 mt-5 flex gap-2 overflow-x-auto px-4 pb-1">
+        <div className="scrollbar-hide -mx-4 mt-5 flex gap-2 overflow-x-auto px-4 pb-1 landscape:mx-0 landscape:mt-0 landscape:px-0">
           {(["all", ...CATEGORIES] as const).map((cat) => {
             const active = cat === categoryFilter;
             return (
