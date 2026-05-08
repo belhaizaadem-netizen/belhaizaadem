@@ -1,5 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   AlertCircle,
   AlertTriangle,
@@ -117,6 +117,17 @@ function Index() {
   const [statusFilter, setStatusFilter] = useState<Status | "all">("all");
   const [historyOpen, setHistoryOpen] = useState(false);
   const [pendingItem, setPendingItem] = useState<MaintenanceItem | null>(null);
+  const [activePage, setActivePage] = useState(0);
+  const pagerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = pagerRef.current;
+    if (!el) return;
+    const target = activePage * el.clientWidth;
+    if (Math.abs(el.scrollLeft - target) > 4) {
+      el.scrollTo({ left: target, behavior: "smooth" });
+    }
+  }, [activePage]);
 
   const engine = useMemo(() => {
     const v = state.vehicle;
