@@ -94,6 +94,7 @@ export const MAINTENANCE_ITEMS: MaintenanceItem[] = [
   // ÉLECTRIQUE
   
   { id: "alternateur", name: "Contrôle alternateur + tension de charge", category: "Électrique", intervalKm: 30000 },
+  { id: "batterie-100k", name: "Contrôle batterie 12V (SOH)", category: "Électrique", intervalKm: 100000 },
   { id: "maj-calculateurs", name: "Mise à jour logiciel calculateurs (ODIS)", category: "Électrique", intervalKm: 60000 },
   { id: "filtre-habitacle", name: "Filtre habitacle / pollens", category: "Électrique", intervalKm: 30000 },
 
