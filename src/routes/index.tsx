@@ -166,7 +166,7 @@ function Index() {
   return (
     <div className="min-h-screen bg-background pb-24">
       {showStartup && <DashboardStartup onDone={() => setShowStartup(false)} />}
-      <div className="mx-auto max-w-md px-4 pt-6">
+      <div className="mx-auto w-full max-w-md px-4 pt-6 landscape:max-w-none landscape:px-6 landscape:lg:max-w-[1400px]">
         {/* Header */}
         <header className="mb-5 flex items-center justify-between">
           <div className="flex items-center gap-2.5">
