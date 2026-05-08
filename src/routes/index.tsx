@@ -164,11 +164,12 @@ function Index() {
   }
 
   return (
-    <div className="min-h-screen bg-background pb-24">
+    <div className="min-h-screen bg-background">
       {showStartup && <DashboardStartup onDone={() => setShowStartup(false)} />}
+
+      {/* Header (fixed across pages) */}
       <div className="mx-auto max-w-md px-4 pt-6">
-        {/* Header */}
-        <header className="mb-5 flex items-center justify-between">
+        <header className="mb-4 flex items-center justify-between">
           <div className="flex items-center gap-2.5">
             <div className="gradient-primary shadow-glow rounded-xl p-2">
               <Wrench className="h-5 w-5 text-primary-foreground" strokeWidth={2.4} />
@@ -215,182 +216,216 @@ function Index() {
             </button>
           </div>
         </header>
+      </div>
 
-        {/* User guide */}
-        <UserGuide />
-
-        {/* Brand */}
-        <BrandSelector value={state.brand} onChange={setBrand} />
-
-        {/* Vehicle cascade */}
-        <div className="mt-3">
-          <VehicleSelector
-            brand={state.brand}
-            vehicle={state.vehicle}
-            onChange={setVehicle}
-          />
-        </div>
-
-        {/* Vehicle dashboard (km + identity) */}
-        <div className="mt-3">
-          <VehicleDashboard
-            brand={state.brand}
-            vehicle={state.vehicle}
-            km={state.currentKm}
-            lastDone={state.lastDone}
-            onKmChange={setCurrentKm}
-            liveSpeedKmh={liveSpeedKmh}
-            livePosition={livePosition}
-          />
-        </div>
-
-        {/* GPS tracker */}
-        <div className="mt-3">
-          <GpsTracker
-            onDistanceDelta={handleGpsDistance}
-            onLiveSpeed={setLiveSpeedKmh}
-            onLivePosition={setLivePosition}
-          />
-        </div>
-
-        {/* Stats */}
-        <div className="mt-3 grid grid-cols-4 gap-2">
-          <StatCard
-            label="Retard"
-            value={counts.overdue}
-            icon={AlertCircle}
-            variant="danger"
-            active={statusFilter === "overdue"}
-            onClick={() =>
-              setStatusFilter((s) => (s === "overdue" ? "all" : "overdue"))
-            }
-          />
-          <StatCard
-            label="À faire"
-            value={counts.due}
-            icon={AlertCircle}
-            variant="danger"
-            active={statusFilter === "due"}
-            onClick={() => setStatusFilter((s) => (s === "due" ? "all" : "due"))}
-          />
-          <StatCard
-            label="Bientôt"
-            value={counts.soon}
-            icon={AlertTriangle}
-            variant="warning"
-            active={statusFilter === "soon"}
-            onClick={() => setStatusFilter((s) => (s === "soon" ? "all" : "soon"))}
-          />
-          <div className="relative">
-            <StatCard
-              label="OK"
-              value={counts.ok}
-              icon={CheckCircle2}
-              variant="success"
-              active={statusFilter === "ok"}
-              onClick={() => setStatusFilter((s) => (s === "ok" ? "all" : "ok"))}
-            />
-            {counts.ok > 0 && (
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  const okIds = statuses
-                    .filter((s) => s.status === "ok")
-                    .map((s) => s.item.id);
-                  if (
-                    okIds.length > 0 &&
-                    confirm(`Réinitialiser les ${okIds.length} entretien(s) marqués OK ?`)
-                  ) {
-                    resetItems(okIds);
-                  }
-                }}
-                className="absolute -right-1 -top-1 rounded-full border border-border bg-card p-1 text-muted-foreground shadow-md transition-colors hover:bg-destructive hover:text-destructive-foreground"
-                aria-label="Réinitialiser les entretiens OK"
-                title="Réinitialiser les entretiens OK"
-              >
-                <RotateCcw className="h-3 w-3" strokeWidth={2.5} />
-              </button>
-            )}
-          </div>
-        </div>
-
-        {/* Category filter */}
-        <div className="scrollbar-hide -mx-4 mt-5 flex gap-2 overflow-x-auto px-4 pb-1">
-          {(["all", ...CATEGORIES] as const).map((cat) => {
-            const active = cat === categoryFilter;
-            return (
-              <button
-                key={cat}
-                onClick={() => setCategoryFilter(cat)}
-                className={cn(
-                  "shrink-0 rounded-full border px-3 py-1.5 text-xs font-medium transition-all",
-                  active
-                    ? "border-primary bg-primary text-primary-foreground"
-                    : "border-border bg-card text-muted-foreground hover:text-foreground",
-                )}
-              >
-                {cat === "all" ? "Toutes catégories" : cat}
-              </button>
-            );
-          })}
-        </div>
-
-        {/* Status filter chip indicator */}
-        {statusFilter !== "all" && (
-          <div className="mt-3 flex items-center justify-between gap-2 rounded-xl bg-secondary/50 px-3 py-2 text-xs">
-            <span className="text-muted-foreground">
-              Filtre :{" "}
-              <span className="font-semibold text-foreground">
-                {STATUS_FILTERS.find((s) => s.key === statusFilter)?.label}
-              </span>
-            </span>
-            <div className="flex items-center gap-2">
-              {statusFilter === "ok" && counts.ok > 0 && (
-                <button
-                  onClick={() => {
-                    const okIds = statuses
-                      .filter((s) => s.status === "ok")
-                      .map((s) => s.item.id);
-                    if (
-                      okIds.length > 0 &&
-                      confirm(`Réinitialiser les ${okIds.length} entretien(s) marqués OK ?`)
-                    ) {
-                      resetItems(okIds);
-                    }
-                  }}
-                  className="inline-flex items-center gap-1 rounded-full bg-destructive px-2.5 py-1 font-semibold text-destructive-foreground transition-opacity hover:opacity-90"
-                  aria-label="Effacer tous les OK"
-                >
-                  <RotateCcw className="h-3 w-3" strokeWidth={2.5} />
-                  Tout effacer
-                </button>
-              )}
-              <button
-                onClick={() => setStatusFilter("all")}
-                className="font-semibold text-primary"
-              >
-                Réinitialiser
-              </button>
-            </div>
-          </div>
-        )}
-
-        {/* List */}
-        <div className="mt-4 space-y-2.5">
-          {filtered.length === 0 ? (
-            <div className="rounded-2xl border border-dashed border-border p-8 text-center text-sm text-muted-foreground">
-              Aucun entretien dans cette sélection.
-            </div>
-          ) : (
-            filtered.map((s) => (
-              <MaintenanceCard
-                key={s.item.id}
-                status={s}
-                onMarkDone={() => setPendingItem(s.item)}
-              />
-            ))
+      {/* Page indicator */}
+      <div className="mx-auto mb-2 flex max-w-md items-center justify-center gap-2">
+        <button
+          onClick={() => setActivePage(0)}
+          className={cn(
+            "h-1.5 rounded-full transition-all",
+            activePage === 0 ? "w-8 bg-primary" : "w-1.5 bg-border",
           )}
-        </div>
+          aria-label="Page véhicule"
+        />
+        <button
+          onClick={() => setActivePage(1)}
+          className={cn(
+            "h-1.5 rounded-full transition-all",
+            activePage === 1 ? "w-8 bg-primary" : "w-1.5 bg-border",
+          )}
+          aria-label="Page entretiens"
+        />
+      </div>
+      <div className="mx-auto mb-2 max-w-md px-4 text-center text-[10px] uppercase tracking-wider text-muted-foreground">
+        {activePage === 0 ? "← Glissez pour voir les entretiens →" : "← Glissez pour le véhicule →"}
+      </div>
+
+      {/* Swipeable pages */}
+      <div
+        ref={pagerRef}
+        onScroll={(e) => {
+          const w = e.currentTarget.clientWidth;
+          if (w > 0) {
+            const p = Math.round(e.currentTarget.scrollLeft / w);
+            if (p !== activePage) setActivePage(p);
+          }
+        }}
+        className="scrollbar-hide flex snap-x snap-mandatory overflow-x-auto overflow-y-hidden"
+        style={{ scrollBehavior: "smooth" }}
+      >
+        {/* Page 1: Véhicule */}
+        <section className="w-full shrink-0 snap-center">
+          <div className="mx-auto max-w-md px-4 pb-24">
+            <UserGuide />
+            <BrandSelector value={state.brand} onChange={setBrand} />
+            <div className="mt-3">
+              <VehicleSelector
+                brand={state.brand}
+                vehicle={state.vehicle}
+                onChange={setVehicle}
+              />
+            </div>
+            <div className="mt-3">
+              <VehicleDashboard
+                brand={state.brand}
+                vehicle={state.vehicle}
+                km={state.currentKm}
+                lastDone={state.lastDone}
+                onKmChange={setCurrentKm}
+                liveSpeedKmh={liveSpeedKmh}
+                livePosition={livePosition}
+              />
+            </div>
+            <div className="mt-3">
+              <GpsTracker
+                onDistanceDelta={handleGpsDistance}
+                onLiveSpeed={setLiveSpeedKmh}
+                onLivePosition={setLivePosition}
+              />
+            </div>
+          </div>
+        </section>
+
+        {/* Page 2: Entretiens */}
+        <section className="w-full shrink-0 snap-center">
+          <div className="mx-auto max-w-md px-4 pb-24">
+            <div className="grid grid-cols-4 gap-2">
+              <StatCard
+                label="Retard"
+                value={counts.overdue}
+                icon={AlertCircle}
+                variant="danger"
+                active={statusFilter === "overdue"}
+                onClick={() =>
+                  setStatusFilter((s) => (s === "overdue" ? "all" : "overdue"))
+                }
+              />
+              <StatCard
+                label="À faire"
+                value={counts.due}
+                icon={AlertCircle}
+                variant="danger"
+                active={statusFilter === "due"}
+                onClick={() => setStatusFilter((s) => (s === "due" ? "all" : "due"))}
+              />
+              <StatCard
+                label="Bientôt"
+                value={counts.soon}
+                icon={AlertTriangle}
+                variant="warning"
+                active={statusFilter === "soon"}
+                onClick={() => setStatusFilter((s) => (s === "soon" ? "all" : "soon"))}
+              />
+              <div className="relative">
+                <StatCard
+                  label="OK"
+                  value={counts.ok}
+                  icon={CheckCircle2}
+                  variant="success"
+                  active={statusFilter === "ok"}
+                  onClick={() => setStatusFilter((s) => (s === "ok" ? "all" : "ok"))}
+                />
+                {counts.ok > 0 && (
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      const okIds = statuses
+                        .filter((s) => s.status === "ok")
+                        .map((s) => s.item.id);
+                      if (
+                        okIds.length > 0 &&
+                        confirm(`Réinitialiser les ${okIds.length} entretien(s) marqués OK ?`)
+                      ) {
+                        resetItems(okIds);
+                      }
+                    }}
+                    className="absolute -right-1 -top-1 rounded-full border border-border bg-card p-1 text-muted-foreground shadow-md transition-colors hover:bg-destructive hover:text-destructive-foreground"
+                    aria-label="Réinitialiser les entretiens OK"
+                    title="Réinitialiser les entretiens OK"
+                  >
+                    <RotateCcw className="h-3 w-3" strokeWidth={2.5} />
+                  </button>
+                )}
+              </div>
+            </div>
+
+            <div className="scrollbar-hide -mx-4 mt-5 flex gap-2 overflow-x-auto px-4 pb-1">
+              {(["all", ...CATEGORIES] as const).map((cat) => {
+                const active = cat === categoryFilter;
+                return (
+                  <button
+                    key={cat}
+                    onClick={() => setCategoryFilter(cat)}
+                    className={cn(
+                      "shrink-0 rounded-full border px-3 py-1.5 text-xs font-medium transition-all",
+                      active
+                        ? "border-primary bg-primary text-primary-foreground"
+                        : "border-border bg-card text-muted-foreground hover:text-foreground",
+                    )}
+                  >
+                    {cat === "all" ? "Toutes catégories" : cat}
+                  </button>
+                );
+              })}
+            </div>
+
+            {statusFilter !== "all" && (
+              <div className="mt-3 flex items-center justify-between gap-2 rounded-xl bg-secondary/50 px-3 py-2 text-xs">
+                <span className="text-muted-foreground">
+                  Filtre :{" "}
+                  <span className="font-semibold text-foreground">
+                    {STATUS_FILTERS.find((s) => s.key === statusFilter)?.label}
+                  </span>
+                </span>
+                <div className="flex items-center gap-2">
+                  {statusFilter === "ok" && counts.ok > 0 && (
+                    <button
+                      onClick={() => {
+                        const okIds = statuses
+                          .filter((s) => s.status === "ok")
+                          .map((s) => s.item.id);
+                        if (
+                          okIds.length > 0 &&
+                          confirm(`Réinitialiser les ${okIds.length} entretien(s) marqués OK ?`)
+                        ) {
+                          resetItems(okIds);
+                        }
+                      }}
+                      className="inline-flex items-center gap-1 rounded-full bg-destructive px-2.5 py-1 font-semibold text-destructive-foreground transition-opacity hover:opacity-90"
+                      aria-label="Effacer tous les OK"
+                    >
+                      <RotateCcw className="h-3 w-3" strokeWidth={2.5} />
+                      Tout effacer
+                    </button>
+                  )}
+                  <button
+                    onClick={() => setStatusFilter("all")}
+                    className="font-semibold text-primary"
+                  >
+                    Réinitialiser
+                  </button>
+                </div>
+              </div>
+            )}
+
+            <div className="mt-4 space-y-2.5">
+              {filtered.length === 0 ? (
+                <div className="rounded-2xl border border-dashed border-border p-8 text-center text-sm text-muted-foreground">
+                  Aucun entretien dans cette sélection.
+                </div>
+              ) : (
+                filtered.map((s) => (
+                  <MaintenanceCard
+                    key={s.item.id}
+                    status={s}
+                    onMarkDone={() => setPendingItem(s.item)}
+                  />
+                ))
+              )}
+            </div>
+          </div>
+        </section>
       </div>
 
       <HistorySheet
