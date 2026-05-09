@@ -15,6 +15,7 @@ import {
   CoolantIcon,
   EngineIcon,
   FilterIcon,
+  GlowPlugIcon,
   OilIcon,
   TirePressureIcon,
 } from "@/components/dashboard/TellTaleIcons";
