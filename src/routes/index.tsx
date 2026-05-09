@@ -269,6 +269,75 @@ function Index() {
         <section className="w-full shrink-0 snap-center">
           <div className="mx-auto max-w-md px-4 pb-24">
             <UserGuide />
+            <div className="mb-3 grid grid-cols-4 gap-2">
+              <StatCard
+                label="Retard"
+                value={counts.overdue}
+                icon={AlertCircle}
+                variant="danger"
+                active={statusFilter === "overdue"}
+                onClick={() => {
+                  setStatusFilter((s) => (s === "overdue" ? "all" : "overdue"));
+                  setActivePage(1);
+                }}
+              />
+              <StatCard
+                label="À faire"
+                value={counts.due}
+                icon={AlertCircle}
+                variant="danger"
+                active={statusFilter === "due"}
+                onClick={() => {
+                  setStatusFilter((s) => (s === "due" ? "all" : "due"));
+                  setActivePage(1);
+                }}
+              />
+              <StatCard
+                label="Bientôt"
+                value={counts.soon}
+                icon={AlertTriangle}
+                variant="warning"
+                active={statusFilter === "soon"}
+                onClick={() => {
+                  setStatusFilter((s) => (s === "soon" ? "all" : "soon"));
+                  setActivePage(1);
+                }}
+              />
+              <div className="relative">
+                <StatCard
+                  label="OK"
+                  value={counts.ok}
+                  icon={CheckCircle2}
+                  variant="success"
+                  active={statusFilter === "ok"}
+                  onClick={() => {
+                    setStatusFilter((s) => (s === "ok" ? "all" : "ok"));
+                    setActivePage(1);
+                  }}
+                />
+                {counts.ok > 0 && (
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      const okIds = statuses
+                        .filter((s) => s.status === "ok")
+                        .map((s) => s.item.id);
+                      if (
+                        okIds.length > 0 &&
+                        confirm(`Réinitialiser les ${okIds.length} entretien(s) marqués OK ?`)
+                      ) {
+                        resetItems(okIds);
+                      }
+                    }}
+                    className="absolute -right-1 -top-1 rounded-full border border-border bg-card p-1 text-muted-foreground shadow-md transition-colors hover:bg-destructive hover:text-destructive-foreground"
+                    aria-label="Réinitialiser les entretiens OK"
+                    title="Réinitialiser les entretiens OK"
+                  >
+                    <RotateCcw className="h-3 w-3" strokeWidth={2.5} />
+                  </button>
+                )}
+              </div>
+            </div>
             <BrandSelector value={state.brand} onChange={setBrand} />
             <div className="mt-3">
               <VehicleSelector
@@ -301,65 +370,6 @@ function Index() {
         {/* Page 2: Entretiens */}
         <section className="w-full shrink-0 snap-center">
           <div className="mx-auto max-w-md px-4 pb-24">
-            <div className="grid grid-cols-4 gap-2">
-              <StatCard
-                label="Retard"
-                value={counts.overdue}
-                icon={AlertCircle}
-                variant="danger"
-                active={statusFilter === "overdue"}
-                onClick={() =>
-                  setStatusFilter((s) => (s === "overdue" ? "all" : "overdue"))
-                }
-              />
-              <StatCard
-                label="À faire"
-                value={counts.due}
-                icon={AlertCircle}
-                variant="danger"
-                active={statusFilter === "due"}
-                onClick={() => setStatusFilter((s) => (s === "due" ? "all" : "due"))}
-              />
-              <StatCard
-                label="Bientôt"
-                value={counts.soon}
-                icon={AlertTriangle}
-                variant="warning"
-                active={statusFilter === "soon"}
-                onClick={() => setStatusFilter((s) => (s === "soon" ? "all" : "soon"))}
-              />
-              <div className="relative">
-                <StatCard
-                  label="OK"
-                  value={counts.ok}
-                  icon={CheckCircle2}
-                  variant="success"
-                  active={statusFilter === "ok"}
-                  onClick={() => setStatusFilter((s) => (s === "ok" ? "all" : "ok"))}
-                />
-                {counts.ok > 0 && (
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      const okIds = statuses
-                        .filter((s) => s.status === "ok")
-                        .map((s) => s.item.id);
-                      if (
-                        okIds.length > 0 &&
-                        confirm(`Réinitialiser les ${okIds.length} entretien(s) marqués OK ?`)
-                      ) {
-                        resetItems(okIds);
-                      }
-                    }}
-                    className="absolute -right-1 -top-1 rounded-full border border-border bg-card p-1 text-muted-foreground shadow-md transition-colors hover:bg-destructive hover:text-destructive-foreground"
-                    aria-label="Réinitialiser les entretiens OK"
-                    title="Réinitialiser les entretiens OK"
-                  >
-                    <RotateCcw className="h-3 w-3" strokeWidth={2.5} />
-                  </button>
-                )}
-              </div>
-            </div>
 
             <div className="scrollbar-hide -mx-4 mt-5 flex gap-2 overflow-x-auto px-4 pb-1">
               {(["all", ...CATEGORIES] as const).map((cat) => {
