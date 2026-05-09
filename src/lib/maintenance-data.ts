@@ -43,6 +43,8 @@ export const MAINTENANCE_ITEMS: MaintenanceItem[] = [
     fuels: ["essence", "diesel", "hybride", "phev", "gnv"] },
   { id: "bougies", name: "Bougies d'allumage", category: "Moteur", intervalKm: 30000,
     fuels: ["essence", "hybride", "phev", "gnv"] },
+  { id: "bougies-prechauffage", name: "Bougies de préchauffage", category: "Moteur", intervalKm: 100000,
+    fuels: ["diesel"] },
   { id: "courroie-accessoires", name: "Courroie accessoires poly-V + galets", category: "Moteur", intervalKm: 60000,
     fuels: ["essence", "diesel", "hybride", "phev", "gnv"] },
   { id: "courroie-dist", name: "Courroie distribution + pompe à eau", category: "Moteur", intervalKm: 120000,
