@@ -74,6 +74,7 @@ export function UserGuide() {
   };
 
   if (dismissed && !open) {
+    if (hideReopen) return null;
     return (
       <button
         onClick={handleReopen}
