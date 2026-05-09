@@ -182,7 +182,7 @@ export function VehicleDashboard({
       </div>
 
       {/* Top warning lights strip — always visible like a real cluster */}
-      <TopWarningStrip lights={lights} />
+      <TopWarningStrip lights={lights} isDiesel={engine?.fuel === "diesel"} />
 
       {/* Twin gauges cluster */}
       <div className="relative grid grid-cols-[1fr_1.4fr_1fr] items-center gap-1 px-2 pb-3 pt-2">
