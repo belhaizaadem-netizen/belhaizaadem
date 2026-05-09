@@ -112,6 +112,7 @@ export function VehicleDashboard({
       temp: worstStatus(pickByCat("Refroidissement")),
       batterie: worstStatus(pickByIds(["batterie-100k", "alternateur"])),
       filtres: worstStatus(pickByIds(["filtre-habitacle", "filtre-air", "filtre-carburant"])),
+      prechauffage: worstStatus(pickByIds(["bougies-prechauffage"])),
     };
 
     const upcoming = statuses
