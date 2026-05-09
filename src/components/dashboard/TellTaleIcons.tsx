@@ -7,10 +7,20 @@
 type IconProps = React.SVGProps<SVGSVGElement>;
 
 export function EngineIcon(props: IconProps) {
-  // Stylised engine block silhouette
+  // Authentic check-engine block silhouette (outlined, matches dashboard tell-tale)
   return (
-    <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
-      <path d="M21 10h-1V8h-3V6h-2v2h-3.17l-1-1H8V5H5v2H3v3H2v4h1v3h2v2h3v-2h2.83l1 1H15v2h2v-2h3v-2h1v-4z" />
+    <svg viewBox="0 0 64 48" fill="none" stroke="currentColor" strokeWidth={3.5} strokeLinejoin="round" strokeLinecap="round" {...props}>
+      <path d="M6 22 L10 22 L10 16 L18 16 L18 10 L26 10 L26 6 L36 6 L36 10 L44 10 L44 14 L52 14 L52 18 L58 18 L58 34 L52 34 L52 38 L20 38 L16 42 L10 42 L10 30 L6 30 Z" />
+    </svg>
+  );
+}
+
+export function GlowPlugIcon(props: IconProps) {
+  // Préchauffage diesel : deux boucles caractéristiques
+  return (
+    <svg viewBox="0 0 64 48" fill="none" stroke="currentColor" strokeWidth={5} strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <path d="M8 18 C 10 8, 28 8, 30 18 C 30 32, 18 42, 18 28 C 18 22, 24 22, 24 28" />
+      <path d="M34 18 C 36 8, 54 8, 56 18 C 56 32, 44 42, 44 28 C 44 22, 50 22, 50 28" />
     </svg>
   );
 }
