@@ -282,7 +282,7 @@ function TopWarningStrip({ lights, isDiesel }: { lights: Record<string, Status>;
     <div className={cn("grid items-start gap-1 border-b border-white/5 bg-black/40 px-2 py-2", isDiesel ? "grid-cols-6" : "grid-cols-5")}>
       <Tell Icon={EngineIcon} status={lights.moteur} label="Moteur" variant="amber" />
       {isDiesel && (
-        <Tell Icon={GlowPlugIcon} status="ok" label="Préchauf." variant="amber" />
+        <Tell Icon={GlowPlugIcon} status={lights.prechauffage} label="Préchauf." variant="amber" />
       )}
       <Tell Icon={BatteryIcon} status={lights.batterie} label="Batterie" variant="red" />
       <Tell Icon={BrakeIcon} status={lights.freins} label="Freins" variant="red" />
