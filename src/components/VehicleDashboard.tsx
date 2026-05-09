@@ -109,7 +109,7 @@ export function VehicleDashboard({
       abs: worstStatus(pickByIds(["liquide-frein"])),
       pneus: worstStatus(pickByIds(["pression-pneus", "permutation-pneus", "inspection-pneus"])),
       temp: worstStatus(pickByCat("Refroidissement")),
-      batterie: worstStatus(pickByIds(["batterie"])),
+      batterie: worstStatus(pickByIds(["batterie-100k", "alternateur"])),
       filtres: worstStatus(pickByIds(["filtre-habitacle", "filtre-air", "filtre-carburant"])),
     };
 
