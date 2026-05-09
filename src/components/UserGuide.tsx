@@ -44,12 +44,17 @@ const STEPS = [
 export function UserGuide() {
   const [open, setOpen] = useState(false);
   const [dismissed, setDismissed] = useState(true);
+  const [hideReopen, setHideReopen] = useState(false);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
     const isDismissed = localStorage.getItem(STORAGE_KEY) === "1";
     setDismissed(isDismissed);
     setOpen(!isDismissed);
+    if (isDismissed) {
+      const t = setTimeout(() => setHideReopen(true), 10000);
+      return () => clearTimeout(t);
+    }
   }, []);
 
   const handleDismiss = () => {
@@ -69,6 +74,7 @@ export function UserGuide() {
   };
 
   if (dismissed && !open) {
+    if (hideReopen) return null;
     return (
       <button
         onClick={handleReopen}
