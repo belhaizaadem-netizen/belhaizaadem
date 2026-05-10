@@ -122,6 +122,8 @@ function Index() {
   const [pendingItem, setPendingItem] = useState<MaintenanceItem | null>(null);
   const [markAllOpen, setMarkAllOpen] = useState(false);
   const [activePage, setActivePage] = useState(0);
+  const [showSwipeHint, setShowSwipeHint] = useState(true);
+  const [showVehiclePickers, setShowVehiclePickers] = useState(true);
   const pagerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -131,6 +133,20 @@ function Index() {
     if (Math.abs(el.scrollLeft - target) > 4) {
       el.scrollTo({ left: target, behavior: "smooth" });
     }
+  }, [activePage]);
+
+  // Hide the "glissez" hint after 10s (one-shot)
+  useEffect(() => {
+    const t = setTimeout(() => setShowSwipeHint(false), 10000);
+    return () => clearTimeout(t);
+  }, []);
+
+  // Show vehicle pickers when entering page 0, then hide after 10s
+  useEffect(() => {
+    if (activePage !== 0) return;
+    setShowVehiclePickers(true);
+    const t = setTimeout(() => setShowVehiclePickers(false), 10000);
+    return () => clearTimeout(t);
   }, [activePage]);
 
   const engine = useMemo(() => {
@@ -252,9 +268,11 @@ function Index() {
           aria-label="Page entretiens"
         />
       </div>
-      <div className="mx-auto mb-2 max-w-md px-4 text-center text-[10px] uppercase tracking-wider text-muted-foreground">
-        {activePage === 0 ? "← Glissez pour voir les entretiens →" : "← Glissez pour le véhicule →"}
-      </div>
+      {showSwipeHint && (
+        <div className="mx-auto mb-2 max-w-md px-4 text-center text-[10px] uppercase tracking-wider text-muted-foreground">
+          {activePage === 0 ? "← Glissez pour voir les entretiens →" : "← Glissez pour le véhicule →"}
+        </div>
+      )}
 
       {/* Swipeable pages */}
       <div
@@ -342,14 +360,25 @@ function Index() {
                 )}
               </div>
             </div>
-            <BrandSelector value={state.brand} onChange={setBrand} />
-            <div className="mt-3">
-              <VehicleSelector
-                brand={state.brand}
-                vehicle={state.vehicle}
-                onChange={setVehicle}
-              />
-            </div>
+            {showVehiclePickers ? (
+              <>
+                <BrandSelector value={state.brand} onChange={setBrand} />
+                <div className="mt-3">
+                  <VehicleSelector
+                    brand={state.brand}
+                    vehicle={state.vehicle}
+                    onChange={setVehicle}
+                  />
+                </div>
+              </>
+            ) : (
+              <button
+                onClick={() => setShowVehiclePickers(true)}
+                className="flex w-full items-center justify-center gap-2 rounded-xl border border-dashed border-border bg-card/50 px-3 py-2 text-xs font-medium text-muted-foreground transition-colors hover:border-primary hover:text-foreground"
+              >
+                Changer de véhicule
+              </button>
+            )}
             <div className="mt-3">
               <VehicleDashboard
                 brand={state.brand}
