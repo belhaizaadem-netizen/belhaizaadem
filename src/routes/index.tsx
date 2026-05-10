@@ -122,6 +122,8 @@ function Index() {
   const [pendingItem, setPendingItem] = useState<MaintenanceItem | null>(null);
   const [markAllOpen, setMarkAllOpen] = useState(false);
   const [activePage, setActivePage] = useState(0);
+  const [showSwipeHint, setShowSwipeHint] = useState(true);
+  const [showVehiclePickers, setShowVehiclePickers] = useState(true);
   const pagerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -131,6 +133,20 @@ function Index() {
     if (Math.abs(el.scrollLeft - target) > 4) {
       el.scrollTo({ left: target, behavior: "smooth" });
     }
+  }, [activePage]);
+
+  // Hide the "glissez" hint after 10s (one-shot)
+  useEffect(() => {
+    const t = setTimeout(() => setShowSwipeHint(false), 10000);
+    return () => clearTimeout(t);
+  }, []);
+
+  // Show vehicle pickers when entering page 0, then hide after 10s
+  useEffect(() => {
+    if (activePage !== 0) return;
+    setShowVehiclePickers(true);
+    const t = setTimeout(() => setShowVehiclePickers(false), 10000);
+    return () => clearTimeout(t);
   }, [activePage]);
 
   const engine = useMemo(() => {
