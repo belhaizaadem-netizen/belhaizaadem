@@ -360,14 +360,25 @@ function Index() {
                 )}
               </div>
             </div>
-            <BrandSelector value={state.brand} onChange={setBrand} />
-            <div className="mt-3">
-              <VehicleSelector
-                brand={state.brand}
-                vehicle={state.vehicle}
-                onChange={setVehicle}
-              />
-            </div>
+            {showVehiclePickers ? (
+              <>
+                <BrandSelector value={state.brand} onChange={setBrand} />
+                <div className="mt-3">
+                  <VehicleSelector
+                    brand={state.brand}
+                    vehicle={state.vehicle}
+                    onChange={setVehicle}
+                  />
+                </div>
+              </>
+            ) : (
+              <button
+                onClick={() => setShowVehiclePickers(true)}
+                className="flex w-full items-center justify-center gap-2 rounded-xl border border-dashed border-border bg-card/50 px-3 py-2 text-xs font-medium text-muted-foreground transition-colors hover:border-primary hover:text-foreground"
+              >
+                Changer de véhicule
+              </button>
+            )}
             <div className="mt-3">
               <VehicleDashboard
                 brand={state.brand}
