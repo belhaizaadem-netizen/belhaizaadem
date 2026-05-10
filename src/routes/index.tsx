@@ -375,6 +375,14 @@ function Index() {
         <section className="w-full shrink-0 snap-center">
           <div className="mx-auto max-w-md px-4 pb-24">
 
+            <button
+              onClick={() => setMarkAllOpen(true)}
+              className="gradient-primary shadow-glow mt-3 flex w-full items-center justify-center gap-2 rounded-2xl px-4 py-3 text-sm font-bold text-primary-foreground transition-all active:scale-[0.98]"
+            >
+              <CheckCheck className="h-5 w-5" strokeWidth={2.5} />
+              Tout marquer fait (intervention complète)
+            </button>
+
             <div className="scrollbar-hide -mx-4 mt-5 flex gap-2 overflow-x-auto px-4 pb-1">
               {(["all", ...CATEGORIES] as const).map((cat) => {
                 const active = cat === categoryFilter;
@@ -468,6 +476,17 @@ function Index() {
         onConfirm={(km) => {
           if (pendingItem) markDone(pendingItem.id, km);
           setPendingItem(null);
+        }}
+      />
+
+      <MarkAllDoneDialog
+        open={markAllOpen}
+        statuses={statuses}
+        defaultKm={state.currentKm}
+        onClose={() => setMarkAllOpen(false)}
+        onConfirm={(ids, km) => {
+          markManyDone(ids, km);
+          setMarkAllOpen(false);
         }}
       />
     </div>
