@@ -7,6 +7,7 @@ import {
   History,
   LogOut,
   Moon,
+  CheckCheck,
   RotateCcw,
   Sun,
   Wrench,
@@ -29,6 +30,7 @@ import { StatCard } from "@/components/StatCard";
 import { MaintenanceCard } from "@/components/MaintenanceCard";
 import { HistorySheet } from "@/components/HistorySheet";
 import { MarkDoneDialog } from "@/components/MarkDoneDialog";
+import { MarkAllDoneDialog } from "@/components/MarkAllDoneDialog";
 import { UserGuide } from "@/components/UserGuide";
 import { GpsTracker } from "@/components/GpsTracker";
 import { DashboardStartup } from "@/components/DashboardStartup";
@@ -99,6 +101,7 @@ function Index() {
     addKm,
     toggleTheme,
     markDone,
+    markManyDone,
     removeHistory,
     resetItems,
   } = useAppState();
@@ -117,6 +120,7 @@ function Index() {
   const [statusFilter, setStatusFilter] = useState<Status | "all">("all");
   const [historyOpen, setHistoryOpen] = useState(false);
   const [pendingItem, setPendingItem] = useState<MaintenanceItem | null>(null);
+  const [markAllOpen, setMarkAllOpen] = useState(false);
   const [activePage, setActivePage] = useState(0);
   const pagerRef = useRef<HTMLDivElement>(null);
 
