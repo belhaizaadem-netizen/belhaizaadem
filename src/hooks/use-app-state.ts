@@ -199,6 +199,30 @@ export function useAppState() {
     });
   }, []);
 
+  const markManyDone = useCallback((itemIds: string[], km: number, note?: string) => {
+    if (itemIds.length === 0) return;
+    setState((s) => {
+      const newLastDone = { ...s.lastDone };
+      const newEntries: HistoryEntry[] = [];
+      const now = Date.now();
+      itemIds.forEach((id, idx) => {
+        newLastDone[id] = km;
+        newEntries.push({
+          id: `${id}-${now}-${idx}`,
+          itemId: id,
+          km,
+          date: new Date().toISOString(),
+          note,
+        });
+      });
+      return {
+        ...s,
+        lastDone: newLastDone,
+        history: [...newEntries, ...s.history],
+      };
+    });
+  }, []);
+
   const removeHistory = useCallback((id: string) => {
     setState((s) => ({ ...s, history: s.history.filter((h) => h.id !== id) }));
   }, []);
@@ -233,6 +257,7 @@ export function useAppState() {
     setVehicleName,
     toggleTheme,
     markDone,
+    markManyDone,
     removeHistory,
     resetAll,
     resetItems,
