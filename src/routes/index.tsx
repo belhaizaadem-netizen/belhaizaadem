@@ -268,9 +268,11 @@ function Index() {
           aria-label="Page entretiens"
         />
       </div>
-      <div className="mx-auto mb-2 max-w-md px-4 text-center text-[10px] uppercase tracking-wider text-muted-foreground">
-        {activePage === 0 ? "← Glissez pour voir les entretiens →" : "← Glissez pour le véhicule →"}
-      </div>
+      {showSwipeHint && (
+        <div className="mx-auto mb-2 max-w-md px-4 text-center text-[10px] uppercase tracking-wider text-muted-foreground">
+          {activePage === 0 ? "← Glissez pour voir les entretiens →" : "← Glissez pour le véhicule →"}
+        </div>
+      )}
 
       {/* Swipeable pages */}
       <div
