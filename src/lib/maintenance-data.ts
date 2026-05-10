@@ -73,8 +73,8 @@ export const MAINTENANCE_ITEMS: MaintenanceItem[] = [
     requiresHaldex: true },
 
   // FREINAGE
-  { id: "plaquettes-av", name: "Contrôle plaquettes avant + disques", category: "Freinage", intervalKm: 30000 },
-  { id: "plaquettes-ar", name: "Contrôle plaquettes arrière", category: "Freinage", intervalKm: 30000 },
+  { id: "plaquettes-av", name: "Contrôle visuel plaquettes avant + disques", category: "Freinage", intervalKm: 30000 },
+  { id: "plaquettes-ar", name: "Contrôle visuel plaquettes arrière", category: "Freinage", intervalKm: 30000 },
   { id: "remplacement-freins", name: "Remplacement plaquettes + disques", category: "Freinage", intervalKm: 60000 },
   { id: "liquide-frein", name: "Liquide de frein DOT4 LV", category: "Freinage", intervalKm: 60000 },
 
@@ -102,7 +102,7 @@ export const MAINTENANCE_ITEMS: MaintenanceItem[] = [
 
   // PNEUS
   { id: "pression-pneus", name: "Contrôle pression + usure pneus", category: "Pneus", intervalKm: 15000 },
-  { id: "permutation-pneus", name: "Permutation pneus (AV ↔ AR)", category: "Pneus", intervalKm: 30000 },
+  { id: "permutation-pneus", name: "Permutation pneus (AV ↔ AR)", category: "Pneus", intervalKm: 60000 },
   { id: "inspection-pneus", name: "Inspection pneus (profondeur < 3mm)", category: "Pneus", intervalKm: 60000 },
 ];
 
