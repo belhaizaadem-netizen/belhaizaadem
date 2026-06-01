@@ -141,11 +141,11 @@ function Index() {
     return () => clearTimeout(t);
   }, []);
 
-  // Show vehicle pickers when entering page 0, then hide after 10s
+  // Show vehicle pickers when entering page 0, then hide after 1 min
   useEffect(() => {
     if (activePage !== 0) return;
     setShowVehiclePickers(true);
-    const t = setTimeout(() => setShowVehiclePickers(false), 10000);
+    const t = setTimeout(() => setShowVehiclePickers(false), 60000);
     return () => clearTimeout(t);
   }, [activePage]);
 
