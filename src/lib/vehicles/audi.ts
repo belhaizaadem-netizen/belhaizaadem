@@ -165,6 +165,8 @@ export const AUDI_MODELS: Model[] = [
         e("3.0-tfsi-340", ["Tiptronic"], ["AWD"]),
         e("4.0-tfsi-450", ["Tiptronic"], ["AWD"]),
         e("4.0-tfsi-560", ["Tiptronic"], ["AWD"]),
+        e("4.0-tfsi-571", ["Tiptronic"], ["AWD"]),
+        e("3.0-tfsi-phev-462", ["Tiptronic"], ["AWD"]),
         e("3.0-tdi-286", ["Tiptronic"], ["AWD"]),
       ]},
     ],
