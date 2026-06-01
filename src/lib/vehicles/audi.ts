@@ -83,10 +83,12 @@ export const AUDI_MODELS: Model[] = [
         e("2.0-tsi-245", ["S-tronic"], ["AWD"]),
         e("3.0-tfsi-354", ["Tiptronic"], ["AWD"]),
         e("3.0-tfsi-450", ["Tiptronic"], ["AWD"]),
+        e("2.9-tfsi-450", ["Tiptronic"], ["AWD"]),
         e("2.0-tdi-150", ["manuelle", "S-tronic"], ["FWD"]),
         e("2.0-tdi-190", ["S-tronic"], ["FWD", "AWD"]),
         e("3.0-tdi-218", ["Tiptronic"], ["AWD"]),
         e("3.0-tdi-272", ["Tiptronic"], ["AWD"]),
+        e("3.0-tdi-341", ["Tiptronic"], ["AWD"]),
         e("3.0-tdi-347", ["Tiptronic"], ["AWD"]),
       ]},
     ],
@@ -99,9 +101,15 @@ export const AUDI_MODELS: Model[] = [
         e("2.0-tsi-245", ["S-tronic"], ["AWD"]),
         e("3.0-tfsi-354", ["Tiptronic"], ["AWD"]),
         e("3.0-tfsi-450", ["Tiptronic"], ["AWD"]),
+        e("2.9-tfsi-444", ["Tiptronic"], ["AWD"]),
         e("2.0-tdi-190", ["S-tronic"], ["FWD", "AWD"]),
         e("3.0-tdi-218", ["Tiptronic"], ["AWD"]),
         e("3.0-tdi-272", ["Tiptronic"], ["AWD"]),
+      ]},
+      { id: "b10", name: "A5 (2024-) e-hybrid", yearStart: 2024, engines: [
+        e("2.0-tsi-phev-299", ["S-tronic"], ["AWD"]),
+        e("2.0-tsi-phev-367", ["S-tronic"], ["AWD"]),
+        e("3.0-tfsi-367", ["Tiptronic"], ["AWD"]),
       ]},
     ],
   },
@@ -123,10 +131,15 @@ export const AUDI_MODELS: Model[] = [
         e("3.0-tfsi-340", ["Tiptronic"], ["AWD"]),
         e("3.0-tfsi-450", ["Tiptronic"], ["AWD"]),
         e("4.0-tfsi-600", ["Tiptronic"], ["AWD"]),
+        e("4.0-tfsi-630", ["Tiptronic"], ["AWD"]),
+        e("2.0-tsi-phev-299", ["S-tronic"], ["AWD"]),
+        e("2.0-tsi-phev-367", ["S-tronic"], ["AWD"]),
         e("2.0-tdi-200", ["S-tronic"], ["FWD"]),
         e("3.0-tdi-231", ["Tiptronic"], ["AWD"]),
         e("3.0-tdi-286", ["Tiptronic"], ["AWD"]),
+        e("3.0-tdi-341", ["Tiptronic"], ["AWD"]),
         e("3.0-tdi-347", ["Tiptronic"], ["AWD"]),
+        e("3.0-tdi-349", ["Tiptronic"], ["AWD"]),
       ]},
     ],
   },
@@ -137,8 +150,11 @@ export const AUDI_MODELS: Model[] = [
         e("3.0-tfsi-340", ["Tiptronic"], ["AWD"]),
         e("3.0-tfsi-450", ["Tiptronic"], ["AWD"]),
         e("4.0-tfsi-600", ["Tiptronic"], ["AWD"]),
+        e("4.0-tfsi-630", ["Tiptronic"], ["AWD"]),
+        e("2.0-tsi-phev-367", ["S-tronic"], ["AWD"]),
         e("3.0-tdi-231", ["Tiptronic"], ["AWD"]),
         e("3.0-tdi-286", ["Tiptronic"], ["AWD"]),
+        e("3.0-tdi-349", ["Tiptronic"], ["AWD"]),
       ]},
     ],
   },
@@ -149,6 +165,8 @@ export const AUDI_MODELS: Model[] = [
         e("3.0-tfsi-340", ["Tiptronic"], ["AWD"]),
         e("4.0-tfsi-450", ["Tiptronic"], ["AWD"]),
         e("4.0-tfsi-560", ["Tiptronic"], ["AWD"]),
+        e("4.0-tfsi-571", ["Tiptronic"], ["AWD"]),
+        e("3.0-tfsi-phev-462", ["Tiptronic"], ["AWD"]),
         e("3.0-tdi-286", ["Tiptronic"], ["AWD"]),
       ]},
     ],
@@ -180,6 +198,8 @@ export const AUDI_MODELS: Model[] = [
         e("2.0-tsi-190", ["S-tronic"], ["AWD"]),
         e("2.0-tsi-245", ["S-tronic"], ["AWD"]),
         e("2.0-tsi-300", ["S-tronic"], ["AWD"]),
+        e("2.5-tfsi-400", ["S-tronic"], ["AWD"]),
+        e("1.4-tsi-phev-245", ["S-tronic"], ["FWD"]),
         e("2.0-tdi-150", ["manuelle", "S-tronic"], ["FWD", "AWD"]),
         e("2.0-tdi-200", ["S-tronic"], ["AWD"]),
       ]},
@@ -199,8 +219,11 @@ export const AUDI_MODELS: Model[] = [
         e("2.0-tsi-245", ["S-tronic"], ["AWD"]),
         e("3.0-tfsi-354", ["Tiptronic"], ["AWD"]),
         e("3.0-tfsi-450", ["Tiptronic"], ["AWD"]),
+        e("2.0-tsi-phev-299", ["S-tronic"], ["AWD"]),
+        e("2.0-tsi-phev-367", ["S-tronic"], ["AWD"]),
         e("2.0-tdi-190", ["S-tronic"], ["AWD"]),
         e("3.0-tdi-286", ["Tiptronic"], ["AWD"]),
+        e("3.0-tdi-341", ["Tiptronic"], ["AWD"]),
         e("3.0-tdi-347", ["Tiptronic"], ["AWD"]),
       ]},
     ],
@@ -210,9 +233,12 @@ export const AUDI_MODELS: Model[] = [
     generations: [
       { id: "4m", name: "Q7 4M (2015-)", yearStart: 2015, engines: [
         e("3.0-tfsi-340", ["Tiptronic"], ["AWD"]),
+        e("4.0-tfsi-507", ["Tiptronic"], ["AWD"]),
+        e("3.0-tfsi-phev-462", ["Tiptronic"], ["AWD"]),
         e("3.0-tdi-231", ["Tiptronic"], ["AWD"]),
         e("3.0-tdi-272", ["Tiptronic"], ["AWD"]),
         e("3.0-tdi-286", ["Tiptronic"], ["AWD"]),
+        e("3.0-tdi-341", ["Tiptronic"], ["AWD"]),
       ]},
     ],
   },
@@ -222,7 +248,11 @@ export const AUDI_MODELS: Model[] = [
       { id: "g1", name: "Q8 (2018-)", yearStart: 2018, engines: [
         e("3.0-tfsi-340", ["Tiptronic"], ["AWD"]),
         e("3.0-tfsi-450", ["Tiptronic"], ["AWD"]),
+        e("4.0-tfsi-507", ["Tiptronic"], ["AWD"]),
         e("4.0-tfsi-600", ["Tiptronic"], ["AWD"]),
+        e("4.0-tfsi-630", ["Tiptronic"], ["AWD"]),
+        e("4.0-tfsi-640", ["Tiptronic"], ["AWD"]),
+        e("3.0-tfsi-phev-462", ["Tiptronic"], ["AWD"]),
         e("3.0-tdi-286", ["Tiptronic"], ["AWD"]),
         e("3.0-tdi-347", ["Tiptronic"], ["AWD"]),
       ]},
@@ -246,6 +276,24 @@ export const AUDI_MODELS: Model[] = [
       { id: "g1", name: "e-tron GT (2021-)", yearStart: 2021, engines: [
         e("ev-id4-286", ["auto"], ["AWD"]),
         e("ev-id4-gtx", ["auto"], ["AWD"]),
+        e("ev-j1-476", ["auto"], ["AWD"]),
+      ]},
+    ],
+  },
+  {
+    id: "s-etron-gt", name: "S e-tron GT", brand: "Audi",
+    generations: [
+      { id: "g1", name: "S e-tron GT (2024-)", yearStart: 2024, engines: [
+        e("ev-j1-476", ["auto"], ["AWD"]),
+      ]},
+    ],
+  },
+  {
+    id: "rs-etron-gt", name: "RS e-tron GT", brand: "Audi",
+    generations: [
+      { id: "g1", name: "RS e-tron GT (2021-)", yearStart: 2021, engines: [
+        e("ev-j1-598", ["auto"], ["AWD"]),
+        e("ev-j1-925", ["auto"], ["AWD"]),
       ]},
     ],
   },
@@ -257,6 +305,37 @@ export const AUDI_MODELS: Model[] = [
         e("ev-id4-204", ["auto"], ["RWD"]),
         e("ev-id4-286", ["auto"], ["RWD"]),
         e("ev-id4-gtx", ["auto"], ["AWD"]),
+      ]},
+    ],
+  },
+  {
+    id: "q6-etron", name: "Q6 e-tron", brand: "Audi",
+    generations: [
+      { id: "g1", name: "Q6 e-tron (2024-)", yearStart: 2024, engines: [
+        e("ev-ppe-252", ["auto"], ["RWD"]),
+        e("ev-ppe-292", ["auto"], ["RWD"]),
+        e("ev-ppe-387", ["auto"], ["AWD"]),
+        e("ev-ppe-490", ["auto"], ["AWD"]),
+      ]},
+    ],
+  },
+  {
+    id: "a6-etron", name: "A6 e-tron", brand: "Audi",
+    generations: [
+      { id: "g1", name: "A6 e-tron (2024-)", yearStart: 2024, engines: [
+        e("ev-ppe-292", ["auto"], ["RWD"]),
+        e("ev-ppe-387", ["auto"], ["AWD"]),
+        e("ev-ppe-551", ["auto"], ["AWD"]),
+      ]},
+    ],
+  },
+  {
+    id: "q8-etron", name: "Q8 e-tron", brand: "Audi",
+    generations: [
+      { id: "g1", name: "Q8 e-tron (2023-)", yearStart: 2023, engines: [
+        e("ev-id4-286", ["auto"], ["AWD"]),
+        e("ev-id4-gtx", ["auto"], ["AWD"]),
+        e("ev-q8-503", ["auto"], ["AWD"]),
       ]},
     ],
   },
@@ -289,23 +368,6 @@ export const AUDI_MODELS: Model[] = [
       { id: "4s", name: "R8 4S (2015-2024)", yearStart: 2015, yearEnd: 2024, engines: [
         e("5.2-fsi-r8-540", ["S-tronic"], ["AWD"]),
         e("5.2-fsi-r8-610", ["S-tronic"], ["AWD"]),
-      ]},
-    ],
-  },
-  {
-    id: "q8-etron", name: "Q8 e-tron", brand: "Audi",
-    generations: [
-      { id: "g1", name: "Q8 e-tron (2023-)", yearStart: 2023, engines: [
-        e("ev-id4-286", ["auto"], ["AWD"]),
-        e("ev-id4-gtx", ["auto"], ["AWD"]),
-      ]},
-    ],
-  },
-  {
-    id: "rs-etron-gt", name: "RS e-tron GT", brand: "Audi",
-    generations: [
-      { id: "g1", name: "RS e-tron GT (2021-)", yearStart: 2021, engines: [
-        e("ev-id4-gtx", ["auto"], ["AWD"]),
       ]},
     ],
   },

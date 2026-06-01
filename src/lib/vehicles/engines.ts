@@ -89,7 +89,18 @@ export const ENGINE_BLUEPRINTS: Record<string, Blueprint> = {
   // --- ESSENCE V8 ---
   "4.0-tfsi-450": E("4.0-tfsi-450", "4.0 TFSI 450 (S)", 4.0, 450, "essence", { code: "EA824" }),
   "4.0-tfsi-560": E("4.0-tfsi-560", "4.0 TFSI 560 (RS)", 4.0, 560, "essence", { code: "EA824" }),
+  "4.0-tfsi-507": E("4.0-tfsi-507", "4.0 TFSI 507 (SQ7/SQ8)", 4.0, 507, "essence", { code: "EA824" }),
+  "4.0-tfsi-571": E("4.0-tfsi-571", "4.0 TFSI 571 (S8)", 4.0, 571, "essence", { code: "EA824" }),
   "4.0-tfsi-600": E("4.0-tfsi-600", "4.0 TFSI 600 (RS)", 4.0, 600, "essence", { code: "EA824" }),
+  "4.0-tfsi-630": E("4.0-tfsi-630", "4.0 TFSI 630 (RS Performance)", 4.0, 630, "essence", { code: "EA824" }),
+  "4.0-tfsi-640": E("4.0-tfsi-640", "4.0 TFSI 640 (RS Q8 Performance)", 4.0, 640, "essence", { code: "EA824" }),
+  // --- AUDI V6 BiTurbo essence (RS4/RS5) ---
+  "2.9-tfsi-444": E("2.9-tfsi-444", "2.9 TFSI V6 BiTurbo 444 (RS5)", 2.9, 444, "essence", { code: "EA839" }),
+  "2.9-tfsi-450": E("2.9-tfsi-450", "2.9 TFSI V6 BiTurbo 450 (RS4/RS5)", 2.9, 450, "essence", { code: "EA839" }),
+  // --- AUDI V6 MHEV (S5) / V6 TDI MHEV (S4/S6/S7) ---
+  "3.0-tfsi-367": E("3.0-tfsi-367", "3.0 TFSI 367 MHEV+ (S5)", 3.0, 367, "essence", { code: "EA839 evo" }),
+  "3.0-tdi-341": E("3.0-tdi-341", "3.0 TDI 341 MHEV (S4/S6)", 3.0, 341, "diesel", { code: "EA897 evo" }),
+  "3.0-tdi-349": E("3.0-tdi-349", "3.0 TDI 349 MHEV (S6/S7)", 3.0, 349, "diesel", { code: "EA897 evo" }),
 
   // --- DIESEL EA189 / EA288 / EA288 evo ---
   "1.6-tdi-75":   E("1.6-tdi-75",   "1.6 TDI 75",   1.6, 75,  "diesel", { code: "EA189" }),
@@ -135,6 +146,21 @@ export const ENGINE_BLUEPRINTS: Record<string, Blueprint> = {
   "ev-id4-204":   E("ev-id4-204",   "Pro 204",            0, 204, "electrique", { turbo: false, hasHPFP: false }),
   "ev-id4-286":   E("ev-id4-286",   "Pro 286",            0, 286, "electrique", { turbo: false, hasHPFP: false }),
   "ev-id4-gtx":   E("ev-id4-gtx",   "GTX 299 AWD",        0, 299, "electrique", { turbo: false, hasHPFP: false }),
+  // --- AUDI PPE (Q6 e-tron / A6 e-tron / S6 e-tron / SQ6 / SQ8 e-tron) ---
+  "ev-ppe-252":   E("ev-ppe-252",   "Performance 252 (PPE 100 kWh)", 0, 252, "electrique", { turbo: false, hasHPFP: false }),
+  "ev-ppe-292":   E("ev-ppe-292",   "Performance 292 (PPE 100 kWh)", 0, 292, "electrique", { turbo: false, hasHPFP: false }),
+  "ev-ppe-387":   E("ev-ppe-387",   "quattro 387 (PPE 100 kWh)",     0, 387, "electrique", { turbo: false, hasHPFP: false }),
+  "ev-ppe-490":   E("ev-ppe-490",   "SQ6/S6 e-tron 490",             0, 490, "electrique", { turbo: false, hasHPFP: false }),
+  "ev-ppe-551":   E("ev-ppe-551",   "S6 e-tron 551",                 0, 551, "electrique", { turbo: false, hasHPFP: false }),
+  "ev-j1-476":    E("ev-j1-476",    "S e-tron GT 476 (J1 97 kWh)",   0, 476, "electrique", { turbo: false, hasHPFP: false }),
+  "ev-j1-598":    E("ev-j1-598",    "RS e-tron GT 598 (J1 97 kWh)",  0, 598, "electrique", { turbo: false, hasHPFP: false }),
+  "ev-j1-925":    E("ev-j1-925",    "RS e-tron GT Performance 925",  0, 925, "electrique", { turbo: false, hasHPFP: false }),
+  "ev-q8-503":    E("ev-q8-503",    "SQ8 e-tron 503 (114 kWh)",      0, 503, "electrique", { turbo: false, hasHPFP: false }),
+  // --- AUDI PHEV (TFSI e / e-hybrid) ---
+  "2.0-tsi-phev-299": E("2.0-tsi-phev-299", "2.0 TFSI e 299 (PHEV)", 2.0, 299, "phev", { code: "EA888 evo4" }),
+  "2.0-tsi-phev-367": E("2.0-tsi-phev-367", "2.0 TFSI e 367 (PHEV)", 2.0, 367, "phev", { code: "EA888 evo4" }),
+  "2.0-tsi-phev-381": E("2.0-tsi-phev-381", "2.0 TFSI e 381 (PHEV)", 2.0, 381, "phev", { code: "EA888 evo4" }),
+  "3.0-tfsi-phev-462": E("3.0-tfsi-phev-462", "3.0 TFSI e 462 (PHEV)", 3.0, 462, "phev", { code: "EA839" }),
 
   // --- PORSCHE ESSENCE ---
   "p-2.0-tfsi-252": E("p-2.0-tfsi-252", "2.0 Turbo 252 (Macan/Cayenne)", 2.0, 252, "essence", { code: "EA888" }),
