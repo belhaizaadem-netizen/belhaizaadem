@@ -360,16 +360,6 @@ export const VOLKSWAGEN_MODELS: Model[] = [
       ]},
     ],
   },
-  // ============== LUPO ==============
-  {
-    id: "lupo", name: "Lupo", brand: "Volkswagen",
-    generations: [
-      { id: "g1", name: "Lupo (1998-2005)", yearStart: 1998, yearEnd: 2005, engines: [
-        e("1.0-mpi-60", ["manuelle"], ["FWD"]),
-        e("1.4-mpi-75", ["manuelle"], ["FWD"]),
-      ]},
-    ],
-  },
   // ============== BORA ==============
   {
     id: "bora", name: "Bora", brand: "Volkswagen",
@@ -423,56 +413,6 @@ export const VOLKSWAGEN_MODELS: Model[] = [
         e("2.0-tdi-110", ["manuelle"], ["FWD"]),
         e("2.0-tdi-150", ["manuelle", "DSG"], ["FWD"]),
         e("2.0-tdi-170", ["DSG"], ["FWD", "AWD"]),
-      ]},
-    ],
-  },
-  // ============== ID.3 / ID.4 / ID.5 / ID.7 / ID.Buzz ==============
-  {
-    id: "id3", name: "ID.3", brand: "Volkswagen",
-    generations: [
-      { id: "g1", name: "ID.3 (2020-)", yearStart: 2020, engines: [
-        e("ev-id3-150", ["auto"], ["RWD"]),
-        e("ev-id3-204", ["auto"], ["RWD"]),
-        e("ev-id3-231", ["auto"], ["RWD"]),
-      ]},
-    ],
-  },
-  {
-    id: "id4", name: "ID.4", brand: "Volkswagen",
-    generations: [
-      { id: "g1", name: "ID.4 (2020-)", yearStart: 2020, engines: [
-        e("ev-id4-174", ["auto"], ["RWD"]),
-        e("ev-id4-204", ["auto"], ["RWD"]),
-        e("ev-id4-286", ["auto"], ["RWD"]),
-        e("ev-id4-gtx", ["auto"], ["AWD"]),
-      ]},
-    ],
-  },
-  {
-    id: "id5", name: "ID.5", brand: "Volkswagen",
-    generations: [
-      { id: "g1", name: "ID.5 (2021-)", yearStart: 2021, engines: [
-        e("ev-id4-204", ["auto"], ["RWD"]),
-        e("ev-id4-286", ["auto"], ["RWD"]),
-        e("ev-id4-gtx", ["auto"], ["AWD"]),
-      ]},
-    ],
-  },
-  {
-    id: "id7", name: "ID.7", brand: "Volkswagen",
-    generations: [
-      { id: "g1", name: "ID.7 (2023-)", yearStart: 2023, engines: [
-        e("ev-id7-286", ["auto"], ["RWD"]),
-        e("ev-id7-340", ["auto"], ["AWD"]),
-      ]},
-    ],
-  },
-  {
-    id: "id-buzz", name: "ID. Buzz", brand: "Volkswagen",
-    generations: [
-      { id: "g1", name: "ID. Buzz (2022-)", yearStart: 2022, engines: [
-        e("ev-id-buzz-204", ["auto"], ["RWD"]),
-        e("ev-id-buzz-286", ["auto"], ["AWD"]),
       ]},
     ],
   },
