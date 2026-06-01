@@ -276,6 +276,24 @@ export const AUDI_MODELS: Model[] = [
       { id: "g1", name: "e-tron GT (2021-)", yearStart: 2021, engines: [
         e("ev-id4-286", ["auto"], ["AWD"]),
         e("ev-id4-gtx", ["auto"], ["AWD"]),
+        e("ev-j1-476", ["auto"], ["AWD"]),
+      ]},
+    ],
+  },
+  {
+    id: "s-etron-gt", name: "S e-tron GT", brand: "Audi",
+    generations: [
+      { id: "g1", name: "S e-tron GT (2024-)", yearStart: 2024, engines: [
+        e("ev-j1-476", ["auto"], ["AWD"]),
+      ]},
+    ],
+  },
+  {
+    id: "rs-etron-gt", name: "RS e-tron GT", brand: "Audi",
+    generations: [
+      { id: "g1", name: "RS e-tron GT (2021-)", yearStart: 2021, engines: [
+        e("ev-j1-598", ["auto"], ["AWD"]),
+        e("ev-j1-925", ["auto"], ["AWD"]),
       ]},
     ],
   },
@@ -287,6 +305,37 @@ export const AUDI_MODELS: Model[] = [
         e("ev-id4-204", ["auto"], ["RWD"]),
         e("ev-id4-286", ["auto"], ["RWD"]),
         e("ev-id4-gtx", ["auto"], ["AWD"]),
+      ]},
+    ],
+  },
+  {
+    id: "q6-etron", name: "Q6 e-tron", brand: "Audi",
+    generations: [
+      { id: "g1", name: "Q6 e-tron (2024-)", yearStart: 2024, engines: [
+        e("ev-ppe-252", ["auto"], ["RWD"]),
+        e("ev-ppe-292", ["auto"], ["RWD"]),
+        e("ev-ppe-387", ["auto"], ["AWD"]),
+        e("ev-ppe-490", ["auto"], ["AWD"]),
+      ]},
+    ],
+  },
+  {
+    id: "a6-etron", name: "A6 e-tron", brand: "Audi",
+    generations: [
+      { id: "g1", name: "A6 e-tron (2024-)", yearStart: 2024, engines: [
+        e("ev-ppe-292", ["auto"], ["RWD"]),
+        e("ev-ppe-387", ["auto"], ["AWD"]),
+        e("ev-ppe-551", ["auto"], ["AWD"]),
+      ]},
+    ],
+  },
+  {
+    id: "q8-etron", name: "Q8 e-tron", brand: "Audi",
+    generations: [
+      { id: "g1", name: "Q8 e-tron (2023-)", yearStart: 2023, engines: [
+        e("ev-id4-286", ["auto"], ["AWD"]),
+        e("ev-id4-gtx", ["auto"], ["AWD"]),
+        e("ev-q8-503", ["auto"], ["AWD"]),
       ]},
     ],
   },
@@ -322,21 +371,5 @@ export const AUDI_MODELS: Model[] = [
       ]},
     ],
   },
-  {
-    id: "q8-etron", name: "Q8 e-tron", brand: "Audi",
-    generations: [
-      { id: "g1", name: "Q8 e-tron (2023-)", yearStart: 2023, engines: [
-        e("ev-id4-286", ["auto"], ["AWD"]),
-        e("ev-id4-gtx", ["auto"], ["AWD"]),
-      ]},
-    ],
-  },
-  {
-    id: "rs-etron-gt", name: "RS e-tron GT", brand: "Audi",
-    generations: [
-      { id: "g1", name: "RS e-tron GT (2021-)", yearStart: 2021, engines: [
-        e("ev-id4-gtx", ["auto"], ["AWD"]),
-      ]},
-    ],
   },
 ];
