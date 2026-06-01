@@ -371,5 +371,4 @@ export const AUDI_MODELS: Model[] = [
       ]},
     ],
   },
-  },
 ];
