@@ -107,11 +107,10 @@ export const AUDI_MODELS: Model[] = [
         e("3.0-tdi-272", ["Tiptronic"], ["AWD"]),
       ]},
       { id: "b10", name: "A5 (2024-) e-hybrid", yearStart: 2024, engines: [
-        e("2.0-tsi-204", ["S-tronic"], ["FWD", "AWD"]) as never,
         e("2.0-tsi-phev-299", ["S-tronic"], ["AWD"]),
         e("2.0-tsi-phev-367", ["S-tronic"], ["AWD"]),
         e("3.0-tfsi-367", ["Tiptronic"], ["AWD"]),
-      ].filter((x) => x !== undefined) as never },
+      ]},
     ],
   },
   {
