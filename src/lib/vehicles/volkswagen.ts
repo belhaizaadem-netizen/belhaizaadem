@@ -360,16 +360,6 @@ export const VOLKSWAGEN_MODELS: Model[] = [
       ]},
     ],
   },
-  // ============== LUPO ==============
-  {
-    id: "lupo", name: "Lupo", brand: "Volkswagen",
-    generations: [
-      { id: "g1", name: "Lupo (1998-2005)", yearStart: 1998, yearEnd: 2005, engines: [
-        e("1.0-mpi-60", ["manuelle"], ["FWD"]),
-        e("1.4-mpi-75", ["manuelle"], ["FWD"]),
-      ]},
-    ],
-  },
   // ============== BORA ==============
   {
     id: "bora", name: "Bora", brand: "Volkswagen",
