@@ -89,7 +89,18 @@ export const ENGINE_BLUEPRINTS: Record<string, Blueprint> = {
   // --- ESSENCE V8 ---
   "4.0-tfsi-450": E("4.0-tfsi-450", "4.0 TFSI 450 (S)", 4.0, 450, "essence", { code: "EA824" }),
   "4.0-tfsi-560": E("4.0-tfsi-560", "4.0 TFSI 560 (RS)", 4.0, 560, "essence", { code: "EA824" }),
+  "4.0-tfsi-507": E("4.0-tfsi-507", "4.0 TFSI 507 (SQ7/SQ8)", 4.0, 507, "essence", { code: "EA824" }),
+  "4.0-tfsi-571": E("4.0-tfsi-571", "4.0 TFSI 571 (S8)", 4.0, 571, "essence", { code: "EA824" }),
   "4.0-tfsi-600": E("4.0-tfsi-600", "4.0 TFSI 600 (RS)", 4.0, 600, "essence", { code: "EA824" }),
+  "4.0-tfsi-630": E("4.0-tfsi-630", "4.0 TFSI 630 (RS Performance)", 4.0, 630, "essence", { code: "EA824" }),
+  "4.0-tfsi-640": E("4.0-tfsi-640", "4.0 TFSI 640 (RS Q8 Performance)", 4.0, 640, "essence", { code: "EA824" }),
+  // --- AUDI V6 BiTurbo essence (RS4/RS5) ---
+  "2.9-tfsi-444": E("2.9-tfsi-444", "2.9 TFSI V6 BiTurbo 444 (RS5)", 2.9, 444, "essence", { code: "EA839" }),
+  "2.9-tfsi-450": E("2.9-tfsi-450", "2.9 TFSI V6 BiTurbo 450 (RS4/RS5)", 2.9, 450, "essence", { code: "EA839" }),
+  // --- AUDI V6 MHEV (S5) / V6 TDI MHEV (S4/S6/S7) ---
+  "3.0-tfsi-367": E("3.0-tfsi-367", "3.0 TFSI 367 MHEV+ (S5)", 3.0, 367, "essence", { code: "EA839 evo" }),
+  "3.0-tdi-341": E("3.0-tdi-341", "3.0 TDI 341 MHEV (S4/S6)", 3.0, 341, "diesel", { code: "EA897 evo" }),
+  "3.0-tdi-349": E("3.0-tdi-349", "3.0 TDI 349 MHEV (S6/S7)", 3.0, 349, "diesel", { code: "EA897 evo" }),
 
   // --- DIESEL EA189 / EA288 / EA288 evo ---
   "1.6-tdi-75":   E("1.6-tdi-75",   "1.6 TDI 75",   1.6, 75,  "diesel", { code: "EA189" }),
