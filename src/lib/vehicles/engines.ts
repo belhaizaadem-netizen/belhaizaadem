@@ -146,6 +146,21 @@ export const ENGINE_BLUEPRINTS: Record<string, Blueprint> = {
   "ev-id4-204":   E("ev-id4-204",   "Pro 204",            0, 204, "electrique", { turbo: false, hasHPFP: false }),
   "ev-id4-286":   E("ev-id4-286",   "Pro 286",            0, 286, "electrique", { turbo: false, hasHPFP: false }),
   "ev-id4-gtx":   E("ev-id4-gtx",   "GTX 299 AWD",        0, 299, "electrique", { turbo: false, hasHPFP: false }),
+  // --- AUDI PPE (Q6 e-tron / A6 e-tron / S6 e-tron / SQ6 / SQ8 e-tron) ---
+  "ev-ppe-252":   E("ev-ppe-252",   "Performance 252 (PPE 100 kWh)", 0, 252, "electrique", { turbo: false, hasHPFP: false }),
+  "ev-ppe-292":   E("ev-ppe-292",   "Performance 292 (PPE 100 kWh)", 0, 292, "electrique", { turbo: false, hasHPFP: false }),
+  "ev-ppe-387":   E("ev-ppe-387",   "quattro 387 (PPE 100 kWh)",     0, 387, "electrique", { turbo: false, hasHPFP: false }),
+  "ev-ppe-490":   E("ev-ppe-490",   "SQ6/S6 e-tron 490",             0, 490, "electrique", { turbo: false, hasHPFP: false }),
+  "ev-ppe-551":   E("ev-ppe-551",   "S6 e-tron 551",                 0, 551, "electrique", { turbo: false, hasHPFP: false }),
+  "ev-j1-476":    E("ev-j1-476",    "S e-tron GT 476 (J1 97 kWh)",   0, 476, "electrique", { turbo: false, hasHPFP: false }),
+  "ev-j1-598":    E("ev-j1-598",    "RS e-tron GT 598 (J1 97 kWh)",  0, 598, "electrique", { turbo: false, hasHPFP: false }),
+  "ev-j1-925":    E("ev-j1-925",    "RS e-tron GT Performance 925",  0, 925, "electrique", { turbo: false, hasHPFP: false }),
+  "ev-q8-503":    E("ev-q8-503",    "SQ8 e-tron 503 (114 kWh)",      0, 503, "electrique", { turbo: false, hasHPFP: false }),
+  // --- AUDI PHEV (TFSI e / e-hybrid) ---
+  "2.0-tsi-phev-299": E("2.0-tsi-phev-299", "2.0 TFSI e 299 (PHEV)", 2.0, 299, "phev", { code: "EA888 evo4" }),
+  "2.0-tsi-phev-367": E("2.0-tsi-phev-367", "2.0 TFSI e 367 (PHEV)", 2.0, 367, "phev", { code: "EA888 evo4" }),
+  "2.0-tsi-phev-381": E("2.0-tsi-phev-381", "2.0 TFSI e 381 (PHEV)", 2.0, 381, "phev", { code: "EA888 evo4" }),
+  "3.0-tfsi-phev-462": E("3.0-tfsi-phev-462", "3.0 TFSI e 462 (PHEV)", 3.0, 462, "phev", { code: "EA839" }),
 
   // --- PORSCHE ESSENCE ---
   "p-2.0-tfsi-252": E("p-2.0-tfsi-252", "2.0 Turbo 252 (Macan/Cayenne)", 2.0, 252, "essence", { code: "EA888" }),
