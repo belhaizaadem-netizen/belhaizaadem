@@ -371,4 +371,173 @@ export const AUDI_MODELS: Model[] = [
       ]},
     ],
   },
+  // ============= GAMME RS =============
+  {
+    id: "rs3", name: "RS 3", brand: "Audi",
+    generations: [
+      { id: "8y", name: "RS 3 Berline/Sportback (2021-)", yearStart: 2021, engines: [
+        e("2.5-tfsi-400", ["S-tronic"], ["AWD"]),
+      ]},
+    ],
+  },
+  {
+    id: "rs4", name: "RS 4", brand: "Audi",
+    generations: [
+      { id: "b9", name: "RS 4 Avant (2017-)", yearStart: 2017, engines: [
+        e("2.9-tfsi-450", ["Tiptronic"], ["AWD"]),
+      ]},
+    ],
+  },
+  {
+    id: "rs5", name: "RS 5", brand: "Audi",
+    generations: [
+      { id: "f5", name: "RS 5 Coupé/Sportback (2017-)", yearStart: 2017, engines: [
+        e("2.9-tfsi-444", ["Tiptronic"], ["AWD"]),
+        e("2.9-tfsi-450", ["Tiptronic"], ["AWD"]),
+      ]},
+    ],
+  },
+  {
+    id: "rs6", name: "RS 6", brand: "Audi",
+    generations: [
+      { id: "c8", name: "RS 6 Avant / Performance (2019-)", yearStart: 2019, engines: [
+        e("4.0-tfsi-600", ["Tiptronic"], ["AWD"]),
+        e("4.0-tfsi-630", ["Tiptronic"], ["AWD"]),
+      ]},
+    ],
+  },
+  {
+    id: "rs7", name: "RS 7", brand: "Audi",
+    generations: [
+      { id: "c8", name: "RS 7 Sportback / Performance (2019-)", yearStart: 2019, engines: [
+        e("4.0-tfsi-600", ["Tiptronic"], ["AWD"]),
+        e("4.0-tfsi-630", ["Tiptronic"], ["AWD"]),
+      ]},
+    ],
+  },
+  {
+    id: "rsq3", name: "RS Q3", brand: "Audi",
+    generations: [
+      { id: "f3", name: "RS Q3 / Sportback (2019-)", yearStart: 2019, engines: [
+        e("2.5-tfsi-400", ["S-tronic"], ["AWD"]),
+      ]},
+    ],
+  },
+  {
+    id: "rsq8", name: "RS Q8", brand: "Audi",
+    generations: [
+      { id: "g1", name: "RS Q8 / Performance (2019-)", yearStart: 2019, engines: [
+        e("4.0-tfsi-600", ["Tiptronic"], ["AWD"]),
+        e("4.0-tfsi-640", ["Tiptronic"], ["AWD"]),
+      ]},
+    ],
+  },
+  // ============= GAMME S =============
+  {
+    id: "s3", name: "S3", brand: "Audi",
+    generations: [
+      { id: "8y", name: "S3 Berline/Sportback (2020-)", yearStart: 2020, engines: [
+        e("2.0-tsi-310", ["S-tronic"], ["AWD"]),
+        e("2.0-tsi-333", ["S-tronic"], ["AWD"]),
+      ]},
+    ],
+  },
+  {
+    id: "s4", name: "S4", brand: "Audi",
+    generations: [
+      { id: "b9", name: "S4 Berline/Avant (2016-)", yearStart: 2016, engines: [
+        e("3.0-tdi-341", ["Tiptronic"], ["AWD"]),
+      ]},
+    ],
+  },
+  {
+    id: "s5", name: "S5", brand: "Audi",
+    generations: [
+      { id: "f5", name: "S5 Sportback/Avant (2016-)", yearStart: 2016, engines: [
+        e("3.0-tfsi-354", ["Tiptronic"], ["AWD"]),
+        e("3.0-tfsi-367", ["Tiptronic"], ["AWD"]),
+      ]},
+    ],
+  },
+  {
+    id: "s6", name: "S6", brand: "Audi",
+    generations: [
+      { id: "c8", name: "S6 Berline/Avant (2019-)", yearStart: 2019, engines: [
+        e("3.0-tdi-349", ["Tiptronic"], ["AWD"]),
+      ]},
+    ],
+  },
+  {
+    id: "s7", name: "S7", brand: "Audi",
+    generations: [
+      { id: "c8", name: "S7 Sportback (2019-)", yearStart: 2019, engines: [
+        e("3.0-tdi-349", ["Tiptronic"], ["AWD"]),
+      ]},
+    ],
+  },
+  {
+    id: "s8", name: "S8", brand: "Audi",
+    generations: [
+      { id: "d5", name: "S8 (2019-)", yearStart: 2019, engines: [
+        e("4.0-tfsi-571", ["Tiptronic"], ["AWD"]),
+      ]},
+    ],
+  },
+  {
+    id: "sq2", name: "SQ2", brand: "Audi",
+    generations: [
+      { id: "g1", name: "SQ2 (2018-)", yearStart: 2018, engines: [
+        e("2.0-tsi-300", ["S-tronic"], ["AWD"]),
+      ]},
+    ],
+  },
+  {
+    id: "sq5", name: "SQ5", brand: "Audi",
+    generations: [
+      { id: "fy", name: "SQ5 / Sportback (2017-)", yearStart: 2017, engines: [
+        e("3.0-tdi-341", ["Tiptronic"], ["AWD"]),
+      ]},
+    ],
+  },
+  {
+    id: "sq7", name: "SQ7", brand: "Audi",
+    generations: [
+      { id: "4m", name: "SQ7 (2016-)", yearStart: 2016, engines: [
+        e("3.0-tdi-341", ["Tiptronic"], ["AWD"]),
+        e("4.0-tfsi-507", ["Tiptronic"], ["AWD"]),
+      ]},
+    ],
+  },
+  {
+    id: "sq8", name: "SQ8", brand: "Audi",
+    generations: [
+      { id: "g1", name: "SQ8 (2019-)", yearStart: 2019, engines: [
+        e("4.0-tfsi-507", ["Tiptronic"], ["AWD"]),
+      ]},
+    ],
+  },
+  {
+    id: "sq6-etron", name: "SQ6 e-tron", brand: "Audi",
+    generations: [
+      { id: "g1", name: "SQ6 / Sportback e-tron (2024-)", yearStart: 2024, engines: [
+        e("ev-ppe-490", ["auto"], ["AWD"]),
+      ]},
+    ],
+  },
+  {
+    id: "s6-etron", name: "S6 e-tron", brand: "Audi",
+    generations: [
+      { id: "g1", name: "S6 / Avant e-tron (2024-)", yearStart: 2024, engines: [
+        e("ev-ppe-551", ["auto"], ["AWD"]),
+      ]},
+    ],
+  },
+  {
+    id: "sq8-etron", name: "SQ8 e-tron", brand: "Audi",
+    generations: [
+      { id: "g1", name: "SQ8 / Sportback e-tron (2023-)", yearStart: 2023, engines: [
+        e("ev-q8-503", ["auto"], ["AWD"]),
+      ]},
+    ],
+  },
 ];
