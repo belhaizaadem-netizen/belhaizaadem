@@ -5,7 +5,7 @@ interface Props {
   label: string;
   value: number;
   icon: LucideIcon;
-  variant: "danger" | "warning" | "success" | "primary";
+  variant: "danger" | "warning" | "caution" | "success" | "primary";
   active?: boolean;
   onClick?: () => void;
 }
@@ -13,6 +13,7 @@ interface Props {
 const variantClasses: Record<Props["variant"], string> = {
   danger: "gradient-danger",
   warning: "gradient-warning",
+  caution: "gradient-caution",
   success: "gradient-success",
   primary: "gradient-primary",
 };
