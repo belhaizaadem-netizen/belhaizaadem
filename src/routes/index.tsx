@@ -302,17 +302,6 @@ function Index() {
                 }}
               />
               <StatCard
-                label="À faire"
-                value={counts.due}
-                icon={AlertCircle}
-                variant="danger"
-                active={statusFilter === "due"}
-                onClick={() => {
-                  setStatusFilter((s) => (s === "due" ? "all" : "due"));
-                  setActivePage(1);
-                }}
-              />
-              <StatCard
                 label="Bientôt"
                 value={counts.soon}
                 icon={AlertTriangle}
@@ -320,6 +309,17 @@ function Index() {
                 active={statusFilter === "soon"}
                 onClick={() => {
                   setStatusFilter((s) => (s === "soon" ? "all" : "soon"));
+                  setActivePage(1);
+                }}
+              />
+              <StatCard
+                label="À faire"
+                value={counts.due}
+                icon={AlertTriangle}
+                variant="caution"
+                active={statusFilter === "due"}
+                onClick={() => {
+                  setStatusFilter((s) => (s === "due" ? "all" : "due"));
                   setActivePage(1);
                 }}
               />
