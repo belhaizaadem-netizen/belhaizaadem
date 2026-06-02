@@ -60,9 +60,9 @@ export const Route = createFileRoute("/")({
 
 const STATUS_FILTERS: { key: Status | "all"; label: string }[] = [
   { key: "all", label: "Tous" },
-  { key: "overdue", label: "En retard" },
-  { key: "due", label: "À faire" },
-  { key: "soon", label: "Bientôt" },
+  { key: "overdue", label: "RETARD" },
+  { key: "soon", label: "BIENTÔT" },
+  { key: "due", label: "À FAIRE" },
   { key: "ok", label: "OK" },
 ];
 
@@ -183,8 +183,6 @@ function Index() {
       .filter((s) => (categoryFilter === "all" ? true : s.item.category === categoryFilter))
       .filter((s) => {
         if (statusFilter === "all") return true;
-        if (statusFilter === "due")
-          return s.status === "due" || s.status === "overdue";
         return s.status === statusFilter;
       })
       .sort((a, b) => order[a.status] - order[b.status] || a.kmRemaining - b.kmRemaining);
@@ -304,17 +302,6 @@ function Index() {
                 }}
               />
               <StatCard
-                label="À faire"
-                value={counts.due}
-                icon={AlertCircle}
-                variant="danger"
-                active={statusFilter === "due"}
-                onClick={() => {
-                  setStatusFilter((s) => (s === "due" ? "all" : "due"));
-                  setActivePage(1);
-                }}
-              />
-              <StatCard
                 label="Bientôt"
                 value={counts.soon}
                 icon={AlertTriangle}
@@ -322,6 +309,17 @@ function Index() {
                 active={statusFilter === "soon"}
                 onClick={() => {
                   setStatusFilter((s) => (s === "soon" ? "all" : "soon"));
+                  setActivePage(1);
+                }}
+              />
+              <StatCard
+                label="À faire"
+                value={counts.due}
+                icon={AlertTriangle}
+                variant="caution"
+                active={statusFilter === "due"}
+                onClick={() => {
+                  setStatusFilter((s) => (s === "due" ? "all" : "due"));
                   setActivePage(1);
                 }}
               />

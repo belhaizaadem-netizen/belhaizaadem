@@ -11,25 +11,25 @@ interface Props {
 
 const STATUS_META = {
   overdue: {
-    label: "En retard",
-    badge: "gradient-danger text-white",
-    bar: "bg-destructive",
-    icon: AlertCircle,
-    iconColor: "text-destructive",
-  },
-  due: {
-    label: "À faire",
+    label: "RETARD",
     badge: "gradient-danger text-white",
     bar: "bg-destructive",
     icon: AlertCircle,
     iconColor: "text-destructive",
   },
   soon: {
-    label: "Bientôt",
+    label: "BIENTÔT",
     badge: "gradient-warning text-warning-foreground",
     bar: "bg-warning",
     icon: AlertTriangle,
     iconColor: "text-warning",
+  },
+  due: {
+    label: "À FAIRE",
+    badge: "gradient-caution text-caution-foreground",
+    bar: "bg-caution",
+    icon: AlertTriangle,
+    iconColor: "text-caution",
   },
   ok: {
     label: "OK",

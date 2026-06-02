@@ -314,15 +314,19 @@ function Tell({
   variant: "red" | "amber";
 }) {
   const isOn = status !== "ok";
-  const lit =
-    status === "overdue" || status === "due"
-      ? variant === "red"
+  const lit = (() => {
+    if (status === "overdue")
+      return variant === "red"
         ? { color: "text-destructive", glow: "drop-shadow-[0_0_6px_var(--destructive)]" }
-        : { color: "text-warning", glow: "drop-shadow-[0_0_6px_var(--warning)]" }
-      : status === "soon"
-        ? { color: "text-warning", glow: "drop-shadow-[0_0_5px_var(--warning)]" }
-        : { color: "text-white/20", glow: "" };
-
+        : { color: "text-warning", glow: "drop-shadow-[0_0_6px_var(--warning)]" };
+    if (status === "due")
+      return variant === "red"
+        ? { color: "text-caution", glow: "drop-shadow-[0_0_5px_var(--caution)]" }
+        : { color: "text-caution", glow: "drop-shadow-[0_0_5px_var(--caution)]" };
+    if (status === "soon")
+      return { color: "text-warning", glow: "drop-shadow-[0_0_5px_var(--warning)]" };
+    return { color: "text-white/20", glow: "" };
+  })();
   const pulse = status === "overdue";
 
   return (

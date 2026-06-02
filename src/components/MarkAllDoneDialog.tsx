@@ -12,15 +12,15 @@ interface Props {
 }
 
 const STATUS_LABEL: Record<MaintenanceStatus["status"], string> = {
-  overdue: "En retard",
-  due: "À faire",
-  soon: "Bientôt",
+  overdue: "RETARD",
+  due: "À FAIRE",
+  soon: "BIENTÔT",
   ok: "OK",
 };
 
 const STATUS_COLOR: Record<MaintenanceStatus["status"], string> = {
   overdue: "text-destructive",
-  due: "text-destructive",
+  due: "text-caution",
   soon: "text-warning",
   ok: "text-success",
 };
