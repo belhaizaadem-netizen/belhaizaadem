@@ -180,8 +180,8 @@ export function computeStatus(
 
   let status: Status;
   if (kmRemaining < 0) status = "overdue";
-  else if (kmRemaining <= 1000) status = "due";
-  else if (kmRemaining <= effectiveIntervalKm * 0.15) status = "soon";
+  else if (kmRemaining <= 4000) status = "soon";
+  else if (kmRemaining <= effectiveIntervalKm * 0.5) status = "due";
   else status = "ok";
 
   return { item, effectiveIntervalKm, lastDoneKm, nextDueKm, kmRemaining, status, progress };
