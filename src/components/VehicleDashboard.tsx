@@ -313,7 +313,7 @@ function Tell({
   label: string;
   variant: "red" | "amber";
 }) {
-  const isOn = status !== "ok";
+  const isOn = true;
   const lit = (() => {
     if (status === "overdue")
       return variant === "red"
@@ -325,7 +325,7 @@ function Tell({
         : { color: "text-caution", glow: "drop-shadow-[0_0_5px_var(--caution)]" };
     if (status === "soon")
       return { color: "text-warning", glow: "drop-shadow-[0_0_5px_var(--warning)]" };
-    return { color: "text-white/20", glow: "" };
+    return { color: "text-success", glow: "drop-shadow-[0_0_5px_var(--success)]" };
   })();
   const pulse = status === "overdue";
 
