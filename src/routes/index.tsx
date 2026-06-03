@@ -34,6 +34,7 @@ import { MarkAllDoneDialog } from "@/components/MarkAllDoneDialog";
 import { UserGuide } from "@/components/UserGuide";
 import { GpsTracker } from "@/components/GpsTracker";
 import { DashboardStartup } from "@/components/DashboardStartup";
+import { AlertSoundSettings } from "@/components/AlertSoundSettings";
 import { cn } from "@/lib/utils";
 
 const STARTUP_KEY = "vag-startup-shown";
