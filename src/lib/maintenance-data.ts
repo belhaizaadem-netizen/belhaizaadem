@@ -82,7 +82,6 @@ export const MAINTENANCE_ITEMS: MaintenanceItem[] = [
   { id: "controle-amortisseurs", name: "Contrôle visuel amortisseurs", category: "Suspension & Direction", intervalKm: 30000 },
   { id: "amortisseurs", name: "Remplacement amortisseurs (si HS)", category: "Suspension & Direction", intervalKm: 60000 },
   { id: "silentblocs-rotules", name: "Contrôle silentblocs, rotules, biellettes", category: "Suspension & Direction", intervalKm: 60000 },
-  { id: "geometrie", name: "Géométrie / parallélisme", category: "Suspension & Direction", intervalKm: 60000 },
 
   // REFROIDISSEMENT
   { id: "liquide-refroid", name: "Liquide de refroidissement", category: "Refroidissement", intervalKm: 120000 },
