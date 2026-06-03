@@ -396,6 +396,9 @@ function Index() {
                 onLivePosition={setLivePosition}
               />
             </div>
+            <div className="mt-3">
+              <AlertSoundSettings overdueCount={counts.overdue} />
+            </div>
           </div>
         </section>
 
