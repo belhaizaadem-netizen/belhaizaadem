@@ -57,7 +57,7 @@ export const MAINTENANCE_ITEMS: MaintenanceItem[] = [
     fuels: ["essence", "diesel", "hybride", "phev"], requiresTurbo: true },
   { id: "egr-vnt", name: "Nettoyage EGR + contrôle actionneur VNT", category: "Moteur", intervalKm: 60000,
     fuels: ["diesel"], requiresTurbo: true },
-  { id: "wastegate", name: "Contrôle soupape de décharge (wastegate)", category: "Moteur", intervalKm: 60000,
+  { id: "wastegate", name: "Contrôle soupape de décharge (wastegate)", category: "Moteur", intervalKm: 30000,
     fuels: ["essence", "hybride", "phev"], requiresTurbo: true },
   { id: "inspection-turbo", name: "Inspection jeu axial/radial axe turbo", category: "Moteur", intervalKm: 90000,
     fuels: ["essence", "diesel", "hybride", "phev"], requiresTurbo: true },
@@ -82,7 +82,7 @@ export const MAINTENANCE_ITEMS: MaintenanceItem[] = [
   { id: "controle-amortisseurs", name: "Contrôle visuel amortisseurs", category: "Suspension & Direction", intervalKm: 30000 },
   { id: "amortisseurs", name: "Remplacement amortisseurs (si HS)", category: "Suspension & Direction", intervalKm: 60000 },
   { id: "silentblocs-rotules", name: "Contrôle silentblocs, rotules, biellettes", category: "Suspension & Direction", intervalKm: 60000 },
-  { id: "geometrie", name: "Géométrie / parallélisme", category: "Suspension & Direction", intervalKm: 60000 },
+  { id: "geometrie", name: "Géométrie / parallélisme", category: "Suspension & Direction", intervalKm: 30000 },
 
   // REFROIDISSEMENT
   { id: "liquide-refroid", name: "Liquide de refroidissement", category: "Refroidissement", intervalKm: 120000 },
